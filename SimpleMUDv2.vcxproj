@@ -1,0 +1,157 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="14.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{5A93D1DA-E75F-4E6F-9898-6484A5A3E0C0}</ProjectGuid>
+    <RootNamespace>SimpleMUDv2</RootNamespace>
+    <Keyword>Win32Proj</Keyword>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <PlatformToolset>v140</PlatformToolset>
+    <CharacterSet>Unicode</CharacterSet>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <PlatformToolset>v140</PlatformToolset>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup>
+    <_ProjectFileVersion>14.0.23107.0</_ProjectFileVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <OutDir>$(SolutionDir)$(Configuration)\</OutDir>
+    <IntDir>$(Configuration)\</IntDir>
+    <LinkIncremental>true</LinkIncremental>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <OutDir>$(SolutionDir)$(Configuration)\</OutDir>
+    <IntDir>$(Configuration)\</IntDir>
+    <LinkIncremental>false</LinkIncremental>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <Optimization>Disabled</Optimization>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;_CRT_SECURE_NO_WARNINGS;_WINSOCK_DEPRECATED_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <MinimalRebuild>true</MinimalRebuild>
+      <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
+      <PrecompiledHeader />
+      <WarningLevel>Level3</WarningLevel>
+      <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
+    </ClCompile>
+    <Link>
+      <AdditionalDependencies>Ws2_32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <SubSystem>Console</SubSystem>
+      <TargetMachine>MachineX86</TargetMachine>
+      <ImageHasSafeExceptionHandlers>false</ImageHasSafeExceptionHandlers>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <Optimization>MaxSpeed</Optimization>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <PrecompiledHeader />
+      <WarningLevel>Level3</WarningLevel>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+    </ClCompile>
+    <Link>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <SubSystem>Console</SubSystem>
+      <OptimizeReferences>true</OptimizeReferences>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <TargetMachine>MachineX86</TargetMachine>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClCompile Include="BasicLib\BasicLibRandom.cpp" />
+    <ClCompile Include="BasicLib\BasicLibString.cpp" />
+    <ClCompile Include="BasicLib\BasicLibTime.cpp" />
+    <ClCompile Include="Demo09-01.cpp" />
+    <ClCompile Include="SimpleMUD\DatabasePointer.cpp" />
+    <ClCompile Include="SimpleMUD\Game.cpp" />
+    <ClCompile Include="SimpleMUD\ItemDatabase.cpp" />
+    <ClCompile Include="SimpleMUD\Logon.cpp" />
+    <ClCompile Include="SimpleMUD\Player.cpp" />
+    <ClCompile Include="SimpleMUD\PlayerDatabase.cpp" />
+    <ClCompile Include="SimpleMUD\Room.cpp" />
+    <ClCompile Include="SimpleMUD\RoomDatabase.cpp" />
+    <ClCompile Include="SimpleMUD\SimpleMUDLogs.cpp" />
+    <ClCompile Include="SimpleMUD\StoreDatabase.cpp" />
+    <ClCompile Include="SimpleMUD\Train.cpp" />
+    <ClCompile Include="SocketLib\SocketLibErrors.cpp" />
+    <ClCompile Include="SocketLib\SocketLibSocket.cpp" />
+    <ClCompile Include="SocketLib\SocketLibSystem.cpp" />
+    <ClCompile Include="SocketLib\SocketSet.cpp" />
+    <ClCompile Include="SocketLib\Telnet.cpp" />
+    <ClCompile Include="ThreadLib\ThreadLibFunctions.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="BasicLib\BasicLib.h" />
+    <ClInclude Include="BasicLib\BasicLibFunctions.h" />
+    <ClInclude Include="BasicLib\BasicLibLogger.h" />
+    <ClInclude Include="BasicLib\BasicLibRandom.h" />
+    <ClInclude Include="BasicLib\BasicLibString.h" />
+    <ClInclude Include="BasicLib\BasicLibTime.h" />
+    <ClInclude Include="BasicLib\BasicLibTypes.h" />
+    <ClInclude Include="SimpleMUD\Attributes.h" />
+    <ClInclude Include="SimpleMUD\DatabasePointer.h" />
+    <ClInclude Include="SimpleMUD\Entity.h" />
+    <ClInclude Include="SimpleMUD\EntityDatabase.h" />
+    <ClInclude Include="SimpleMUD\Game.h" />
+    <ClInclude Include="SimpleMUD\Item.h" />
+    <ClInclude Include="SimpleMUD\ItemDatabase.h" />
+    <ClInclude Include="SimpleMUD\Logon.h" />
+    <ClInclude Include="SimpleMUD\Player.h" />
+    <ClInclude Include="SimpleMUD\PlayerDatabase.h" />
+    <ClInclude Include="SimpleMUD\Room.h" />
+    <ClInclude Include="SimpleMUD\RoomDatabase.h" />
+    <ClInclude Include="SimpleMUD\SimpleMUDLogs.h" />
+    <ClInclude Include="SimpleMUD\Store.h" />
+    <ClInclude Include="SimpleMUD\StoreDatabase.h" />
+    <ClInclude Include="SimpleMUD\Train.h" />
+    <ClInclude Include="SocketLib\Connection.h" />
+    <ClInclude Include="SocketLib\ConnectionHandler.h" />
+    <ClInclude Include="SocketLib\ConnectionManager.h" />
+    <ClInclude Include="SocketLib\ListeningManager.h" />
+    <ClInclude Include="SocketLib\SocketLib.h" />
+    <ClInclude Include="SocketLib\SocketLibErrors.h" />
+    <ClInclude Include="SocketLib\SocketLibSocket.h" />
+    <ClInclude Include="SocketLib\SocketLibSystem.h" />
+    <ClInclude Include="SocketLib\SocketLibTypes.h" />
+    <ClInclude Include="SocketLib\SocketSet.h" />
+    <ClInclude Include="SocketLib\Telnet.h" />
+    <ClInclude Include="ThreadLib\ThreadException.h" />
+    <ClInclude Include="ThreadLib\ThreadLib.h" />
+    <ClInclude Include="ThreadLib\ThreadLibFunctions.h" />
+    <ClInclude Include="ThreadLib\ThreadLibMutex.h" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>
