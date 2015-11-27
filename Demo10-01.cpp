@@ -36,8 +36,7 @@ int main()
         {
             lm.Listen();
             cm.Manage();
-            gameloop.Loop();
-            ThreadLib::YieldThread();
+			gameloop.Loop();
         }
     
     }
@@ -45,11 +44,6 @@ int main()
     catch( SocketLib::Exception& e )
     {
         ERRORLOG.Log( "Fatal Socket Error: " + e.PrintError() );
-    }
-
-    catch( ThreadLib::Exception& )
-    {
-        ERRORLOG.Log( "Fatal Thread Error" );
     }
 
     catch( std::exception& e )
