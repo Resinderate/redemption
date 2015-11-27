@@ -8,7 +8,6 @@
 
 #include <list>
 #include <iostream>
-#include "../ThreadLib/ThreadLib.h"
 #include "SocketLibTypes.h"
 #include "SocketLibErrors.h"
 #include "SocketSet.h"
