@@ -81,9 +81,6 @@
     <ClCompile Include="SocketLib\Telnet.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="ThreadLib\ThreadLibFunctions.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="SimpleMUD\Train.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
