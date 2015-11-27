@@ -13,7 +13,7 @@
 // ============================================================================
 //  Include Files for the threading libraries
 // ============================================================================
-#ifdef WIN32                // windows95 and above
+#ifdef _WIN32                // windows95 and above
     #include <windows.h>
 #else                       // linux
     #include <pthread.h>

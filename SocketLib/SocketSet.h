@@ -36,7 +36,7 @@ namespace SocketLib
             m_activityset = m_set;
 
             // now run select() on the sockets.
-            #ifdef WIN32
+            #ifdef _WIN32
                 return select( 0, &m_activityset, 0, 0, &t );
             #else
                 if( m_socketdescs.size() == 0 ) return 0;
@@ -60,7 +60,7 @@ namespace SocketLib
 
         // this is only used for linux, since select() requires the largest
         // descriptor +1 passed into it. BLAH!
-        #ifndef WIN32
+        #ifndef _WIN32
             std::set<sock> m_socketdescs;
         #endif
     };

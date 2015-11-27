@@ -40,6 +40,7 @@ public:
         m_player = p_player;
     }
 
+
     // ------------------------------------------------------------------------
     //  standard handler commands
     // ------------------------------------------------------------------------
@@ -48,7 +49,6 @@ public:
     void Leave() {}
     void Hungup() { PlayerDatabase::Logout( m_player ); }
     void Flooded() { PlayerDatabase::Logout( m_player ); }
-
 
     // ------------------------------------------------------------------------
     //  This function prints out your statistics.

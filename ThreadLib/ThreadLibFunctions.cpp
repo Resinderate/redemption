@@ -12,9 +12,9 @@ namespace ThreadLib
 {
 
     // ========================================================================
-    //  This is the handle-map global, only used in Win32.
+    //  This is the handle-map global, only used in _WIN32.
     // ========================================================================
-    #ifdef WIN32
+    #ifdef _WIN32
         std::map< DWORD, HANDLE > g_handlemap;
     #endif
 
@@ -24,7 +24,7 @@ namespace ThreadLib
     //              transparently translate function pointers to whatever
     //              system the user is currently compiling on.
     // ========================================================================
-    #ifdef WIN32
+    #ifdef _WIN32
         DWORD WINAPI DummyRun( void* p_data )
     #else
         void* DummyRun( void* p_data )

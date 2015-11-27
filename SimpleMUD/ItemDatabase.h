@@ -14,6 +14,7 @@
 
 #include "EntityDatabase.h"
 #include "Item.h"
+#include "DatabasePointer.h"
 
 namespace SimpleMUD
 {
@@ -29,7 +30,6 @@ public:
     static bool Load();
 
 };  // end class ItemDatabase
-
 
 
 }   // end namespace SimpleMUD

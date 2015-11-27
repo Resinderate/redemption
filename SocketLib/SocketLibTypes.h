@@ -11,7 +11,7 @@
 // ========================================================================
 //  Include Files
 // ========================================================================
-#ifdef WIN32                // windows 95 and above
+#ifdef _WIN32                // windows 95 and above
     #include "winsock2.h"       // almost everything is contained in one file.
     #include "Ws2tcpip.h"
 
@@ -39,7 +39,7 @@ namespace SocketLib
     // ========================================================================
     //  Globals and Typedefs
     // ========================================================================
-    #ifdef WIN32                // windows 95 and above
+    #ifdef _WIN32                // windows 95 and above
 
         typedef SOCKET sock;        // Although sockets are int's on unix, 
                                     // windows uses it's own typedef of

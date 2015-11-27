@@ -19,7 +19,7 @@ namespace SocketLib
     // ========================================================================
     Error GetError( bool p_errno )
     {
-        #ifdef WIN32
+        #ifdef _WIN32
             return TranslateError( WSAGetLastError(), p_errno );
         #else
             if( p_errno == true )
@@ -36,7 +36,7 @@ namespace SocketLib
     // Description: This translates error codes from the native platoform
     //              format into the SocketLib format
     // ========================================================================
-    #ifdef WIN32
+    #ifdef _WIN32
         Error TranslateError( int p_error, bool p_errno )
         {
             switch( p_error )

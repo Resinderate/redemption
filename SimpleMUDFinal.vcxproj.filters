@@ -27,10 +27,19 @@
     <ClCompile Include="SimpleMUD\DatabasePointer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Demo09-01.cpp">
+    <ClCompile Include="Demo10-01.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="SimpleMUD\Enemy.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="SimpleMUD\EnemyDatabase.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="SimpleMUD\Game.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="SimpleMUD\GameLoop.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="SimpleMUD\ItemDatabase.cpp">
@@ -116,6 +125,12 @@
     <ClInclude Include="SimpleMUD\DatabasePointer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="SimpleMUD\Enemy.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="SimpleMUD\EnemyDatabase.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
     <ClInclude Include="SimpleMUD\Entity.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -123,6 +138,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="SimpleMUD\Game.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="SimpleMUD\GameLoop.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="SimpleMUD\Item.h">

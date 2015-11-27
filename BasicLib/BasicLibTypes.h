@@ -14,7 +14,7 @@
 namespace BasicLib
 {
 
-#ifdef WIN32
+#ifdef _WIN32
     #if _MSC_VER >= 1300
         #define GOODCOMPILER
     #else
@@ -43,7 +43,7 @@ namespace BasicLib
 // ------------------------------
 //  Visual C++
 // ------------------------------
-#ifdef WIN32
+#ifdef _WIN32
     typedef __int64 sint64;
     typedef unsigned __int64 uint64;
 #endif

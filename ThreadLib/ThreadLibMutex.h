@@ -9,7 +9,7 @@
 // ============================================================================
 //  Include Files for the threading libraries
 // ============================================================================
-#ifdef WIN32                // windows95 and above
+#ifdef _WIN32                // windows95 and above
     #include <windows.h>
 #else                       // linux
     #include <pthread.h>
@@ -28,7 +28,7 @@ namespace ThreadLib
         // ====================================================================
         Mutex()
         {
-            #ifdef WIN32
+            #ifdef _WIN32
                 // use critical sections in windows; much faster
                 InitializeCriticalSection( &m_mutex );
             #else
@@ -41,7 +41,7 @@ namespace ThreadLib
         // ====================================================================
         ~Mutex()
         {
-            #ifdef WIN32
+            #ifdef _WIN32
                 DeleteCriticalSection( &m_mutex );
             #else
                 pthread_mutex_destroy( &m_mutex );
@@ -53,7 +53,7 @@ namespace ThreadLib
         // ====================================================================
         inline void Lock()
         {
-            #ifdef WIN32
+            #ifdef _WIN32
                 EnterCriticalSection( &m_mutex );
             #else
                 pthread_mutex_lock( &m_mutex );
@@ -65,7 +65,7 @@ namespace ThreadLib
         // ====================================================================
         inline void Unlock()
         {
-            #ifdef WIN32
+            #ifdef _WIN32
                 LeaveCriticalSection( &m_mutex );
             #else
                 pthread_mutex_unlock( &m_mutex );
@@ -74,7 +74,7 @@ namespace ThreadLib
 
     protected:
     // define the base mutex types
-    #ifdef WIN32
+    #ifdef _WIN32
         CRITICAL_SECTION m_mutex;
     #else
         pthread_mutex_t m_mutex;

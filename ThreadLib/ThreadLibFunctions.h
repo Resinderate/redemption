@@ -10,7 +10,7 @@
 // ============================================================================
 //  Include Files for the threading libraries
 // ============================================================================
-#ifdef WIN32                // windows95 and above
+#ifdef _WIN32                // windows95 and above
     #include <windows.h>
     #include <map>
 #else                       // linux
@@ -32,7 +32,7 @@ namespace ThreadLib
     // ========================================================================
     //  Define the standard ThreadID datatype, depending on the system
     // ========================================================================
-    #ifdef WIN32                // windows95 and above
+    #ifdef _WIN32                // windows95 and above
         typedef DWORD ThreadID;
         extern std::map< DWORD, HANDLE > g_handlemap;
     #else                       // linux
@@ -58,7 +58,7 @@ namespace ThreadLib
     //              transparently translate function pointers to whatever
     //              system the user is currently compiling on.
     // ========================================================================
-    #ifdef WIN32
+    #ifdef _WIN32
         DWORD WINAPI DummyRun( void* p_data );
     #else
         void* DummyRun( void* p_data );
@@ -76,7 +76,7 @@ namespace ThreadLib
         data->m_func = p_func;
         data->m_data = p_param;
 
-        #ifdef WIN32    // create a Win32 thread
+        #ifdef _WIN32    // create a _WIN32 thread
             HANDLE h;
             h = CreateThread( NULL, 0, DummyRun, data, 0, &t );
             if( h != 0 )
@@ -104,7 +104,7 @@ namespace ThreadLib
     // ========================================================================
     inline ThreadID GetID()
     {
-        #ifdef WIN32
+        #ifdef _WIN32
             return GetCurrentThreadId();
         #else
             return pthread_self();
@@ -118,7 +118,7 @@ namespace ThreadLib
     // ========================================================================
     inline void WaitForFinish( ThreadID p_thread )
     {
-        #ifdef WIN32
+        #ifdef _WIN32
             // look up the handle and wait for the thread to finish
             WaitForSingleObject( g_handlemap[p_thread], INFINITE );
 
@@ -141,7 +141,7 @@ namespace ThreadLib
     // ========================================================================
     inline void Kill( ThreadID& p_thread )
     {
-        #ifdef WIN32
+        #ifdef _WIN32
             // terminate the thread
             TerminateThread( g_handlemap[p_thread], 0 );
 
@@ -163,7 +163,7 @@ namespace ThreadLib
     // ========================================================================
     inline void YieldThread( int p_milliseconds = 1 )
     {
-        #ifdef WIN32
+        #ifdef _WIN32
             Sleep( p_milliseconds );
         #else
             usleep( p_milliseconds * 1000 );

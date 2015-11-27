@@ -26,8 +26,6 @@ using std::list;
 namespace SimpleMUD
 {
 
-    typedef entityid enemytemplate;     // REMOVE THIS LATER
-    typedef entityid enemy;             // REMOVE THIS LATER
 
 // --------------------------------------------------------------------
 //  Class that stores information about rooms
@@ -40,7 +38,6 @@ public:
     inline RoomType& Type()         { return m_type; }
     inline int& Data()              { return m_data; }
     inline string& Description()    { return m_description; }
-	inline string& LongDesc() { return m_longdesc;  }
     inline entityid& Adjacent( int p_dir ) { return m_rooms[p_dir]; }
 
     inline enemytemplate& SpawnWhich() { return m_spawnwhich; }
@@ -59,6 +56,10 @@ public:
     void AddItem( item p_item );
     void RemoveItem( item p_item );
 
+    enemy FindEnemy( const string& p_enemy );
+    void AddEnemy( enemy p_enemy );
+    void RemoveEnemy( enemy p_enemy );
+
     void LoadTemplate( istream& p_stream );
     void LoadData( istream& p_stream );
     void SaveData( ostream& p_stream );
@@ -71,7 +72,6 @@ protected:
     RoomType m_type;
     int m_data;         // auxilliary data defined by room type
     string m_description;
-	string m_longdesc;
     entityid m_rooms[NUMDIRECTIONS];
 
     enemytemplate m_spawnwhich;

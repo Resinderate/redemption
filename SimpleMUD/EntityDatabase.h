@@ -30,7 +30,7 @@ class EntityDatabase
 {
 public:
 
-    typedef typename std::map<entityid, datatype> container;
+    typedef std::map<entityid, datatype> container;
 
     // --------------------------------------------------------------------
     //  The inner iterator class, used to iterate through the database.
@@ -150,10 +150,8 @@ public:
     {
         if( m_map.size() == 0 )
             return 1;
-
-        if( m_map.size() == m_map.rend()->first )
-            return m_map.size() + 1;
-
+        if( m_map.size() == m_map.rbegin()->first )
+            return m_map.size()+1;
         entityid openid = 0;
         entityid previous = 0;
         std::map<entityid,datatype>::iterator itr = m_map.begin();

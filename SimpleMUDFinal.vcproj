@@ -2,9 +2,9 @@
 <VisualStudioProject
 	ProjectType="Visual C++"
 	Version="9.00"
-	Name="SimpleMUDv2"
-	ProjectGUID="{5A93D1DA-E75F-4E6F-9898-6484A5A3E0C0}"
-	RootNamespace="SimpleMUDv2"
+	Name="SimpleMUDFinal"
+	ProjectGUID="{8ABFA31A-D56F-4BC4-BD08-F645733BEC11}"
+	RootNamespace="SimpleMUDFinal"
 	Keyword="Win32Proj"
 	TargetFrameworkVersion="196613"
 	>
@@ -188,11 +188,23 @@
 				>
 			</File>
 			<File
-				RelativePath=".\Demo09-01.cpp"
+				RelativePath=".\Demo10-01.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\SimpleMUD\Enemy.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\SimpleMUD\EnemyDatabase.cpp"
 				>
 			</File>
 			<File
 				RelativePath=".\SimpleMUD\Game.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\SimpleMUD\GameLoop.cpp"
 				>
 			</File>
 			<File
@@ -310,6 +322,14 @@
 				>
 			</File>
 			<File
+				RelativePath=".\SimpleMUD\Enemy.h"
+				>
+			</File>
+			<File
+				RelativePath=".\SimpleMUD\EnemyDatabase.h"
+				>
+			</File>
+			<File
 				RelativePath=".\SimpleMUD\Entity.h"
 				>
 			</File>
@@ -319,6 +339,10 @@
 			</File>
 			<File
 				RelativePath=".\SimpleMUD\Game.h"
+				>
+			</File>
+			<File
+				RelativePath=".\SimpleMUD\GameLoop.h"
 				>
 			</File>
 			<File

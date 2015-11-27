@@ -9,6 +9,7 @@
 #include "ItemDatabase.h"
 #include "PlayerDatabase.h"
 #include "RoomDatabase.h"
+#include "EnemyDatabase.h"
 
 
 
@@ -45,5 +46,7 @@ namespace SimpleMUD
 DATABASEPOINTERIMPL( player, Player, PlayerDatabase )
 DATABASEPOINTERIMPL( item, Item, ItemDatabase )
 DATABASEPOINTERIMPL( room, Room, RoomDatabase )
+DATABASEPOINTERIMPL( enemy, Enemy, EnemyDatabase)
+DATABASEPOINTERIMPL( enemytemplate, EnemyTemplate, EnemyTemplateDatabase )
 
 } // end namespace SimpleMUD

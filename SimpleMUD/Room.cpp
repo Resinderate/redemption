@@ -11,11 +11,12 @@
 #include <iostream>
 
 #include "Room.h"
+#include "Enemy.h"
 #include "../BasicLib/BasicLib.h"
 
 using std::ostream;
 using std::istream;
-using namespace BasicLib;
+using BasicLib::extract;
 
 namespace SimpleMUD
 {
@@ -26,7 +27,6 @@ Room::Room()
     m_data = 0;
     
     m_description = "UNDEFINED";
-	m_longdesc = "UNDEFINED";
 
     for( int d = 0; d < NUMDIRECTIONS; d++ )
         m_rooms[d] = 0;
@@ -53,8 +53,10 @@ item Room::FindItem( const string& p_item )
 {
     std::list<item>::iterator itr = 
             BasicLib::double_find_if(
-                m_items.begin(), m_items.end(),
-                matchentityfull( p_item ), matchentity( p_item ) );
+                m_items.begin(),
+                m_items.end(),
+                matchentityfull( p_item ),
+                matchentity( p_item ) );
 
     if( itr == m_items.end() )
         return 0;
@@ -80,6 +82,34 @@ void Room::RemoveItem( item p_item )
 }
 
 
+enemy Room::FindEnemy( const string& p_enemy )
+{
+    std::list<enemy>::iterator itr = 
+            BasicLib::double_find_if(
+                m_enemies.begin(),
+                m_enemies.end(),
+                matchentityfull( p_enemy ),
+                matchentity( p_enemy ) );
+
+    if( itr == m_enemies.end() )
+        return 0;
+
+    return *itr;
+}
+
+
+void Room::AddEnemy( enemy p_enemy )
+{
+    m_enemies.push_back( p_enemy );
+}
+
+void Room::RemoveEnemy( enemy p_enemy )
+{
+    m_enemies.erase( std::find( m_enemies.begin(), 
+                                m_enemies.end(), 
+                                (entityid)p_enemy ) );
+}
+
 
 void Room::LoadTemplate( istream& p_stream )
 {
@@ -87,7 +117,6 @@ void Room::LoadTemplate( istream& p_stream )
 
     p_stream >> temp >> std::ws;    std::getline( p_stream, m_name );
     p_stream >> temp >> std::ws;    std::getline( p_stream, m_description );
-	p_stream >> temp >> std::ws;	std::getline(p_stream, m_longdesc);
     p_stream >> temp >> temp;       m_type = GetRoomType( temp );
     p_stream >> temp >> m_data;
 

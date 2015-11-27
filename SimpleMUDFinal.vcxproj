@@ -11,8 +11,8 @@
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGuid>{5A93D1DA-E75F-4E6F-9898-6484A5A3E0C0}</ProjectGuid>
-    <RootNamespace>SimpleMUDv2</RootNamespace>
+    <ProjectGuid>{8ABFA31A-D56F-4BC4-BD08-F645733BEC11}</ProjectGuid>
+    <RootNamespace>SimpleMUDFinal</RootNamespace>
     <Keyword>Win32Proj</Keyword>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
@@ -53,7 +53,7 @@
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
       <Optimization>Disabled</Optimization>
-      <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;_CRT_SECURE_NO_WARNINGS;_WINSOCK_DEPRECATED_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <MinimalRebuild>true</MinimalRebuild>
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
@@ -92,9 +92,12 @@
     <ClCompile Include="BasicLib\BasicLibRandom.cpp" />
     <ClCompile Include="BasicLib\BasicLibString.cpp" />
     <ClCompile Include="BasicLib\BasicLibTime.cpp" />
-    <ClCompile Include="Demo09-01.cpp" />
+    <ClCompile Include="Demo10-01.cpp" />
     <ClCompile Include="SimpleMUD\DatabasePointer.cpp" />
+    <ClCompile Include="SimpleMUD\Enemy.cpp" />
+    <ClCompile Include="SimpleMUD\EnemyDatabase.cpp" />
     <ClCompile Include="SimpleMUD\Game.cpp" />
+    <ClCompile Include="SimpleMUD\GameLoop.cpp" />
     <ClCompile Include="SimpleMUD\ItemDatabase.cpp" />
     <ClCompile Include="SimpleMUD\Logon.cpp" />
     <ClCompile Include="SimpleMUD\Player.cpp" />
@@ -121,9 +124,12 @@
     <ClInclude Include="BasicLib\BasicLibTypes.h" />
     <ClInclude Include="SimpleMUD\Attributes.h" />
     <ClInclude Include="SimpleMUD\DatabasePointer.h" />
+    <ClInclude Include="SimpleMUD\Enemy.h" />
+    <ClInclude Include="SimpleMUD\EnemyDatabase.h" />
     <ClInclude Include="SimpleMUD\Entity.h" />
     <ClInclude Include="SimpleMUD\EntityDatabase.h" />
     <ClInclude Include="SimpleMUD\Game.h" />
+    <ClInclude Include="SimpleMUD\GameLoop.h" />
     <ClInclude Include="SimpleMUD\Item.h" />
     <ClInclude Include="SimpleMUD\ItemDatabase.h" />
     <ClInclude Include="SimpleMUD\Logon.h" />

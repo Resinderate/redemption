@@ -20,7 +20,7 @@ namespace SocketLib
         // WinSock uses "closesocket" instead of "close", since it treats
         // sockets as completely separate objects to files, whereas unix
         // treats files and sockets exactly the same.
-    #ifdef WIN32
+    #ifdef _WIN32
         closesocket( m_sock );
     #else
         close( m_sock );
@@ -38,7 +38,7 @@ namespace SocketLib
     {
         int err;
 
-        #ifdef WIN32
+        #ifdef _WIN32
             unsigned long mode = !p_blockmode;
             err = ioctlsocket( m_sock, FIONBIO, &mode );
         #else

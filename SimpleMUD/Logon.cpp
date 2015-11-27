@@ -176,7 +176,7 @@ void Logon::Enter()
 {
     USERLOG.Log(  
         GetIPString( m_connection->GetRemoteAddress() ) + 
-        " - new connection in login state." );
+        " - entered login state." );
 
     m_connection->Protocol().SendString( *m_connection,
         red + bold + "Welcome To SimpleMUD v1.0\r\n" + 

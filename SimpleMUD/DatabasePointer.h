@@ -69,6 +69,8 @@ namespace SimpleMUD
 DATABASEPOINTER( player, Player )
 DATABASEPOINTER( item, Item )
 DATABASEPOINTER( room, Room )
+DATABASEPOINTER( enemy, Enemy )
+DATABASEPOINTER( enemytemplate, EnemyTemplate )
 
 } // end namespace SimpleMUD
 

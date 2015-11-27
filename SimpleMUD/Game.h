@@ -89,7 +89,7 @@ public:
     // ------------------------------------------------------------------------
     //  Map Functions Added in Chapter 9
     // ------------------------------------------------------------------------
-    static string PrintRoom( room p_room, bool p_long );
+    static string PrintRoom( room p_room );
     static void SendRoom( string p_text, room p_room );
     void Move( int p_direction );
     void GetItem( string p_item );
@@ -98,6 +98,14 @@ public:
     void Buy( const string& p_item );
     void Sell( const string& p_item );
 
+
+    // ------------------------------------------------------------------------
+    //  Enemy Functions Added in Chapter 10
+    // ------------------------------------------------------------------------
+    static void EnemyAttack( enemy p_enemy );
+    static void PlayerKilled( player p_player );
+    void PlayerAttack( const string& p_enemy );
+    static void EnemyKilled( enemy p_enemy, player p_player );
 
 protected:
 
@@ -109,6 +117,8 @@ protected:
 
 
 };  // end class Game
+
+
 
 
 }   // end namespace SimpleMUD

@@ -18,7 +18,7 @@ namespace SocketLib
     //  This class is designed to be a global singleton that initializes
     //  and shuts down Winsock.
     // ========================================================================
-    #ifdef WIN32                // windows 95 and above
+    #ifdef _WIN32                // windows 95 and above
         class System
         {
         public:
@@ -57,13 +57,15 @@ namespace SocketLib
     // ========================================================================
     ipaddress GetIPAddress( const std::string p_address )
     {
-        
+		struct sockaddr_in *sockaddr_ipv4 = nullptr;
         if( IsIPAddress( p_address ) )
         {
             // if the address is just a regular IP address, there's no need
             // to do a DNS lookup, so just convert the string directly into
             // its binary format.
-            ipaddress addr = inet_addr( p_address.c_str() );
+			struct sockaddr_in sa;
+            inet_pton(AF_INET, p_address.c_str(), &sa.sin_addr);
+			ipaddress addr = sa.sin_addr.s_addr;
             
             // if the address is invalid, throw a HOST_NOT_FOUND exception.
             if( addr == INADDR_NONE )
@@ -78,19 +80,34 @@ namespace SocketLib
         {
             // the address isn't an IP address, so we need to look it up using
             // DNS. 
-            struct hostent* host = gethostbyname( p_address.c_str() );
+			const char* ip = p_address.c_str();
+			char* port = "55555";
+			struct addrinfo aiHints;
+			struct addrinfo* aiList;
+			struct addrinfo* ptr = nullptr;
+			int retVal;
 
-            // if there was an error, throw an exception.
-            if( host == 0 )
-            {
-                // get the error from h_errno.
-                throw Exception( GetError( false ) );
-            }
-
-            // now perform some really wierd casting tricks to get the value.
-            // h_addr is a char*, so cast it into an ipaddress*, and 
-            // dereference it to get the value.
-            return *((ipaddress*)host->h_addr);
+			memset(&aiHints, 0, sizeof(aiHints));
+			aiHints.ai_family = AF_INET;
+			aiHints.ai_socktype = SOCK_STREAM;
+			aiHints.ai_protocol = IPPROTO_TCP;
+			if ((retVal = getaddrinfo(ip, port, &aiHints, &aiList)) != 0)
+			{
+				throw Exception(GetError(false));
+			}
+			else
+			{
+				for (ptr = aiList; ptr != nullptr; ptr = ptr->ai_next)
+				{
+					if (ptr->ai_family == AF_INET)
+					{
+						sockaddr_ipv4 = (struct sockaddr_in*)ptr->ai_addr;
+						return sockaddr_ipv4->sin_addr.s_addr;
+					}
+				}
+			}
+			return sockaddr_ipv4->sin_addr.s_addr;
+           
         }
     }
 
@@ -104,7 +121,10 @@ namespace SocketLib
     {
         // return a new string containing the address.
         // (god that is some ugly casting going on... stupid language)
-        char* str = inet_ntoa( *((in_addr*)&p_address) );
+		struct sockaddr_in sa;
+		sa.sin_addr.s_addr = p_address;
+		char str[INET_ADDRSTRLEN];
+		inet_ntop(AF_INET, &sa.sin_addr, str, INET_ADDRSTRLEN);
         if( str == 0 )
         {
             return std::string( "Invalid IP Address" );
@@ -120,7 +140,11 @@ namespace SocketLib
     std::string GetHostNameString( ipaddress p_address )
     {
         // get the host info.
-        struct hostent* host = gethostbyaddr( (char*)&p_address, 4, AF_INET );
+		struct sockaddr_in sa;
+		sa.sin_addr.s_addr = p_address;
+		char host[1024];
+		char service[20];
+		getnameinfo((const sockaddr*)&sa, sizeof(sa), host, sizeof(host), service, sizeof(service), 0);
 
         // if there was an error, throw an exception.
         if( host == 0 )
@@ -129,7 +153,7 @@ namespace SocketLib
             throw Exception( GetError( false ) );
         }
 
-        return std::string( host->h_name );
+        return std::string( host);
     }
 
     // ========================================================================

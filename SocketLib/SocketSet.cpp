@@ -26,7 +26,7 @@ void SocketSet::AddSocket( const Socket& p_sock )
 
     // if linux, then record the descriptor into the vector, 
     // and check if it's the largest descriptor.
-    #ifndef WIN32
+    #ifndef _WIN32
         m_socketdescs.insert( p_sock.GetSock() );
     #endif
 
@@ -36,7 +36,7 @@ void SocketSet::RemoveSocket( const Socket& p_sock )
 {
     FD_CLR( p_sock.GetSock(), &m_set );
 
-    #ifndef WIN32
+    #ifndef _WIN32
         // remove the descriptor from the vector
         m_socketdescs.erase( p_sock.GetSock() );
     #endif

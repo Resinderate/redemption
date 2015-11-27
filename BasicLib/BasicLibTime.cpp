@@ -12,7 +12,7 @@
 //  Include Files
 // ============================================================
 #include <time.h>
-#ifdef WIN32
+#ifdef _WIN32
     #include "windows.h"
 #else
     #include <sys/time.h>
@@ -24,14 +24,14 @@
 namespace BasicLib
 {
     // ============================================================
-    // This is a hidden class, designed to initialize the win32
+    // This is a hidden class, designed to initialize the _WIN32
     // performance counter frequency value.
     // ============================================================
-    #ifdef WIN32
-        class Win32PerformanceCounter
+    #ifdef _WIN32
+        class _WIN32PerformanceCounter
         {
         public:
-            Win32PerformanceCounter()
+            _WIN32PerformanceCounter()
             {
                 // get the "ticks per second" value
                 QueryPerformanceFrequency( (LARGE_INTEGER*)(&m_frequency) );
@@ -45,7 +45,7 @@ namespace BasicLib
             sint64 m_frequency;
         };
 
-        Win32PerformanceCounter g_win32counter;
+        _WIN32PerformanceCounter g__WIN32counter;
     #endif
 
 
@@ -56,10 +56,10 @@ namespace BasicLib
     // ============================================================
     sint64 GetTimeMS()
     {
-        #ifdef WIN32
+        #ifdef _WIN32
             sint64 t;
             QueryPerformanceCounter( (LARGE_INTEGER*)(&t) );
-            return t / g_win32counter.m_frequency;
+            return t / g__WIN32counter.m_frequency;
         #else
             struct timeval t;
             sint64 s;
@@ -105,10 +105,11 @@ namespace BasicLib
 
         // get the time, and convert it to struct tm format
         time_t a = time(0);
-        struct tm* b = localtime( &a );
+		struct tm b;
+        localtime_s(&b, &a);
 
         // print the time to the string
-        strftime( str, 9, "%H:%M:%S", b );
+        strftime( str, 9, "%H:%M:%S", &b );
 
         return str;
     }
@@ -123,10 +124,11 @@ namespace BasicLib
 
         // get the time, and convert it to struct tm format
         time_t a = time(0);
-        struct tm* b = localtime( &a );
+		struct tm b;
+        localtime_s(&b, &a);
 
         // print the time to the string
-        strftime( str, 11, "%Y.%m.%d", b );
+        strftime( str, 11, "%Y.%m.%d", &b );
 
         return str;
     }

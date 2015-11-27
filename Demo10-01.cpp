@@ -1,9 +1,11 @@
 // MUD Programming
 // Ron Penton
 // (C)2003
-// Demo09-01.cpp - The Maps and Stores and Training Rooms
+// Demo10-01.cpp - SimpleMUD - Enemies, Enemy Databases, and the Game Loop
 // 
 // 
+
+#include <sstream>
 
 #include "SocketLib/SocketLib.h"
 
@@ -11,9 +13,11 @@
 #include "SimpleMUD/PlayerDatabase.h"
 #include "SimpleMUD/RoomDatabase.h"
 #include "SimpleMUD/StoreDatabase.h"
+#include "SimpleMUD/EnemyDatabase.h"
 
 #include "SimpleMUD/Logon.h"
 #include "SimpleMUD/Game.h"
+#include "SimpleMUD/GameLoop.h"
 
 #include "SimpleMUD/SimpleMUDLogs.h"
 
@@ -21,32 +25,26 @@
 using namespace SocketLib;
 using namespace SimpleMUD;
 
+
 int main()
 {
-
     try
     {
-    ItemDatabase::Load();
-    PlayerDatabase::Load();
-    RoomDatabase::LoadTemplates();
-    RoomDatabase::LoadData();
-    StoreDatabase::Load();
+        GameLoop gameloop;
 
-    ListeningManager<Telnet, Logon> lm;
-    ConnectionManager<Telnet, Logon> cm( 128, 60, 65536 );
+        ListeningManager<Telnet, Logon> lm;
+        ConnectionManager<Telnet, Logon> cm( 128, 60, 65536 );
 
-    lm.SetConnectionManager( &cm );
-    lm.AddPort( 5100 );
+        lm.SetConnectionManager( &cm );
+        lm.AddPort( 5100 );
 
-    Game::GetTimer().Reset();
-    Game::Running() = true;
-
-    while( Game::Running() )
-    {
-        lm.Listen();
-        cm.Manage();
-        ThreadLib::YieldThread();
-    }
+        while( Game::Running() )
+        {
+            lm.Listen();
+            cm.Manage();
+            gameloop.Loop();
+            ThreadLib::YieldThread();
+        }
     
     }
 
@@ -70,8 +68,7 @@ int main()
         ERRORLOG.Log( "Unspecified Error" );
     }
 
-    // save the whole database.
-    PlayerDatabase::Save();
-    RoomDatabase::SaveData();
+
+
 }
 

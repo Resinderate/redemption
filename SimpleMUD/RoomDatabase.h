@@ -17,6 +17,7 @@
 
 #include "EntityDatabase.h"
 #include "Room.h"
+#include "DatabasePointer.h"
 
 namespace SimpleMUD
 {
@@ -31,7 +32,6 @@ public:
     static void SaveData();
 
 };  // end class RoomDatabase
-
 
 
 

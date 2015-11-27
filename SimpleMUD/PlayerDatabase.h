@@ -15,6 +15,7 @@
 #include <set>
 
 #include "EntityDatabase.h"
+#include "DatabasePointer.h"
 #include "Player.h"
 
 namespace SimpleMUD

@@ -184,7 +184,6 @@ void Player::AddBonuses( item p_item )
     Item& itm = *p_item;
     for( int i = 0; i < NUMATTRIBUTES; i++ )
         m_baseattributes[i] += itm.GetAttr( i );
-
     RecalculateStats();
 }
 
