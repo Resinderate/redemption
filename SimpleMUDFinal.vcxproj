@@ -112,7 +112,6 @@
     <ClCompile Include="SocketLib\SocketLibSystem.cpp" />
     <ClCompile Include="SocketLib\SocketSet.cpp" />
     <ClCompile Include="SocketLib\Telnet.cpp" />
-    <ClCompile Include="ThreadLib\ThreadLibFunctions.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="BasicLib\BasicLib.h" />
@@ -152,10 +151,6 @@
     <ClInclude Include="SocketLib\SocketLibTypes.h" />
     <ClInclude Include="SocketLib\SocketSet.h" />
     <ClInclude Include="SocketLib\Telnet.h" />
-    <ClInclude Include="ThreadLib\ThreadException.h" />
-    <ClInclude Include="ThreadLib\ThreadLib.h" />
-    <ClInclude Include="ThreadLib\ThreadLibFunctions.h" />
-    <ClInclude Include="ThreadLib\ThreadLibMutex.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

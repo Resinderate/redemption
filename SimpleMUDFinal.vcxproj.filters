@@ -194,18 +194,6 @@
     <ClInclude Include="SocketLib\Telnet.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="ThreadLib\ThreadException.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="ThreadLib\ThreadLib.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="ThreadLib\ThreadLibFunctions.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="ThreadLib\ThreadLibMutex.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="SimpleMUD\Train.h">
       <Filter>Header Files</Filter>
     </ClInclude>

@@ -260,10 +260,6 @@
 				>
 			</File>
 			<File
-				RelativePath=".\ThreadLib\ThreadLibFunctions.cpp"
-				>
-			</File>
-			<File
 				RelativePath=".\SimpleMUD\Train.cpp"
 				>
 			</File>
@@ -415,22 +411,6 @@
 			</File>
 			<File
 				RelativePath=".\SocketLib\Telnet.h"
-				>
-			</File>
-			<File
-				RelativePath=".\ThreadLib\ThreadException.h"
-				>
-			</File>
-			<File
-				RelativePath=".\ThreadLib\ThreadLib.h"
-				>
-			</File>
-			<File
-				RelativePath=".\ThreadLib\ThreadLibFunctions.h"
-				>
-			</File>
-			<File
-				RelativePath=".\ThreadLib\ThreadLibMutex.h"
 				>
 			</File>
 			<File
