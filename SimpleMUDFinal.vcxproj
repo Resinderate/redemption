@@ -93,6 +93,7 @@
     <ClCompile Include="BasicLib\BasicLibString.cpp" />
     <ClCompile Include="BasicLib\BasicLibTime.cpp" />
     <ClCompile Include="Demo10-01.cpp" />
+    <ClCompile Include="SimpleMUD\CollectingRoom.cpp" />
     <ClCompile Include="SimpleMUD\DatabasePointer.cpp" />
     <ClCompile Include="SimpleMUD\Game.cpp" />
     <ClCompile Include="SimpleMUD\GameLoop.cpp" />
@@ -102,6 +103,7 @@
     <ClCompile Include="SimpleMUD\Room.cpp" />
     <ClCompile Include="SimpleMUD\RoomDatabase.cpp" />
     <ClCompile Include="SimpleMUD\SimpleMUDLogs.cpp" />
+    <ClCompile Include="SimpleMUD\SpecialRoom.cpp" />
     <ClCompile Include="SimpleMUD\Train.cpp" />
     <ClCompile Include="SocketLib\SocketLibErrors.cpp" />
     <ClCompile Include="SocketLib\SocketLibSocket.cpp" />
@@ -118,6 +120,7 @@
     <ClInclude Include="BasicLib\BasicLibTime.h" />
     <ClInclude Include="BasicLib\BasicLibTypes.h" />
     <ClInclude Include="SimpleMUD\Attributes.h" />
+    <ClInclude Include="SimpleMUD\CollectingRoom.h" />
     <ClInclude Include="SimpleMUD\DatabasePointer.h" />
     <ClInclude Include="SimpleMUD\Entity.h" />
     <ClInclude Include="SimpleMUD\EntityDatabase.h" />
@@ -129,6 +132,7 @@
     <ClInclude Include="SimpleMUD\Room.h" />
     <ClInclude Include="SimpleMUD\RoomDatabase.h" />
     <ClInclude Include="SimpleMUD\SimpleMUDLogs.h" />
+    <ClInclude Include="SimpleMUD\SpecialRoom.h" />
     <ClInclude Include="SimpleMUD\Train.h" />
     <ClInclude Include="SocketLib\Connection.h" />
     <ClInclude Include="SocketLib\ConnectionHandler.h" />
