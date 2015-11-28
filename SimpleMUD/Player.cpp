@@ -16,8 +16,6 @@
 namespace SimpleMUD
 {
 
-
-
 Player::Player()
 {
     m_pass = "UNDEFINED";
@@ -41,6 +39,9 @@ Player::Player()
 
     RecalculateStats();
     m_hitpoints = GetAttr( MAXHITPOINTS );
+
+	m_title = PEASANT;
+	AddTitle(PEASANT);
 
 	m_coords = vector2(0, 0);
 }
@@ -101,6 +102,39 @@ void Player::AddToBaseAttr( int p_attr, int p_val )
 {
     m_baseattributes[p_attr] += p_val;
     RecalculateStats();
+}
+//	@author Kevin Duffy
+void Player::SetTitle(string p_str)
+{
+	std::list<PlayerTitle>::iterator itr = m_availableTitles.begin();
+	while (itr != m_availableTitles.end())
+	{
+		PlayerTitle& t = *itr;
+		string temp = GetTitleString(t);
+		if (temp == p_str)
+		{
+			m_title = t;
+			return;
+		}		
+		++itr;
+	}
+}
+//	@author Kevin Duffy
+void Player::AddTitle(PlayerTitle p_val)
+{
+	bool exists = false;
+	std::list<PlayerTitle>::iterator itr = m_availableTitles.begin();
+	while (itr != m_availableTitles.end())
+	{
+		PlayerTitle& t = *itr;
+		if (t == p_val)
+		{
+			exists = true;
+		}
+		++itr;
+	}
+	if(!exists)
+	m_availableTitles.push_back(p_val);
 }
 
 void Player::AddHitpoints( int p_hitpoints )
@@ -178,12 +212,14 @@ void Player::PrintStatbar( bool p_update )
 
 // --------------------------------------------------------------------
 //  Inserts an item in text form into a stream
+//	@author Kevin Duffy
 // --------------------------------------------------------------------
 ostream& operator<<( ostream& p_stream, const Player& p )
 {
     p_stream << "[NAME]           " << p.m_name << "\n";
     p_stream << "[PASS]           " << p.m_pass << "\n";
-    p_stream << "[RANK]           " << GetRankString( p.m_rank ) << "\n";
+	p_stream << "[RANK]           " << GetRankString(p.m_rank) << "\n";
+	p_stream << "[TITLE]          " << GetTitleString(p.m_title) << "\n";
     p_stream << "[STATPOINTS]     " << p.m_statpoints << "\n";
     p_stream << "[EXPERIENCE]     " << p.m_experience << "\n";
     p_stream << "[LEVEL]          " << p.m_level << "\n";
@@ -192,6 +228,16 @@ ostream& operator<<( ostream& p_stream, const Player& p )
     p_stream << "\n";
     p_stream << p.m_baseattributes;
 
+	p_stream << "[TITLES]         ";
+	
+		Player q = p;
+		std::list<PlayerTitle>::iterator itr = q.m_availableTitles.begin();
+		for (itr; itr != q.m_availableTitles.end(); ++itr)
+		{
+			p_stream << GetTitleString(*itr) << " ";
+		}
+
+		p_stream << "-1";
     p_stream << "\n";
 
 
@@ -201,6 +247,7 @@ ostream& operator<<( ostream& p_stream, const Player& p )
 
 // --------------------------------------------------------------------
 //  Extracts an item in text form from a stream
+//	@author Kevin Duffy
 // --------------------------------------------------------------------
 istream& operator>>( istream& p_stream, Player& p )
 {
@@ -209,7 +256,9 @@ istream& operator>>( istream& p_stream, Player& p )
     std::getline( p_stream, p.m_name );
     p_stream >> temp >> p.m_pass;
     p_stream >> temp >> temp;
-    p.m_rank = GetRank( temp );
+	p.m_rank = GetRank(temp);
+	p_stream >> temp >> temp;
+	p.m_title = GetTitle(temp);
     p_stream >> temp >> p.m_statpoints;
     p_stream >> temp >> p.m_experience;
     p_stream >> temp >> p.m_level;
@@ -218,7 +267,25 @@ istream& operator>>( istream& p_stream, Player& p )
     p_stream >> p.m_baseattributes;
 
     p_stream >> temp;
+	for (int i = 0; i < 8; i++)
+	{
+		p_stream >> temp;
+		if (temp == "-1")
+		{
+			break;
+		}
+
+		p.AddTitle(GetTitle(temp));
+	}
   
+	//	p_stream << "\n";
+	//}
+	//for (int i = 0; i < p.MaxItems(); i++)
+	//{
+	//	p_stream >> p.m_inventory[i];
+	//	if (p.m_inventory[i] != 0)
+	//		p.m_items++;
+	//}
 
     p.RecalculateStats();
 

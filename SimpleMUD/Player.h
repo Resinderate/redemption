@@ -68,6 +68,10 @@ public:
 
     inline sint64& NextAttackTime()         { return m_nextattacktime; }
 
+	inline PlayerTitle& GetPlayerTitle() { return m_title; }
+	inline std::list<PlayerTitle>& Titles() { return m_availableTitles; }
+	void SetTitle(string p_str);
+	void AddTitle(PlayerTitle p_val);
 
     // ------------------------------------------------------------------------
     //  non-savable accessors
@@ -98,7 +102,7 @@ protected:
     //  Player Information
     // -----------------------------------------
     string m_pass;
-    PlayerRank m_rank;
+	PlayerRank m_rank;
 
     // -----------------------------------------
     //  Player attributes
@@ -110,6 +114,10 @@ protected:
 	// No longer has a room. Just Coords.
 	vector2 m_coords;
 
+
+	PlayerTitle m_title;
+	int m_noOfTitles;
+	std::list<PlayerTitle> m_availableTitles;
 
     AttributeSet m_baseattributes;
     AttributeSet m_attributes;

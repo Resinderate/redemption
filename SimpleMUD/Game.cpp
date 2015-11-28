@@ -15,6 +15,7 @@ using namespace SocketLib;
 using namespace BasicLib;
 using std::string;
 
+#define titledName "[" + GetTitleString(p.GetPlayerTitle()) + "] " + p.Name()
 namespace SimpleMUD
 {
 
@@ -46,205 +47,334 @@ void Game::Handle( string p_data )
     string firstword = BasicLib::LowerCase( ParseWord( p_data, 0 ) );
 
 
+
     // ------------------------------------------------------------------------
     //  REGULAR access commands
+	//	@author: Kevin Duffy
     // ------------------------------------------------------------------------
-    if( firstword == "chat" || firstword == ":" )
+	// message sent to current Tile
+	if (firstword == "say")
     {
-        string text = RemoveWord( p_data, 0 );
-        SendGame( magenta + bold + p.Name() + " chats: " + white + text );
+		string text = RemoveWord(p_data, 0);
+		SendGame(magenta + bold + titledName + " -> Local: " + white + text);
         return;
     }
 
-    if( firstword == "experience" || firstword == "exp" )
+	// message sent to current and adjacent Tiles
+	if (firstword == "shout")
     {
-        p.SendString( PrintExperience() );
+		string text = RemoveWord(p_data, 0);
+		SendGame(magenta + bold + titledName + " -> Neighbour:  " + white + text);
         return;
     }
 
-    if( firstword == "help" || firstword == "commands" )
+	// message sent to all corporation members
+	if (firstword == "corp")
     {
-        p.SendString( PrintHelp( p.Rank() ) );
+		string text = RemoveWord(p_data, 0);
+		SendGame(magenta + bold + titledName + " -> Corporation: " + white + text);
         return;
     }
 
+	// message sent to whole server
+	if (firstword == "global")
+	{
+		string text = RemoveWord(p_data, 0);
+		SendGame(magenta + bold + titledName + " -> Global: " + white + text);
+		return;
+	}
 
-    if( firstword == "quit" )
+	//Private message
+	if (firstword == "whisper")
     {
+		// get the players name
+		string name = ParseWord(p_data, 1);
+		string message = RemoveWord(RemoveWord(p_data, 0), 0);
+
+		Whisper(message, name);
+		return;
+	}
+
+	//display all available commands
+	if (firstword == "help")
+	{
+		p.SendString(PrintHelp(p.Rank()));
+		return;
+	}
+
+	//leave the game
+	if (firstword == "exit")
+	{
         m_connection->Close();
-        LogoutMessage( p.Name() + " has left the realm." );
+		LogoutMessage(titledName + " has left the realm.");
         return;
     }
 
-    if( firstword == "stats" || firstword == "st" )
+	//Check Player stats Tool levels resources etc.
+	if (firstword == "stats")
     {
-        p.SendString( PrintStats() );
+		p.SendString(PrintStats());
         return;
     }
 
-    if( firstword == "time" )
+	//Check current time and Server Lifetime
+	if (firstword == "time")
     {
-        p.SendString( bold + cyan + 
+		p.SendString(bold + cyan +
                       "The current system time is: " + BasicLib::TimeStamp() + 
                       " on " + BasicLib::DateStamp() + 
                       "\r\nThe system has been up for: " 
-                      + s_timer.GetString() + "." );
+			+ s_timer.GetString() + ".");
         return;
     }
 
-    if( firstword == "whisper" )
+	//display online players/ All players if followed by "all"
+	if (firstword == "who")
     {
-        // get the players name
-        string name = ParseWord( p_data, 1 );
-        string message = RemoveWord( RemoveWord( p_data, 0 ), 0 );
-
-        Whisper( message, name );
+		p.SendString(WhoList(BasicLib::LowerCase(ParseWord(p_data, 1))));
         return;
     }
 
-    if( firstword == "who" )
+	//Description of the current tile
+	if (firstword == "look")
     {
-        p.SendString( WhoList( BasicLib::LowerCase( ParseWord( p_data, 1 ) ) ) );
+		p.SendString(PrintRoom(p.CurrentRoom()));
         return;
     }
 
+	//movement 
+	if (firstword == "go")
+    {
+		string secondword = ParseWord(p_data, 1);
+		if (secondword == "north")
+		{
+			Move(NORTH);
+        return;
+    }
+		if (secondword == "east")
+    {
+			Move(EAST);
+        return;
+    }
+		if (secondword == "south")
+    {
+			Move(SOUTH);
+        return;
+    }
+		if (secondword == "west")
+    {
+			Move(WEST);
+        return;
+    }
+		else
+    {
+        return;
+    }
+	}
 
-    if( firstword == "look" || firstword == "l" )
+	//Display players titles
+	if (firstword == "titles")
     {
-        p.SendString( PrintRoom( p.CurrentRoom() ) );
-        return;
-    }
+		string temp = "Available Titles: ";
+		std::list<PlayerTitle>::iterator itr = p.Titles().begin();
+		for (itr; itr != p.Titles().end(); ++itr)
+		{
+			PlayerTitle t = *itr;
+			temp += GetTitleString(t) + ", ";
+		}
 
-    if( firstword == "north" || firstword == "n" )
-    {
-        Move( NORTH );
-        return;
-    }
-    if( firstword == "east" || firstword == "e" )
-    {
-        Move( EAST );
-        return;
-    }
-    if( firstword == "south" || firstword == "s" )
-    {
-        Move( SOUTH );
-        return;
-    }
-    if( firstword == "west" || firstword == "w" )
-    {
-        Move( WEST );
-        return;
-    }
+			temp.erase(temp.size() - 2, 2);
+			temp += "\r\n";
 
-    if( firstword == "train" )
-    {
+			p.SendString(green + bold + temp);
+            return;
+        }
+
+	//Change players title
+	if (firstword == "change")
+	{
+		//Syntax (change <title_name>)
+
+		string secondword = ParseWord(p_data, 1);
+		p.SetTitle(secondword);
+
+		p.SendString(green + bold + "Title changed to [" + secondword + "]");
 		return;
-    }
+	}
 
-    if( firstword == "editstats" )
+	//Rebind a command to a shortcut key
+	if (firstword == "rebind")
+	{
+		//Syntax (rebind <command> <shortcut>)
+	}
+
+	//If in a resource room collect whatever resource is there
+	if (firstword == "collect" /*&& current room == resource room*/)
+	{
+
+	}
+
+	//give a player a certain amount of a resource
+	if (firstword == "trade")
+	{
+		//Syntax (trade <player_name> <amount> <resource_type>)
+	}
+
+	//complex Special room command Prompts a dialogue for the player to engage with (Devil Room, Corp Room, Assasin Room)
+	if (firstword == "interact")
+	{
+
+	}
+
+	//Invite a player to your corporation as long as you are the leader/ have permissions
+	if (firstword == "invite" /*&& check permissions / is part of corp */)
     {
-        return;
-    }
+		//Syntax (invite <player_name>)
+	}
+
+	//leave current corporation
+	if (firstword == "leave")
+	{
+		/*check is part of corp */
+        }
+
+	//check position certain leaderboard (Player's Corporation/World Rank, Resources Gathered, Corporation Souls Redeemed, Corporation's Resource Rank)
+	if (firstword == "leaderboard")
+	{
+		//Syntax (invite <leaderboard_type>)
+	}
 
     // ------------------------------------------------------------------------
     //  GOD access commands
     // ------------------------------------------------------------------------
-    if( firstword == "kick" && p.Rank() >= GOD )
+	if (firstword == "kick" && p.Rank() >= GOD)
     {
         // find a player to kick
         PlayerDatabase::iterator itr = 
-            PlayerDatabase::findloggedin( ParseWord( p_data, 1 ) );
+			PlayerDatabase::findloggedin(ParseWord(p_data, 1));
 
-        if( itr == PlayerDatabase::end() )
+		if (itr == PlayerDatabase::end())
         {
-            p.SendString( red + bold + "Player could not be found." );
+			p.SendString(red + bold + "Player could not be found.");
             return;
         }
 
-        if( itr->Rank() > p.Rank() )
+		if (itr->Rank() > p.Rank())
         {
-            p.SendString( red + bold + "You can't kick that player!" );
+			p.SendString(red + bold + "You can't kick that player!");
             return;
         }
             
         itr->Conn()->Close();
-        LogoutMessage( itr->Name() + " has been kicked by " + 
-                        p.Name() + "!!!" );
+		LogoutMessage(itr->Name() + " has been kicked by " +
+			titledName + "!!!");
 
         return;
     }
 
+	//mute a player for a certain length of time
+	if (firstword == "mute" && p.Rank() >= GOD)
+	{
+		//Syntax (mute <player_name> <mute_duration>)
+	}
 
     // ------------------------------------------------------------------------
     //  ADMIN access commands
     // ------------------------------------------------------------------------
-    if( firstword == "announce" && p.Rank() >= ADMIN )
+	//Make a System wide Broadcast
+	if (firstword == "announce" && p.Rank() >= ADMIN)
     {
-        Announce( RemoveWord( p_data, 0 ) );
+		Announce(RemoveWord(p_data, 0));
         return;
     }
 
-    if( firstword == "changerank" && p.Rank() >= ADMIN )
+	//promote up one level
+	//needs to be changed to change syntax to
+	//Syntax (promote <player_name>)
+
+	if (firstword == "promote" && p.Rank() >= ADMIN)
     {
-        string name = ParseWord( p_data, 1 );
+		string name = ParseWord(p_data, 1);
 
-        PlayerDatabase::iterator itr = PlayerDatabase::find( name );
+		PlayerDatabase::iterator itr = PlayerDatabase::find(name);
 
-        if( itr == PlayerDatabase::end() )
+		if (itr == PlayerDatabase::end())
         {
-            p.SendString( red + bold + "Error: Could not find user " +
-                          name );
+			p.SendString(red + bold + "Error: Could not find user " +
+				name);
             return;
         }
 
-        PlayerRank rank = GetRank( ParseWord( p_data, 2 ) );
+		PlayerRank rank = GetRank(ParseWord(p_data, 2));
 
         itr->Rank() = rank;
-        SendGame( green + bold + itr->Name() + 
+		SendGame(green + bold + itr->Name() +
                   "'s rank has been changed to: " +
-                  GetRankString( rank ) );
+			GetRankString(rank));
+		return;
+	}
+	//reverse of above method
+	if (firstword == "demote" && p.Rank() >= ADMIN)
+	{
+		string name = ParseWord(p_data, 1);
+
+		PlayerDatabase::iterator itr = PlayerDatabase::find(name);
+
+		if (itr == PlayerDatabase::end())
+		{
+			p.SendString(red + bold + "Error: Could not find user " +
+				name);
         return;
     }
 
+		PlayerRank rank = GetRank(ParseWord(p_data, 2));
 
-    if( firstword == "reload" && p.Rank() >= ADMIN )
+		itr->Rank() = rank;
+		SendGame(green + bold + itr->Name() +
+			"'s rank has been changed to: " +
+			GetRankString(rank));
+		return;
+	}
+
+	//reload game to add rooms w/out reseting server
+	if (firstword == "reload" && p.Rank() >= ADMIN)
     {
-        string db = BasicLib::LowerCase( ParseWord( p_data, 1 ) );
+		string db = BasicLib::LowerCase(ParseWord(p_data, 1));
 
-        if( db == "player" )
+		if (db == "player")
         {
-            string user = ParseWord( p_data, 2 );
-            PlayerDatabase::iterator itr = PlayerDatabase::findfull( user );
+			string user = ParseWord(p_data, 2);
+			PlayerDatabase::iterator itr = PlayerDatabase::findfull(user);
 
-            if( itr == PlayerDatabase::end() )
+			if (itr == PlayerDatabase::end())
             {
-                p.SendString( bold + red + "Invalid Player Name" );
+				p.SendString(bold + red + "Invalid Player Name");
             }
             else
             {
                 bool a = itr->Active();
-                if( a )     itr->Conn()->Handler()->Leave();
-                PlayerDatabase::LoadPlayer( itr->Name() );
-                if( a )     itr->Conn()->Handler()->Enter();
+				if (a)     itr->Conn()->Handler()->Leave();
+				PlayerDatabase::LoadPlayer(itr->Name());
+				if (a)     itr->Conn()->Handler()->Enter();
 
-                p.SendString( bold + cyan + "Player " + 
-                              itr->Name() + " Reloaded!" );
+				p.SendString(bold + cyan + "Player " +
+					itr->Name() + " Reloaded!");
             }
         }
-        else if( db == "rooms" )
+		else if (db == "rooms")
         {
             p.SendString( bold + cyan + "Room Template Database Reloaded!" );
         }
         else
         {
-            p.SendString( bold + red + "Invalid Database Name" );
+			p.SendString(bold + red + "Invalid Database Name");
         }
         return;
     }
 
-    if( firstword == "shutdown" && p.Rank() >= ADMIN )
+	if (firstword == "shutdown" && p.Rank() >= ADMIN)
     {
-        Announce( "SYSTEM IS SHUTTING DOWN" );
+		Announce("SYSTEM IS SHUTTING DOWN");
         Game::Running() = false;
         return;
     }
@@ -253,7 +383,10 @@ void Game::Handle( string p_data )
     // ------------------------------------------------------------------------
     //  Command not recognized, send to room
     // ------------------------------------------------------------------------
-    SendRoom( bold + p.Name() + " says: " + dim + p_data, p.CurrentRoom() );
+	// If command is not in dictionary Say unrecognised.
+	// If command is a commonly used shortcut inform player of rebind ability.
+	SendRoom( bold + titledName + " says: " + dim + p_data, p.CurrentRoom() );
+
 }
 
 
@@ -264,7 +397,7 @@ void Game::Enter()
 {
     USERLOG.Log(  
         GetIPString( m_connection->GetRemoteAddress() ) + 
-        " - User " + m_player->Name() + 
+        " - User " + "[" + GetTitleString((m_player)->GetPlayerTitle()) + "] " + (m_player)->Name() +
         " entering Game state." );
 
     m_lastcommand = "";
@@ -275,7 +408,7 @@ void Game::Enter()
     p.Active() = true;
     p.LoggedIn() = true;
 
-    SendGame( bold + green + p.Name() + " has entered the realm." );
+    SendGame( bold + green + titledName + " has entered the realm." );
 
     if( p.Newbie() )
         GotoTrain();
@@ -287,7 +420,7 @@ void Game::Leave()
 {
     USERLOG.Log(  
         GetIPString( m_connection->GetRemoteAddress() ) + 
-        " - User " + m_player->Name() + 
+        " - User " + "[" + GetTitleString((m_player)->GetPlayerTitle()) + "] " + (m_player)->Name() +
         " leaving Game state." );
 
     // remove the player from his room
@@ -310,7 +443,7 @@ void Game::Hungup()
 {
     USERLOG.Log(  
         GetIPString( m_connection->GetRemoteAddress() ) + 
-        " - User " + m_player->Name() + 
+        " - User " + "[" + GetTitleString((m_player)->GetPlayerTitle()) + "] " + (m_player)->Name() +
         " hung up." );
 
     Player& p = *m_player;
@@ -325,11 +458,11 @@ void Game::Flooded()
 {
     USERLOG.Log(  
         GetIPString( m_connection->GetRemoteAddress() ) + 
-        " - User " + m_player->Name() + 
+        " - User " + "[" + GetTitleString((m_player)->GetPlayerTitle()) + "] " + (m_player)->Name() +
         " flooded." );
 
     Player& p = *m_player;
-    LogoutMessage( p.Name() + " has been kicked for flooding!" );
+    LogoutMessage( titledName + " has been kicked for flooding!" );
 }
 
 // ------------------------------------------------------------------------
@@ -576,7 +709,7 @@ string Game::PrintRoom( Room p_room )
     std::list<player>::iterator playeritr = p_room.Players().begin();
     while( playeritr != p_room.Players().end() )
     {
-        temp += (*playeritr)->Name() + ", ";
+		temp += "[" + GetTitleString((*playeritr)->GetPlayerTitle()) + "] " + (*playeritr)->Name() + ", ";
         count++;
         ++playeritr;
     }
@@ -609,7 +742,7 @@ void Game::Move( int p_direction )
     SendRoom( green + p.Name() + " leaves to the " + 
               DIRECTIONSTRINGS[p_direction] + ".",
               previous );
-    
+
 	p.SendString( yellow + "You walk " + DIRECTIONSTRINGS[p_direction] + "." );
 
 	vector2 coords = p.Coords();

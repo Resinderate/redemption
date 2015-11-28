@@ -150,6 +150,52 @@ inline istream& operator>>( istream& p_stream, AttributeSet& a )
     return p_stream;
 }
 
+	// ======================================
+	//  PLAYER TITLES
+	// ======================================
+
+	// --------------------------------------------------------------------
+	//  An enumeration defining the various player types and accompanying
+	//  functions
+	//	@author Kevin Duffy
+	// --------------------------------------------------------------------
+	enum PlayerTitle
+	{
+		THEREDEEMED,
+		GOLDLEADER,
+		IRONLEADER,
+		STONELEADER,
+		WOODLEADER,
+		CEO,
+		PEASANT
+	};
+
+	const int NUMPLAYERTITLETYPES = 7;
+
+	const string PLAYERTITLESTRINGS[NUMPLAYERTITLETYPES] =
+	{
+		"TheRedeemed",
+		"GoldLeader",
+		"IronLeader",
+		"StoneLeader",
+		"WoodLeader",
+		"CEO",
+		"Peasant"
+	};
+
+
+	inline PlayerTitle GetTitle(string p_str)
+	{
+		return StrToEnum<PlayerTitle, NUMPLAYERTITLETYPES>(p_str, PLAYERTITLESTRINGS);
+	}
+	inline string GetTitleString(PlayerTitle p_enum)
+	{
+		return EnumToStr<PlayerTitle>(p_enum, PLAYERTITLESTRINGS);
+	}
+
+
+
+
 // ======================================
 //  PLAYER RANKS
 // ======================================
@@ -230,6 +276,7 @@ inline string GetRoomTypeString( RoomType p_enum )
     return EnumToStr<RoomType>( p_enum, ROOMTYPESTRINGS );
 }
 */
+
 
 
 // ======================================
