@@ -71,14 +71,6 @@ public:
     static string PrintHelp( PlayerRank p_rank = REGULAR );
     string PrintStats();
     string PrintExperience();
-    string PrintInventory();
-
-    // ------------------------------------------------------------------------
-    //  Inventory Functions
-    // ------------------------------------------------------------------------
-    bool UseItem( const string& p_item );
-    bool RemoveItem( string p_item );
-
     // ------------------------------------------------------------------------
     //  Accessors
     // ------------------------------------------------------------------------
@@ -92,13 +84,6 @@ public:
     static string PrintRoom( room p_room );
     static void SendRoom( string p_text, room p_room );
     void Move( int p_direction );
-    void GetItem( string p_item );
-    void DropItem( string p_item );
-    static string StoreList( entityid p_store );
-    void Buy( const string& p_item );
-    void Sell( const string& p_item );
-
-	void PlayerKilled(player p_player);
 
 protected:
 

@@ -16,7 +16,6 @@
 
 #include "Entity.h"
 #include "Attributes.h"
-#include "Item.h"
 #include "DatabasePointer.h"
 
 using std::ostream;
@@ -40,18 +39,10 @@ public:
     inline string& Description()    { return m_description; }
     inline entityid& Adjacent( int p_dir ) { return m_rooms[p_dir]; }
 
-
-    inline list<item>& Items()      { return m_items; }
-    inline money& Money()           { return m_money; }
-
     inline list<player>& Players()  { return m_players; }
 
     void AddPlayer( player p_player );
     void RemovePlayer( player p_player );
-
-    item FindItem( const string& p_item );
-    void AddItem( item p_item );
-    void RemoveItem( item p_item );
 
     void LoadTemplate( istream& p_stream );
     void LoadData( istream& p_stream );
@@ -73,8 +64,6 @@ protected:
     // -----------------------------------------
     //  volatile data (save to disk)
     // -----------------------------------------
-    list<item> m_items;
-    money m_money;
 
 
     // -----------------------------------------
