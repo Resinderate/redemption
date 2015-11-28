@@ -14,7 +14,6 @@
 #include "PlayerDatabase.h"
 #include "RoomDatabase.h"
 #include "StoreDatabase.h"
-#include "EnemyDatabase.h"
 #include "Game.h"
 #include "SimpleMUDLogs.h"
 

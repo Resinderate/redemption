@@ -87,7 +87,7 @@ void Game::Handle( string p_data )
 
     if( firstword == "remove" )
     {
-        RemoveItem( ParseWord( p_data, 1 ) );
+
         return;
     }
 
@@ -109,7 +109,7 @@ void Game::Handle( string p_data )
 
     if( firstword == "use" )
     {
-        UseItem( RemoveWord( p_data, 0 ) );
+        
         return;
     }
 
@@ -159,89 +159,35 @@ void Game::Handle( string p_data )
 
     if( firstword == "get" || firstword == "take" )
     {
-        GetItem( RemoveWord( p_data, 0 ) );
+        
         return;
     }
 
     if( firstword == "drop" )
     {
-        DropItem( RemoveWord( p_data, 0 ) );
-        return;
-    }
-
-
-    if( firstword == "train" )
-    {
-        if( p.CurrentRoom()->Type() != TRAININGROOM )
-        {
-            p.SendString( red + bold + "You cannot train here!" );
-            return;
-        }
-
-        if( p.Train() )
-        {
-            p.SendString( green + bold + "You are now level " + tostring( p.Level() ) );
-        }
-        else
-        {
-            p.SendString( red + bold + "You don't have enough experience to train!" );
-        }
-
-        return;
-    }
-
-    if( firstword == "editstats" )
-    {
-        if( p.CurrentRoom()->Type() != TRAININGROOM )
-        {
-            p.SendString( red + bold + "You cannot edit your stats here!" );
-            return;
-        }
-
-        GotoTrain();
+        
         return;
     }
 
     if( firstword == "list" )
     {
-        if( p.CurrentRoom()->Type() != STORE )
-        {
-            p.SendString( red + bold + "You're not in a store!" );
-            return;
-        }
-
-        p.SendString( StoreList( p.CurrentRoom()->Data() ) );
-        return;
+		return;
     }
 
     if( firstword == "buy" )
     {
-        if( p.CurrentRoom()->Type() != STORE )
-        {
-            p.SendString( red + bold + "You're not in a store!" );
-            return;
-        }
-
-        Buy( RemoveWord( p_data, 0 ) );
-        return;
+		return;
     }
 
     if( firstword == "sell" )
     {
-        if( p.CurrentRoom()->Type() != STORE )
-        {
-            p.SendString( red + bold + "You're not in a store!" );
-            return;
-        }
-
-        Sell( RemoveWord( p_data, 0 ) );
-        return;
+		return;
     }
 
 
     if( firstword == "attack" || firstword == "a" )
     {
-        PlayerAttack( RemoveWord( p_data, 0 ) );
+        
         return;
     }
 
@@ -724,80 +670,6 @@ string Game::PrintInventory()
     return itemlist;
 }
 
-// ------------------------------------------------------------------------
-//  This finds and attempts to "use" an item in your inventory.
-// ------------------------------------------------------------------------
-bool Game::UseItem( const std::string& p_item )
-{
-    Player& p = *m_player;
-
-    int i = p.GetItemIndex( p_item );
-
-    if( i == -1 )
-    {
-        p.SendString( red + bold + "Could not find that item!" );
-        return false;
-    }
-
-    Item& itm = *p.GetItem( i );
-    
-
-    switch( itm.Type() )
-    {
-    case WEAPON:
-        p.UseWeapon( i );
-        SendRoom( green + bold + p.Name() + " arms a " + itm.Name(), 
-                  p.CurrentRoom() );
-        return true;
-
-    case ARMOR:
-        p.UseArmor( i );
-        SendRoom( green + bold + p.Name() + " puts on a " + itm.Name(), 
-                  p.CurrentRoom() );
-        return true;
-
-    case HEALING:
-        p.AddBonuses( itm.ID() );
-        p.AddHitpoints( BasicLib::RandomInt( itm.Min(), itm.Max() ) );
-        p.DropItem( i );
-        SendRoom( green + bold + p.Name() + " uses a " + itm.Name(), 
-                  p.CurrentRoom() );
-
-        return true;
-    }
-    return false;
-}
-
-// ------------------------------------------------------------------------
-//  This removes your weapon or your armor
-// ------------------------------------------------------------------------
-bool Game::RemoveItem( std::string p_item )
-{
-    Player& p = *m_player;
-
-    p_item = BasicLib::LowerCase( p_item );
-
-    if( p_item == "weapon" && p.Weapon() != 0 )
-    {
-        SendRoom( green + bold + p.Name() + " puts away a " + 
-                  p.Weapon()->Name(), p.CurrentRoom() );
-        p.RemoveWeapon();
-        return true;
-    }
-
-    if( p_item == "armor" && p.Armor() != 0 )
-    {
-        SendRoom( green + bold + p.Name() + " takes off a " + 
-                  p.Armor()->Name(), p.CurrentRoom() );
-        p.RemoveArmor();
-        return true;
-    }
-
-    p.SendString( red + bold + "Could not Remove item!" );
-    return false;
-}
-
-
 string Game::PrintRoom( room p_room )
 {
     string desc = "\r\n" + bold + white + p_room->Name() + "\r\n";
@@ -807,40 +679,7 @@ string Game::PrintRoom( room p_room )
     desc += bold + magenta + p_room->Description() + "\r\n";
     desc += bold + green + "exits: ";
 
-    for( int d = 0; d < NUMDIRECTIONS; d++ )
-    {
-        if( p_room->Adjacent( d ) != 0 )
-            desc += DIRECTIONSTRINGS[d] + "  ";
-    }
     desc += "\r\n";
-
-
-    // ---------------------------------
-    // ITEMS
-    // ---------------------------------
-    temp = bold + yellow + "You see: ";
-    count = 0;
-    if( p_room->Money() > 0 )
-    {
-        count++;
-        temp += "$" + tostring( p_room->Money() ) + ", ";
-    }
-
-    std::list<item>::iterator itemitr = p_room->Items().begin();
-    while( itemitr != p_room->Items().end() )
-    {
-        count++;
-        temp += (*itemitr)->Name() + ", ";
-        ++itemitr;
-    }
-
-    if( count > 0 )
-    {
-        // chop off the trailing ", "
-        temp.erase( temp.size() - 2, 2 );
-        // add a newline
-        desc += temp + "\r\n";
-    }
 
     // ---------------------------------
     // PEOPLE
@@ -861,19 +700,6 @@ string Game::PrintRoom( room p_room )
         desc += temp + "\r\n";
     }
 
-    // ---------------------------------
-    // ENEMIES
-    // ---------------------------------
-    temp = bold + red + "Enemies: ";
-    count = 0;
-    std::list<enemy>::iterator enemyitr = p_room->Enemies().begin();
-    while( enemyitr != p_room->Enemies().end() )
-    {
-        temp += (*enemyitr)->Name() + ", ";
-        count++;
-        ++enemyitr;
-    }
-
     if( count > 0 )
     {
         temp.erase( temp.size() - 2, 2 );
@@ -892,123 +718,20 @@ void Game::SendRoom( string p_text, room p_room )
 }
 
 
-
+ // Nuked down version.
 void Game::Move( int p_direction )
 {
     Player& p = *m_player;
-    room next = p.CurrentRoom()->Adjacent( p_direction );
     room previous = p.CurrentRoom();
-
-    if( next == 0 )
-    {
-        SendRoom( red + p.Name() + " bumps into the wall to the " +
-                  DIRECTIONSTRINGS[p_direction] + "!!!",
-                  p.CurrentRoom() );
-        return;
-    }
 
     previous->RemovePlayer( p.ID() );
 
     SendRoom( green + p.Name() + " leaves to the " + 
               DIRECTIONSTRINGS[p_direction] + ".",
               previous );
-    SendRoom( green + p.Name() + " enters from the " + 
-              DIRECTIONSTRINGS[OppositeDirection(p_direction)] + ".",
-              next );
+
     p.SendString( green + "You walk " + DIRECTIONSTRINGS[p_direction] + "." );
-
-    p.CurrentRoom() = next;
-    next->AddPlayer( p.ID() );
-
-    p.SendString( PrintRoom( next ) );
 }
-
-
-
-void Game::GetItem( string p_item )
-{
-    Player& p = *m_player;
-
-    if( p_item[0] == '$' )
-    {
-        // clear off the '$', and convert the result into a number.
-        p_item.erase( 0, 1 );
-        money m = BasicLib::totype<money>( p_item );
-
-        // make sure there's enough money in the room
-        if( m > p.CurrentRoom()->Money() )
-        {
-            p.SendString( red + bold + "There isn't that much here!" );
-        }
-        else
-        {
-            p.Money() += m;
-            p.CurrentRoom()->Money() -= m;
-            SendRoom( cyan + bold + p.Name() + " picks up $" + 
-                      tostring( m ) + ".", p.CurrentRoom() );
-        }
-        return;
-    }
-
-    item i = p.CurrentRoom()->FindItem( p_item );
-
-    if( i == 0 )
-    {
-        p.SendString( red + bold + "You don't see that here!" );
-        return;
-    }
-
-    if( !p.PickUpItem( i ) )
-    {
-        p.SendString( red + bold + "You can't carry that much!" );
-        return;
-    }
-
-    p.CurrentRoom()->RemoveItem( i );
-    SendRoom( cyan + bold + p.Name() + " picks up " + i->Name() + ".", 
-              p.CurrentRoom() );
-}
-
-
-void Game::DropItem( string p_item )
-{
-    Player& p = *m_player;
-
-    if( p_item[0] == '$' )
-    {
-        // clear off the '$', and convert the result into a number.
-        p_item.erase( 0, 1 );
-        money m = BasicLib::totype<money>( p_item );
-
-        // make sure there's enough money in the inventory
-        if( m > p.Money() )
-        {
-            p.SendString( red + bold + "You don't have that much!" );
-        }
-        else
-        {
-            p.Money() -= m;
-            p.CurrentRoom()->Money() += m;
-            SendRoom( cyan + bold + p.Name() + " drops $" + 
-                      tostring( m ) + ".", p.CurrentRoom() );
-        }
-        return;
-    }
-
-    int i = p.GetItemIndex( p_item );
-
-    if( i == -1 )
-    {
-        p.SendString( red + bold + "You don't have that!" );
-        return;
-    }
-
-    SendRoom( cyan + bold + p.Name() + " drops " +
-                p.GetItem( i )->Name() + ".", p.CurrentRoom() );
-    p.CurrentRoom()->AddItem( p.GetItem( i ) );
-    p.DropItem( i );
-}
-
 
 void Game::GotoTrain()
 {
@@ -1041,260 +764,6 @@ string Game::StoreList( entityid p_store )
               "--------------------------------------------------------------------------------\r\n";
 
     return output;
-}
-
-void Game::Buy( const string& p_item )
-{
-    Player& p = *m_player;
-    Store& s = StoreDatabase::get( p.CurrentRoom()->Data() );
-
-    item i = s.find( p_item );
-    if( i == 0 )
-    {
-        p.SendString( red + bold + "Sorry, we don't have that item!" );
-        return;
-    }
-
-    if( p.Money() < i->Price() )
-    {
-        p.SendString( red + bold + "Sorry, but you can't afford that!" );
-        return;
-    }
-
-    if( !p.PickUpItem( i ) )
-    {
-        p.SendString( red + bold + "Sorry, but you can't carry that much!" );
-        return;
-    }
-
-    p.Money() -= i->Price();
-    SendRoom( cyan + bold + p.Name() + " buys a " + i->Name(), 
-              p.CurrentRoom() );
-}
-
-
-
-
-void Game::Sell( const string& p_item )
-{
-    Player& p = *m_player;
-    Store& s = StoreDatabase::get( p.CurrentRoom()->Data() );
-
-    int index = p.GetItemIndex( p_item );
-    if( index == -1 )
-    {
-        p.SendString( red + bold + "Sorry, you don't have that!" );
-        return;
-    }
-
-    item i = p.GetItem( index );
-    if( !s.has( i ) )
-    {
-        p.SendString( red + bold + "Sorry, we don't want that item!" );
-        return;
-    }
-
-    p.DropItem( index );
-    p.Money() += i->Price();
-    SendRoom( cyan + bold + p.Name() + " sells a " + i->Name(), 
-              p.CurrentRoom() );
-}
-
-
-
-void Game::EnemyAttack( enemy p_enemy )
-{
-    Enemy& e = *p_enemy;
-    room r = e.CurrentRoom();
-
-    std::list<player>::iterator itr = r->Players().begin();
-
-    std::advance( itr, BasicLib::RandomInt( 0, r->Players().size() - 1 ) );
- 
-    Player& p = **itr;
-
-    sint64 now = Game::GetTimer().GetMS();
-
-    int damage;
-    if( e.Weapon() == 0 )
-    {
-        damage = BasicLib::RandomInt( 1, 3 );
-        e.NextAttackTime() = now + seconds( 1 );
-    }
-    else
-    {
-        damage = BasicLib::RandomInt( e.Weapon()->Min(), e.Weapon()->Max() );
-        e.NextAttackTime() = now + seconds( e.Weapon()->Speed() );
-    }
-
-    if( BasicLib::RandomInt( 0, 99 ) >= e.Accuracy() - p.GetAttr( DODGING ) )
-    {
-        Game::SendRoom( white + e.Name() + " swings at " + p.Name() + 
-                        " but misses!", e.CurrentRoom() );
-        return;
-    }
-
-    damage += e.StrikeDamage();
-    damage -= p.GetAttr( DAMAGEABSORB );
-
-    if( damage < 1 )
-        damage = 1;
-
-    p.AddHitpoints( -damage );
-
-    Game::SendRoom( red + e.Name() + " hits " + p.Name() + " for " + 
-                    tostring( damage ) + " damage!", e.CurrentRoom() );
-
-
-    if( p.HitPoints() <= 0 )
-        PlayerKilled( p.ID() );
-}
-
-void Game::PlayerKilled( player p_player )
-{
-    Player& p = *p_player;
-
-    Game::SendRoom( red + bold + p.Name() + " has died!", p.CurrentRoom() );
-    
-    // drop the money
-    money m = p.Money() / 10;
-    if( m > 0 )
-    {
-        p.CurrentRoom()->Money() += m;
-        p.Money() -= m;
-        Game::SendRoom( cyan + "$" + tostring( m ) + 
-                        " drops to the ground.", p.CurrentRoom() );
-    }
-
-    // drop an item
-    if( p.Items() > 0 )
-    {
-        int index = -1;
-
-        // loop through random numbers until you hit a valid item.
-        while( p.GetItem( index = RandomInt( 0, PLAYERITEMS - 1 ) ) == 0 );
-        item i = p.GetItem( index );
-        p.CurrentRoom()->AddItem( i );
-        p.DropItem( index );
-
-        Game::SendRoom( cyan + i->Name() + " drops to the ground.", 
-                        p.CurrentRoom() );
-    }
-
-    // subtract 10% experience
-    int exp = p.Experience() / 10;
-    p.Experience() -= exp;
-    
-    // remove the player from the room and transport him to room 1.
-    p.CurrentRoom()->RemovePlayer( p_player );
-    p.CurrentRoom() = 1;
-    p.CurrentRoom()->AddPlayer( p_player );
-
-    // set the hitpoints to 70% 
-    p.SetHitpoints( (int)(p.GetAttr( MAXHITPOINTS ) * 0.7) );
-    p.SendString( white + bold + "You have died, but have been ressurected in " +
-                  p.CurrentRoom()->Name() );
-    p.SendString( red + bold + "You have lost " + tostring( exp ) + " experience!" );
-    Game::SendRoom( white + bold + p.Name() + " appears out of nowhere!!" , p.CurrentRoom() );
-}
-
-
-
-void Game::PlayerAttack( const string& p_enemy )
-{
-    Player& p = *m_player;
-    sint64 now = Game::GetTimer().GetMS();
-
-    if( now < p.NextAttackTime() )
-    {
-        p.SendString( red + bold + "You can't attack yet!" );
-        return;
-    }
-
-
-    enemy ptr = p.CurrentRoom()->FindEnemy( p_enemy );
-
-    if( ptr == 0 )
-    {
-        p.SendString( red + bold + "You don't see that here!" );
-        return;
-    }
-
-    Enemy& e = *ptr;
-
-    int damage;
-    if( p.Weapon() == 0 )
-    {
-        damage = BasicLib::RandomInt( 1, 3 );
-        p.NextAttackTime() = now + seconds( 1 );
-    }
-    else
-    {
-        damage = BasicLib::RandomInt( p.Weapon()->Min(), p.Weapon()->Max() );
-        p.NextAttackTime() = now + seconds( p.Weapon()->Speed() );
-    }
-
-    if( BasicLib::RandomInt( 0, 99 ) >= p.GetAttr( ACCURACY ) - e.Dodging() )
-    {
-        SendRoom( white + p.Name() + " swings at " + e.Name() + 
-                  " but misses!", p.CurrentRoom() );
-        return;
-    }
-
-    damage += p.GetAttr( STRIKEDAMAGE );
-    damage -= e.DamageAbsorb();
-
-    if( damage < 1 )
-        damage = 1;
-
-    e.HitPoints() -= damage;
-
-    SendRoom( red + p.Name() + " hits " + e.Name() + " for " + 
-              tostring( damage ) + " damage!", p.CurrentRoom() );
-
-
-    if( e.HitPoints() <= 0 )
-        EnemyKilled( e.ID(), m_player );
-}
-
-
-void Game::EnemyKilled( enemy p_enemy, player p_player )
-{
-    Enemy& e = *p_enemy;
-
-    SendRoom( cyan + bold + e.Name() + " has died!", e.CurrentRoom() );
-    
-
-    // drop the money
-    money m = BasicLib::RandomInt( e.MoneyMin(), e.MoneyMax() );
-    if( m > 0 )
-    {
-        e.CurrentRoom()->Money() += m;
-        SendRoom( cyan + "$" + tostring( m ) + 
-                " drops to the ground.", e.CurrentRoom() );
-    }
-
-    // drop all the items
-    std::list<loot>::iterator itr = e.LootList().begin();
-    while( itr != e.LootList().end() )
-    {
-        if( BasicLib::RandomInt( 0, 99 ) < itr->second )
-        {
-            e.CurrentRoom()->AddItem( itr->first );
-            SendRoom( cyan + (itr->first)->Name() + 
-                      " drops to the ground.", e.CurrentRoom() );
-        }
-        ++itr;
-    }
-
-    // add experience to the player who killed it
-    Player& p = *p_player;
-    p.Experience() += e.Experience();
-    p.SendString( cyan + bold + "You gain " + tostring( e.Experience() ) +
-                    " experience." );
-    
-    // remove the enemy from the game
-    EnemyDatabase::Delete( p_enemy );
 }
 
 }   // end namespace SimpleMUD

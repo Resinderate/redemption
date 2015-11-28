@@ -99,8 +99,6 @@ void GameLoop::LoadDatabases()
     RoomDatabase::LoadTemplates();
     RoomDatabase::LoadData();
     StoreDatabase::Load();
-    EnemyTemplateDatabase::Load();
-    EnemyDatabase::Load();
 }
 
 
@@ -109,39 +107,17 @@ void GameLoop::SaveDatabases()
     Save();
     PlayerDatabase::Save();
     RoomDatabase::SaveData();
-    EnemyDatabase::Save();
 }
 
 
 void GameLoop::PerformRound()
 {
-    EnemyDatabase::iterator itr = EnemyDatabase::begin();
     sint64 now = Game::GetTimer().GetMS();
-
-    while( itr != EnemyDatabase::end() )
-    {
-        if( now >= itr->NextAttackTime() && 
-            itr->CurrentRoom()->Players().size() > 0 )
-            Game::EnemyAttack( itr->ID() );
-        ++itr;
-    }
 }
 
 void GameLoop::PerformRegen()
 {
     RoomDatabase::iterator itr = RoomDatabase::begin();
-    while( itr != RoomDatabase::end() )
-    {
-        if( itr->SpawnWhich() != 0 &&
-            itr->Enemies().size() < (unsigned int) itr->MaxEnemies() )
-        {
-            EnemyDatabase::Create( itr->SpawnWhich(), itr->ID() );
-            Game::SendRoom( red + bold + itr->SpawnWhich()->Name() + 
-                            " enters the room!", itr->ID() );
-        }
-
-        ++itr;
-    }
 }
 
 

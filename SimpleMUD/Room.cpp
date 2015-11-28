@@ -28,7 +28,7 @@ Room::Room()
 	m_name= "UNDEFINED";
     m_description = "UNDEFINED";
 
-	m_coords = vector2(0, 0);
+	//m_coords = BasicLib::vector2(0, 0);
 }
 
 void Room::AddPlayer( player p_player )

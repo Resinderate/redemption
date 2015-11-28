@@ -53,7 +53,7 @@ protected:
     // -----------------------------------------
 	string m_name;
     string m_description;
-	vector2 m_coords;
+	//BasicLib::vector2 m_coords;
 
 
 
