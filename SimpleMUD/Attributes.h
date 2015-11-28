@@ -263,6 +263,25 @@ inline string GetDirectionString( Direction p_enum )
     return EnumToStr<Direction>( p_enum, DIRECTIONSTRINGS );
 }
 
+// ======================================
+//  Resources
+// ======================================
+
+enum ResourceType
+{
+	WOOD,
+	STONE,
+	IRON,
+	GOLD
+};
+
+enum ResourceSize
+{
+	SMALL,
+	MEDIUM,
+	LARGE
+};
+
 }   // end namespace SimpleMUD
 
 #endif

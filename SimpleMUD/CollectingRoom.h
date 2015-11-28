@@ -2,8 +2,8 @@
 // Ronan
 
 // This might not be correct?
-#ifndef SIMPLEMUDCOLLECTINGROOM_H
-#define SIMPLEMUDCOLLECTINGROOM_H
+#ifndef COLLECTINGROOM_H
+#define COLLECTINGROOM_H
 
 #include <string>
 
@@ -28,13 +28,15 @@ namespace SimpleMUD
 
 	protected:
 		// What sort of resource it is.
+		ResourceType m_resourceType;
 		// Size of the resource.
+		ResourceSize m_resourceSize;
 		// Time since last collection.
-		// Owner of the land.
+		BasicLib::sint64 m_lastCollection;
 
-		// Someone buying the land is probably handled externally.
-		// Logic at least, owner can then be assigned.
-		
+		// Owner of the land.
+		// Not sure how we want to store this just yet, will probably be the player..
+		player m_owner;
 
 	};  // end class CollectingRoom.
 

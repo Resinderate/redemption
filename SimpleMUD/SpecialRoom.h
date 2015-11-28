@@ -2,8 +2,8 @@
 // Ronan
 
 // This might not be correct?
-#ifndef SIMPLEMUDSPECIALROOM_H
-#define SIMPLEMUDSPECIALROOM_H
+#ifndef SPECIALROOM_H
+#define SPECIALROOM_H
 
 #include <string>
 
