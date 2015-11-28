@@ -189,7 +189,8 @@ ostream& operator<<( ostream& p_stream, const Player& p )
 {
     p_stream << "[NAME]           " << p.m_name << "\n";
     p_stream << "[PASS]           " << p.m_pass << "\n";
-    p_stream << "[RANK]           " << GetRankString( p.m_rank ) << "\n";
+	p_stream << "[RANK]           " << GetRankString(p.m_rank) << "\n";
+	p_stream << "[TITLE]          " << GetTitleString(p.m_title) << "\n";
     p_stream << "[STATPOINTS]     " << p.m_statpoints << "\n";
     p_stream << "[EXPERIENCE]     " << p.m_experience << "\n";
     p_stream << "[LEVEL]          " << p.m_level << "\n";
@@ -215,8 +216,10 @@ istream& operator>>( istream& p_stream, Player& p )
     p_stream >> temp >> std::ws;
     std::getline( p_stream, p.m_name );
     p_stream >> temp >> p.m_pass;
-    p_stream >> temp >> temp;
-    p.m_rank = GetRank( temp );
+	p_stream >> temp >> temp;
+	p.m_rank = GetRank(temp);
+	p_stream >> temp >> temp;
+	p.m_title = GetTitle(temp);
     p_stream >> temp >> p.m_statpoints;
     p_stream >> temp >> p.m_experience;
     p_stream >> temp >> p.m_level;
