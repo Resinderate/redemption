@@ -16,6 +16,7 @@ using namespace SocketLib;
 using namespace BasicLib;
 using std::string;
 
+#define titledName "[" + GetTitleString(p.GetPlayerTitle()) + "] " + p.Name()
 namespace SimpleMUD
 {
 
@@ -56,7 +57,7 @@ void Game::Handle( string p_data )
 	if (firstword == "say")
 	{
 		string text = RemoveWord(p_data, 0);
-		SendGame(magenta + bold + p.Name() + " -> Local: " + white + text);
+		SendGame(magenta + bold + titledName + " -> Local: " + white + text);
 		return;
 	}
 
@@ -64,7 +65,7 @@ void Game::Handle( string p_data )
 	if (firstword == "shout")
 	{
 		string text = RemoveWord(p_data, 0);
-		SendGame(magenta + bold + p.Name() + " -> Neighbour:  " + white + text);
+		SendGame(magenta + bold + titledName + " -> Neighbour:  " + white + text);
 		return;
 	}
 
@@ -72,7 +73,7 @@ void Game::Handle( string p_data )
 	if (firstword == "corp")
 	{
 		string text = RemoveWord(p_data, 0);
-		SendGame(magenta + bold + p.Name() + " -> Corporation: " + white + text);
+		SendGame(magenta + bold + titledName + " -> Corporation: " + white + text);
 		return;
 	}
 
@@ -80,7 +81,7 @@ void Game::Handle( string p_data )
 	if (firstword == "global")
 	{
 		string text = RemoveWord(p_data, 0);
-		SendGame(magenta + bold + p.Name() + " -> Global: " + white + text);
+		SendGame(magenta + bold + titledName + " -> Global: " + white + text);
 		return;
 	}
 
@@ -106,7 +107,7 @@ void Game::Handle( string p_data )
 	if (firstword == "exit")
 	{
 		m_connection->Close();
-		LogoutMessage(p.Name() + " has left the realm.");
+		LogoutMessage(titledName + " has left the realm.");
 		return;
 	}
 
@@ -237,7 +238,7 @@ void Game::Handle( string p_data )
 
 		itr->Conn()->Close();
 		LogoutMessage(itr->Name() + " has been kicked by " +
-			p.Name() + "!!!");
+			titledName + "!!!");
 
 		return;
 	}
@@ -356,7 +357,7 @@ void Game::Handle( string p_data )
 	// ------------------------------------------------------------------------
 	// If command is not in dictionary Say unrecognised.
 	// If command is a commonly used shortcut inform player of rebind ability.
-	SendRoom( bold + p.Name() + " says: " + dim + p_data, p.CurrentRoom() );
+	SendRoom( bold + titledName + " says: " + dim + p_data, p.CurrentRoom() );
 
 }
 
@@ -368,7 +369,7 @@ void Game::Enter()
 {
     USERLOG.Log(  
         GetIPString( m_connection->GetRemoteAddress() ) + 
-        " - User " + m_player->Name() + 
+        " - User " + "[" + GetTitleString((m_player)->GetPlayerTitle()) + "] " + (m_player)->Name() +
         " entering Game state." );
 
     m_lastcommand = "";
@@ -378,7 +379,7 @@ void Game::Enter()
     p.Active() = true;
     p.LoggedIn() = true;
 
-    SendGame( bold + green + p.Name() + " has entered the realm." );
+    SendGame( bold + green + titledName + " has entered the realm." );
 
     if( p.Newbie() )
         GotoTrain();
@@ -390,7 +391,7 @@ void Game::Leave()
 {
     USERLOG.Log(  
         GetIPString( m_connection->GetRemoteAddress() ) + 
-        " - User " + m_player->Name() + 
+        " - User " + "[" + GetTitleString((m_player)->GetPlayerTitle()) + "] " + (m_player)->Name() +
         " leaving Game state." );
 
     // remove the player from his room
@@ -412,7 +413,7 @@ void Game::Hungup()
 {
     USERLOG.Log(  
         GetIPString( m_connection->GetRemoteAddress() ) + 
-        " - User " + m_player->Name() + 
+        " - User " + "[" + GetTitleString((m_player)->GetPlayerTitle()) + "] " + (m_player)->Name() +
         " hung up." );
 
     Player& p = *m_player;
@@ -427,11 +428,11 @@ void Game::Flooded()
 {
     USERLOG.Log(  
         GetIPString( m_connection->GetRemoteAddress() ) + 
-        " - User " + m_player->Name() + 
+        " - User " + "[" + GetTitleString((m_player)->GetPlayerTitle()) + "] " + (m_player)->Name() +
         " flooded." );
 
     Player& p = *m_player;
-    LogoutMessage( p.Name() + " has been kicked for flooding!" );
+    LogoutMessage( titledName + " has been kicked for flooding!" );
 }
 
 // ------------------------------------------------------------------------
