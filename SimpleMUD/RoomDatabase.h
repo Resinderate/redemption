@@ -44,6 +44,8 @@ public:
 	// Using map.count(Key) to see if the thing is there
 	bool RoomExists(BasicLib::vector2 p_coords);
 
+	Room& GetRoom(BasicLib::vector2 p_coords);
+
 };  // end class RoomDatabase
 
 

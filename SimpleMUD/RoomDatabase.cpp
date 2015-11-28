@@ -37,6 +37,12 @@ namespace SimpleMUD
 			return true;
 	}
 
+	Room & SimpleMUD::RoomDatabase::GetRoom(BasicLib::vector2 p_coords)
+	{
+		// Could throw an exception if the item doesn't exist.
+		return m_rooms.at(p_coords);
+	}
+
 void RoomDatabase::LoadTemplates()
 {
 	// Load Tempaltes.

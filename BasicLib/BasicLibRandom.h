@@ -355,6 +355,12 @@ public:
 		x = p_x;
 		y = p_y;
 	}
+
+	vector2& operator+(const vector2& other)
+	{
+		return vector2()
+	}
+
 };
 
 struct CompareVectors
