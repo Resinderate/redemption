@@ -94,6 +94,8 @@
     <ClCompile Include="BasicLib\BasicLibTime.cpp" />
     <ClCompile Include="Demo10-01.cpp" />
     <ClCompile Include="SimpleMUD\DatabasePointer.cpp" />
+    <ClCompile Include="SimpleMUD\Enemy.cpp" />
+    <ClCompile Include="SimpleMUD\EnemyDatabase.cpp" />
     <ClCompile Include="SimpleMUD\Game.cpp" />
     <ClCompile Include="SimpleMUD\GameLoop.cpp" />
     <ClCompile Include="SimpleMUD\ItemDatabase.cpp" />
