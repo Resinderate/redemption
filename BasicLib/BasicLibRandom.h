@@ -338,25 +338,6 @@ protected:
 
 typedef simulated_binomial<> random_binomial;
 
-// Util struct of Vector2 - Ronan
-class vector2
-{
-public:
-	int x;
-	int y;
-
-	vector2()
-	{
-		x = 0;
-		y = 0;
-	}
-
-	vector2(int p_x, int p_y)
-	{
-		x = p_x;
-		y = p_y;
-	}	
-};
 
 // ----------------------------------------------------------------------------
 //  Global RNGs for the C-like RNG functions

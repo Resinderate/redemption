@@ -55,11 +55,14 @@ void EnemyDatabase::Create( entityid p_template, room p_room )
     e.ID() = id;
     e.LoadTemplate( p_template );
     e.CurrentRoom() = p_room;
+
+    p_room->AddEnemy( id );
 }
 
 
 void EnemyDatabase::Delete( enemy p_enemy )
 {
+    p_enemy->CurrentRoom()->RemoveEnemy( p_enemy );
     m_map.erase( p_enemy );
 }
 
