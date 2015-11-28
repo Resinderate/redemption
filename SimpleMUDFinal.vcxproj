@@ -111,7 +111,6 @@
     <ClCompile Include="SocketLib\SocketLibSystem.cpp" />
     <ClCompile Include="SocketLib\SocketSet.cpp" />
     <ClCompile Include="SocketLib\Telnet.cpp" />
-    <ClCompile Include="vmath\vmath.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="BasicLib\BasicLib.h" />
@@ -148,7 +147,6 @@
     <ClInclude Include="SocketLib\SocketLibTypes.h" />
     <ClInclude Include="SocketLib\SocketSet.h" />
     <ClInclude Include="SocketLib\Telnet.h" />
-    <ClInclude Include="vmath\vmath.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

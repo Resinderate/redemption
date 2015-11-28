@@ -33,7 +33,7 @@ namespace SimpleMUD
 
 	BasicLib::vector2 World::ChangeRoom(BasicLib::vector2 p_coords, BasicLib::vector2 p_move)
 	{
-		BasicLib::vector2 newLocation = p_coords + p_move;
+		//BasicLib::vector2 newLocation = p_coords + p_move;
 		return BasicLib::vector2();
 	}
 
