@@ -10,7 +10,6 @@
 #include "GameLoop.h"
 #include <fstream>
 #include <string>
-
 using namespace BasicLib;
 using namespace SocketLib;
 
@@ -18,9 +17,6 @@ namespace SimpleMUD
 {
 
 sint64 DBSAVETIME = minutes( 15 );
-sint64 ROUNDTIME  = seconds( 1 );
-sint64 REGENTIME  = minutes( 2 );
-sint64 HEALTIME   = minutes( 1 );
 
 
 void GameLoop::Load()
@@ -36,17 +32,11 @@ void GameLoop::Load()
         Game::GetTimer().Reset( time );
 
         file >> temp;   extract( file, m_savedatabases );
-        file >> temp;   extract( file, m_nextround );
-        file >> temp;   extract( file, m_nextregen );
-        file >> temp;   extract( file, m_nextheal );
     }
     else
     {
         Game::GetTimer().Reset();
         m_savedatabases = DBSAVETIME;
-        m_nextround = ROUNDTIME;
-        m_nextregen = REGENTIME;
-        m_nextheal = HEALTIME;
     }
 
     Game::Running() = true;
@@ -60,29 +50,11 @@ void GameLoop::Save()
     // save the game time
     file << "[GAMETIME]      "; insert( file, Game::GetTimer().GetMS() ); file << "\n";
     file << "[SAVEDATABASES] "; insert( file, m_savedatabases );          file << "\n";
-    file << "[NEXTROUND]     "; insert( file, m_nextround );              file << "\n";
-    file << "[NEXTREGEN]     "; insert( file, m_nextregen );              file << "\n";
-    file << "[NEXTHEAL]      "; insert( file, m_nextheal );               file << "\n";
 }
 
 void GameLoop::Loop()
 {
-    if( Game::GetTimer().GetMS() >= m_nextround )
-    {
-        PerformRound();
-        m_nextround += ROUNDTIME;
-    }
-    if( Game::GetTimer().GetMS() >= m_nextregen )
-    {
-        PerformRegen();
-        m_nextregen += REGENTIME;
-    }
-    if( Game::GetTimer().GetMS() >= m_nextheal )
-    {
-        PerformHeal();
-        m_nextheal += HEALTIME;
-    }
-
+    
     if( Game::GetTimer().GetMS() >= m_savedatabases )
     {
         SaveDatabases();
@@ -108,34 +80,5 @@ void GameLoop::SaveDatabases()
     PlayerDatabase::Save();
     RoomDatabase::SaveData();
 }
-
-
-void GameLoop::PerformRound()
-{
-    sint64 now = Game::GetTimer().GetMS();
-}
-
-void GameLoop::PerformRegen()
-{
-    RoomDatabase::iterator itr = RoomDatabase::begin();
-}
-
-
-void GameLoop::PerformHeal()
-{
-    PlayerDatabase::iterator itr = PlayerDatabase::begin();
-    while( itr != PlayerDatabase::end() )
-    {
-        if( itr->Active() )
-        {
-            itr->AddHitpoints( itr->GetAttr( HPREGEN ) );
-            itr->PrintStatbar( true );
-        }
-        ++itr;
-    }
-}
-
-
-
 }   // end namespace SimpleMUD
 

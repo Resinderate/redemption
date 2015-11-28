@@ -7,8 +7,6 @@
 [EAST]          25
 [SOUTH]         4
 [WEST]          5
-[ENEMY]         0
-[MAXENEMIES]    0
 
 [ID]            2
 [NAME]          Street
@@ -19,8 +17,6 @@
 [EAST]          17
 [SOUTH]         1
 [WEST]          18
-[ENEMY]         0
-[MAXENEMIES]    0
 
 [ID]            3
 [NAME]          Training Room
@@ -31,8 +27,6 @@
 [EAST]          0
 [SOUTH]         0
 [WEST]          0
-[ENEMY]         0
-[MAXENEMIES]    0
 
 [ID]            4
 [NAME]          Bobs Weapon Shop
@@ -43,8 +37,6 @@
 [EAST]          0
 [SOUTH]         0
 [WEST]          0
-[ENEMY]         0
-[MAXENEMIES]    0
 
 [ID]            5
 [NAME]          Alley
@@ -55,8 +47,6 @@
 [EAST]          1
 [SOUTH]         7
 [WEST]          6
-[ENEMY]         1
-[MAXENEMIES]    1
 
 [ID]            6
 [NAME]          Narrow Alley
@@ -67,8 +57,6 @@
 [EAST]          5
 [SOUTH]         0
 [WEST]          15
-[ENEMY]         2
-[MAXENEMIES]    1
 
 
 [ID]            7
@@ -80,8 +68,6 @@
 [EAST]          0
 [SOUTH]         8
 [WEST]          0
-[ENEMY]         1
-[MAXENEMIES]    3
 
 
 [ID]            8
@@ -93,8 +79,6 @@
 [EAST]          0
 [SOUTH]         9
 [WEST]          0
-[ENEMY]         3
-[MAXENEMIES]    1
 
 
 [ID]            9
@@ -106,8 +90,6 @@
 [EAST]          10
 [SOUTH]         0
 [WEST]          51
-[ENEMY]         4
-[MAXENEMIES]    1
 
 
 [ID]            10
@@ -119,8 +101,6 @@
 [EAST]          19
 [SOUTH]         0
 [WEST]          9
-[ENEMY]         5
-[MAXENEMIES]    1
 
 
 [ID]            11
@@ -132,8 +112,6 @@
 [EAST]          0
 [SOUTH]         2
 [WEST]          0
-[ENEMY]         0
-[MAXENEMIES]    0
 
 
 [ID]            12
@@ -145,8 +123,6 @@
 [EAST]          14
 [SOUTH]         11
 [WEST]          13
-[ENEMY]         6
-[MAXENEMIES]    1
 
 
 [ID]            13
@@ -158,8 +134,6 @@
 [EAST]          12
 [SOUTH]         0
 [WEST]          0
-[ENEMY]         6
-[MAXENEMIES]    3
 
 [ID]            14
 [NAME]          Dark Forest Path
@@ -170,8 +144,6 @@
 [EAST]          0
 [SOUTH]         0
 [WEST]          12
-[ENEMY]         6
-[MAXENEMIES]    3
 
 [ID]            15
 [NAME]          Alley Junction
@@ -182,8 +154,6 @@
 [EAST]          6
 [SOUTH]         35
 [WEST]          0
-[ENEMY]         7
-[MAXENEMIES]    1
 
 [ID]            16
 [NAME]          Dark Forest Foliage
@@ -194,8 +164,6 @@
 [EAST]          0
 [SOUTH]         12
 [WEST]          0
-[ENEMY]         8
-[MAXENEMIES]    1
 
 
 [ID]            17
@@ -207,8 +175,6 @@
 [EAST]          0
 [SOUTH]         0
 [WEST]          2
-[ENEMY]         0
-[MAXENEMIES]    0
 
 [ID]            18
 [NAME]          The Insane Alchemist's Workshop
@@ -219,8 +185,6 @@
 [EAST]          2
 [SOUTH]         0
 [WEST]          0
-[ENEMY]         0
-[MAXENEMIES]    0
 
 [ID]            19
 [NAME]          Deep Sewer
@@ -231,8 +195,6 @@
 [EAST]          20
 [SOUTH]         0
 [WEST]          10
-[ENEMY]         5
-[MAXENEMIES]    2
 
 [ID]            20
 [NAME]          Deep Sewer
@@ -243,8 +205,6 @@
 [EAST]          21
 [SOUTH]         0
 [WEST]          19
-[ENEMY]         4
-[MAXENEMIES]    3
 
 [ID]            21
 [NAME]          Sewer
@@ -255,8 +215,6 @@
 [EAST]          0
 [SOUTH]         0
 [WEST]          20
-[ENEMY]         9
-[MAXENEMIES]    3
 
 [ID]            22
 [NAME]          Sewer
@@ -267,8 +225,6 @@
 [EAST]          23
 [SOUTH]         20
 [WEST]          0
-[ENEMY]         9
-[MAXENEMIES]    2
 
 [ID]            23
 [NAME]          Sewage Trench
@@ -279,8 +235,6 @@
 [EAST]          0
 [SOUTH]         21
 [WEST]          22
-[ENEMY]         9
-[MAXENEMIES]    1
 
 [ID]            24
 [NAME]          Sloping Bank
@@ -291,8 +245,6 @@
 [EAST]          0
 [SOUTH]         23
 [WEST]          0
-[ENEMY]         0
-[MAXENEMIES]    0
 
 [ID]            25
 [NAME]          Avenue
@@ -303,8 +255,6 @@
 [EAST]          26
 [SOUTH]         3
 [WEST]          1
-[ENEMY]         0
-[MAXENEMIES]    0
 
 [ID]            26
 [NAME]          Avenue
@@ -315,8 +265,6 @@
 [EAST]          27
 [SOUTH]         0
 [WEST]          25
-[ENEMY]         10
-[MAXENEMIES]    1
 
 [ID]            27
 [NAME]          Avenue Intersection
@@ -327,8 +275,6 @@
 [EAST]          28
 [SOUTH]         24
 [WEST]          26
-[ENEMY]         10
-[MAXENEMIES]    1
 
 [ID]            28
 [NAME]          Boardwalk
@@ -339,8 +285,6 @@
 [EAST]          29
 [SOUTH]         0
 [WEST]          27
-[ENEMY]         11
-[MAXENEMIES]    1
 
 [ID]            29
 [NAME]          Beach
@@ -351,8 +295,6 @@
 [EAST]          33
 [SOUTH]         30
 [WEST]          28
-[ENEMY]         12
-[MAXENEMIES]    1
 
 [ID]            30
 [NAME]          Beach
@@ -363,8 +305,6 @@
 [EAST]          0
 [SOUTH]         52
 [WEST]          0
-[ENEMY]         12
-[MAXENEMIES]    3
 
 [ID]            31
 [NAME]          Beach
@@ -375,8 +315,6 @@
 [EAST]          0
 [SOUTH]         29
 [WEST]          0
-[ENEMY]         12
-[MAXENEMIES]    2
 
 [ID]            32
 [NAME]          Lobster Nest
@@ -387,8 +325,6 @@
 [EAST]          0
 [SOUTH]         31
 [WEST]          0
-[ENEMY]         12
-[MAXENEMIES]    8
 
 [ID]            33
 [NAME]          Ocean
@@ -399,8 +335,6 @@
 [EAST]          0
 [SOUTH]         0
 [WEST]          29
-[ENEMY]         13
-[MAXENEMIES]    1
 
 [ID]            34
 [NAME]          Dark Forest Clearing
@@ -411,8 +345,6 @@
 [EAST]          0
 [SOUTH]         16
 [WEST]          0
-[ENEMY]         8
-[MAXENEMIES]    3
 
 
 [ID]            35
@@ -424,8 +356,6 @@
 [EAST]          0
 [SOUTH]         0
 [WEST]          0
-[ENEMY]         0
-[MAXENEMIES]    0
 
 
 [ID]            36
@@ -437,8 +367,6 @@
 [EAST]          0
 [SOUTH]         15
 [WEST]          37
-[ENEMY]         0
-[MAXENEMIES]    0
 
 [ID]            37
 [NAME]          Side Street
@@ -449,8 +377,6 @@
 [EAST]          36
 [SOUTH]         0
 [WEST]          0
-[ENEMY]         14
-[MAXENEMIES]    1
 
 [ID]            38
 [NAME]          Side Street T-Junction
@@ -461,8 +387,6 @@
 [EAST]          39
 [SOUTH]         36
 [WEST]          40
-[ENEMY]         0
-[MAXENEMIES]    0
 
 [ID]            39
 [NAME]          Side Street Dead End
@@ -473,8 +397,6 @@
 [EAST]          0
 [SOUTH]         0
 [WEST]          38
-[ENEMY]         20
-[MAXENEMIES]    1
 
 [ID]            40
 [NAME]          Side Street
@@ -485,8 +407,6 @@
 [EAST]          38
 [SOUTH]         0
 [WEST]          41
-[ENEMY]         15
-[MAXENEMIES]    1
 
 [ID]            41
 [NAME]          Side Street Curve
@@ -497,8 +417,6 @@
 [EAST]          40
 [SOUTH]         42
 [WEST]          0
-[ENEMY]         11
-[MAXENEMIES]    2
 
 [ID]            42
 [NAME]          Side Street
@@ -509,8 +427,6 @@
 [EAST]          0
 [SOUTH]         43
 [WEST]          0
-[ENEMY]         2
-[MAXENEMIES]    4
 
 [ID]            43
 [NAME]          Park Entrance
@@ -521,8 +437,6 @@
 [EAST]          44
 [SOUTH]         45
 [WEST]          0
-[ENEMY]         0
-[MAXENEMIES]    0
 
 [ID]            44
 [NAME]          Parkway
@@ -533,8 +447,6 @@
 [EAST]          0
 [SOUTH]         46
 [WEST]          43
-[ENEMY]         6
-[MAXENEMIES]    3
 
 [ID]            45
 [NAME]          Parkway
@@ -545,8 +457,6 @@
 [EAST]          46
 [SOUTH]         47
 [WEST]          0
-[ENEMY]         6
-[MAXENEMIES]    1
 
 [ID]            46
 [NAME]          Parkway
@@ -557,8 +467,6 @@
 [EAST]          0
 [SOUTH]         48
 [WEST]          45
-[ENEMY]         16
-[MAXENEMIES]    1
 
 [ID]            47
 [NAME]          Parkway
@@ -569,8 +477,6 @@
 [EAST]          48
 [SOUTH]         0
 [WEST]          0
-[ENEMY]         16
-[MAXENEMIES]    1
 
 [ID]            48
 [NAME]          Parkway Embankment
@@ -581,8 +487,6 @@
 [EAST]          49
 [SOUTH]         0
 [WEST]          47
-[ENEMY]         0
-[MAXENEMIES]    0
 
 [ID]            49
 [NAME]          Sewage Trench Incline
@@ -593,8 +497,6 @@
 [EAST]          0
 [SOUTH]         50
 [WEST]          48
-[ENEMY]         0
-[MAXENEMIES]    0
 
 [ID]            50
 [NAME]          Sewage Trench
@@ -605,8 +507,6 @@
 [EAST]          51
 [SOUTH]         0
 [WEST]          0
-[ENEMY]         9
-[MAXENEMIES]    1
 
 [ID]            51
 [NAME]          Sewage Trench
@@ -617,8 +517,6 @@
 [EAST]          9
 [SOUTH]         0
 [WEST]          50
-[ENEMY]         9
-[MAXENEMIES]    2
 
 [ID]            52
 [NAME]          Pier
@@ -629,8 +527,6 @@
 [EAST]          53
 [SOUTH]         56
 [WEST]          0
-[ENEMY]         17
-[MAXENEMIES]    1
 
 [ID]            53
 [NAME]          Pier
@@ -641,8 +537,6 @@
 [EAST]          54
 [SOUTH]         0
 [WEST]          52
-[ENEMY]         17
-[MAXENEMIES]    2
 
 [ID]            54
 [NAME]          Pier
@@ -653,8 +547,6 @@
 [EAST]          55
 [SOUTH]         0
 [WEST]          53
-[ENEMY]         18
-[MAXENEMIES]    1
 
 [ID]            55
 [NAME]          Pier
@@ -665,8 +557,6 @@
 [EAST]          0
 [SOUTH]         0
 [WEST]          54
-[ENEMY]         19
-[MAXENEMIES]    1
 
 [ID]            56
 [NAME]          Sea Shanty
@@ -677,8 +567,6 @@
 [EAST]          0
 [SOUTH]         0
 [WEST]          0
-[ENEMY]         0
-[MAXENEMIES]    0
 
 [ID]            57
 [NAME]          Hell
@@ -689,5 +577,3 @@
 [EAST]          0
 [SOUTH]         0
 [WEST]          0
-[ENEMY]         20
-[MAXENEMIES]    1

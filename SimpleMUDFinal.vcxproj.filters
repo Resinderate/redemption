@@ -116,12 +116,6 @@
     <ClInclude Include="SimpleMUD\DatabasePointer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="SimpleMUD\Enemy.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="SimpleMUD\EnemyDatabase.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="SimpleMUD\Entity.h">
       <Filter>Header Files</Filter>
     </ClInclude>
