@@ -10,6 +10,7 @@
 #include <stdlib.h>
 
 #include "BasicLibTypes.h"
+#include "../vmath/vmath.h"
 
 namespace BasicLib
 {
@@ -338,34 +339,9 @@ protected:
 
 typedef simulated_binomial<> random_binomial;
 
-// Util struct of Vector2 - Ronan
-class vector2
-{
-public:
-	int x;
-	int y;
-
-	vector2()
-	{
-		x = 0;
-		y = 0;
-	}
-	vector2(int p_x, int p_y)
-	{
-		x = p_x;
-		y = p_y;
-	}
-
-	vector2& operator+(const vector2& other)
-	{
-		return vector2()
-	}
-
-};
-
 struct CompareVectors
 {
-	bool operator()(const vector2& a, const vector2& b)
+	bool operator()(const Vector2i& a, const Vector2i& b)
 	{
 		return a.x == b.x && a.y == b.y;
 	}
