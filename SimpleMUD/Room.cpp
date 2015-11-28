@@ -25,7 +25,8 @@ Room::Room()
 	m_name = "UNDEFINED";
     m_description = "UNDEFINED";
 	m_coords = BasicLib::vector2();
-
+	// Should always set this correctly for each room.
+	m_baseType = RoomBaseType::DEFAULT;
 }
 
 void Room::AddPlayer( player p_player )

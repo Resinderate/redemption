@@ -190,6 +190,13 @@ inline string GetRankString( PlayerRank p_enum )
 //  ROOM TYPES
 // ======================================
 
+
+enum RoomBaseType
+{
+	DEFAULT,
+	COLLECTING,
+	SPECIAL
+};
 // --------------------------------------------------------------------
 //  An enumeration defining the various room types and accompanying
 //  functions

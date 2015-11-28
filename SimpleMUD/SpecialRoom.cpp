@@ -17,6 +17,7 @@ namespace SimpleMUD
 	{
 		// Set it to something by default.
 		// Ideally this is set up by the world, which manages the rooms.
+		m_baseType = RoomBaseType::SPECIAL;
 		m_roomType = RoomType::TRADING;
 	}
 

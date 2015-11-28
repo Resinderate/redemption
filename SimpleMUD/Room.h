@@ -55,6 +55,7 @@ protected:
 	string m_name;
     string m_description;
 	BasicLib::vector2 m_coords;
+	RoomBaseType m_baseType;
 
     // -----------------------------------------
     //  volatile data (save to disk)

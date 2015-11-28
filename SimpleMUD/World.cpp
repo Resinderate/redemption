@@ -20,21 +20,35 @@ namespace SimpleMUD
 
 	Room& World::GetRoom(BasicLib::vector2 p_coords)
 	{
-		// Do a while loop, while the room doesn't exist or whatever.
-		if (m_rooms.RoomExists(p_coords))
+		// While there is not room generated.
+		// Shouldn't really be able to get to a room that hasn't been generated, but as a fail safe.
+		if (!m_rooms.RoomExists(p_coords))
 		{
-			return m_rooms.GetRoom(p_coords);
+			GenerateNewRoom(p_coords);
 		}
-		else
-		{
-			// Maybe generate the new room anyway?
-		}
+		return m_rooms.GetRoom(p_coords);
 	}
 
 	BasicLib::vector2 World::ChangeRoom(BasicLib::vector2 p_coords, BasicLib::vector2 p_move)
 	{
-		//BasicLib::vector2 newLocation = p_coords + p_move;
-		return BasicLib::vector2();
+		BasicLib::vector2 newLocation = BasicLib::vector2(p_coords.x + p_move.x, p_coords.y + p_move.y);
+		
+		if (!m_rooms.RoomExists(newLocation))
+		{
+			GenerateNewRoom(newLocation);
+		}
+
+		return newLocation;
+	}
+
+	void World::GenerateNewRoom(BasicLib::vector2 p_coords)
+	{
+		
+		// Based on some params such as how far away from the centre the coords are:
+			// Generate a new room, and add it to the database.
+		//m_rooms.AddRoom(p_coords, SpecialRoom());
+		m_rooms.AddRoom(p_coords, CollectingRoom());
+
 	}
 
 }   // end namespace SimpleMUD

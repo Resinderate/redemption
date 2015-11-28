@@ -15,6 +15,7 @@ namespace SimpleMUD
 
 	CollectingRoom::CollectingRoom()
 	{
+		m_baseType = RoomBaseType::COLLECTING;
 		m_resourceType = ResourceType::WOOD;
 		m_resourceSize = ResourceSize::SMALL;
 		m_lastCollection = 0;
