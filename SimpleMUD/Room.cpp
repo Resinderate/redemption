@@ -22,13 +22,9 @@ namespace SimpleMUD
 
 Room::Room()
 {
-    m_type = PLAINROOM;
-    m_data = 0;
-    
+	m_name = "UNDEFINED";
     m_description = "UNDEFINED";
-
-    for( int d = 0; d < NUMDIRECTIONS; d++ )
-        m_rooms[d] = 0;
+	m_coords = BasicLib::vector2();
 
 }
 
@@ -48,16 +44,12 @@ void Room::RemovePlayer( player p_player )
 
 void Room::LoadTemplate( istream& p_stream )
 {
+	/*
     string temp;
 
     p_stream >> temp >> std::ws;    std::getline( p_stream, m_name );
-    p_stream >> temp >> std::ws;    std::getline( p_stream, m_description );
-    p_stream >> temp >> temp;       m_type = GetRoomType( temp );
-    p_stream >> temp >> m_data;
-
-    for( int d = 0; d < NUMDIRECTIONS; d++ )
-        p_stream >> temp >> m_rooms[d];
-
+	p_stream >> temp >> std::ws;    std::getline(p_stream, m_description);
+	*/
 }
 
 void Room::LoadData( istream& p_stream )

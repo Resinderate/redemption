@@ -139,33 +139,11 @@ void Game::Handle( string p_data )
 
     if( firstword == "train" )
     {
-        if( p.CurrentRoom()->Type() != TRAININGROOM )
-        {
-            p.SendString( red + bold + "You cannot train here!" );
-            return;
-        }
-
-        if( p.Train() )
-        {
-            p.SendString( green + bold + "You are now level " + tostring( p.Level() ) );
-        }
-        else
-        {
-            p.SendString( red + bold + "You don't have enough experience to train!" );
-        }
-
-        return;
+		return;
     }
 
     if( firstword == "editstats" )
     {
-        if( p.CurrentRoom()->Type() != TRAININGROOM )
-        {
-            p.SendString( red + bold + "You cannot edit your stats here!" );
-            return;
-        }
-
-        GotoTrain();
         return;
     }
 
@@ -587,13 +565,8 @@ string Game::PrintRoom( room p_room )
     int count;
 
     desc += bold + magenta + p_room->Description() + "\r\n";
-    desc += bold + green + "exits: ";
 
-    for( int d = 0; d < NUMDIRECTIONS; d++ )
-    {
-        if( p_room->Adjacent( d ) != 0 )
-            desc += DIRECTIONSTRINGS[d] + "  ";
-    }
+    
     desc += "\r\n";
 
 
@@ -632,31 +605,14 @@ void Game::SendRoom( string p_text, room p_room )
 void Game::Move( int p_direction )
 {
     Player& p = *m_player;
-    room next = p.CurrentRoom()->Adjacent( p_direction );
     room previous = p.CurrentRoom();
 
-    if( next == 0 )
-    {
-        SendRoom( red + p.Name() + " bumps into the wall to the " +
-                  DIRECTIONSTRINGS[p_direction] + "!!!",
-                  p.CurrentRoom() );
-        return;
-    }
-
-    previous->RemovePlayer( p.ID() );
 
     SendRoom( green + p.Name() + " leaves to the " + 
               DIRECTIONSTRINGS[p_direction] + ".",
               previous );
-    SendRoom( green + p.Name() + " enters from the " + 
-              DIRECTIONSTRINGS[OppositeDirection(p_direction)] + ".",
-              next );
-    p.SendString( green + "You walk " + DIRECTIONSTRINGS[p_direction] + "." );
-
-    p.CurrentRoom() = next;
-    next->AddPlayer( p.ID() );
-
-    p.SendString( PrintRoom( next ) );
+    
+	p.SendString( green + "You walk " + DIRECTIONSTRINGS[p_direction] + "." );
 }
 
 

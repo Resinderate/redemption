@@ -16,7 +16,6 @@
 
 #include "Entity.h"
 #include "Attributes.h"
-#include "Item.h"
 #include "DatabasePointer.h"
 
 using std::ostream;
@@ -69,11 +68,6 @@ protected:
 
 
 };  // end class Room
-
-
-
-
-
 
 }   // end namespace SimpleMUD
 
