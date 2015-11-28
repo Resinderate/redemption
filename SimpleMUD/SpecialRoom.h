@@ -20,22 +20,15 @@ namespace SimpleMUD
 	{
 	public:
 		SpecialRoom();
+		SpecialRoom(string p_name, string p_desc, RoomBaseType p_baseType, BasicLib::vector2 p_coords, RoomType p_roomType);
 
 
 	protected:
 		// Probably some sort of enum for the type.
 		RoomType m_roomType;
 
-		// Some sort of function to a handler.
-		// Probably need some sort of factory to figure out what type of handler you need.
-		// Could just send a room type to the factory and it figures the rest out.
-		// Would be nice to avoid having to mess with dynamic typing in the factory though.
-
-		// Could have some sort of identifier in the class I guess.
-		// Use case like: <parse> Interact..
-			// Figure out if the room is interactable.. ie. is it a special room.
-
-		// Would almost be better off using composition in that case..
+		// Need some way to pick the handler that would be used for each special room.
+		// Based on the RoomType, but not sure who wants it / where to create it...
 
 
 	};  // end class SpecialRoom.

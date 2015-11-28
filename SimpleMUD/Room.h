@@ -33,6 +33,7 @@ class Room : public Entity
 {
 public:
     Room();
+	Room(string p_name, string p_desc, RoomBaseType p_baseType, BasicLib::vector2 p_coords);
 	inline string& Name()			{ return m_name; }
     inline string& Description()    { return m_description; }
 

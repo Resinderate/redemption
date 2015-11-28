@@ -30,6 +30,14 @@ Room::Room()
 	m_owner = "";
 }
 
+Room::Room(string p_name, string p_desc, RoomBaseType p_baseType, BasicLib::vector2 p_coords) :
+	m_name(p_name),
+	m_description(p_desc),
+	m_baseType(p_baseType),
+	m_coords(p_coords)
+{
+}
+
 void Room::AddPlayer( player p_player )
 {
     m_players.push_back( p_player );

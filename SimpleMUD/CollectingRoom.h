@@ -24,6 +24,8 @@ namespace SimpleMUD
 	{
 	public:
 		CollectingRoom();
+		CollectingRoom(string p_name, string p_desc, RoomBaseType p_baseType, BasicLib::vector2 p_coords, 
+			ResourceType p_reType, ResourceSize p_reSize);
 
 
 	protected:
