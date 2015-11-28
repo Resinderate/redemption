@@ -271,7 +271,7 @@ void Game::Enter()
 
     Player& p = *m_player;
 	// Rooms broken right now. Will probably not be a pointer either.
-    //p.CurrentRoom()->AddPlayer( p.ID() );
+    p.CurrentRoom().AddPlayer( p.ID() );
     p.Active() = true;
     p.LoggedIn() = true;
 

@@ -18,6 +18,7 @@
 #include "Attributes.h"
 #include "DatabasePointer.h"
 #include "Room.h"
+#include "World.h"
 
 using SocketLib::Connection;
 using SocketLib::Telnet;
@@ -62,7 +63,7 @@ public:
 
     inline int& StatPoints()                { return m_statpoints; }
     inline int& Experience()                { return m_experience; }
-	inline Room& CurrentRoom() { /* Ask the world for the room. */ return Room();  }
+	inline Room& CurrentRoom() { return World::GetRoom(m_coords); }
 
     inline sint64& NextAttackTime()         { return m_nextattacktime; }
 

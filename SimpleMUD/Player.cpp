@@ -41,6 +41,8 @@ Player::Player()
 
     RecalculateStats();
     m_hitpoints = GetAttr( MAXHITPOINTS );
+
+	m_coords = vector2(0, 0);
 }
 
 

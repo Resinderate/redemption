@@ -12,6 +12,7 @@ using BasicLib::extract;
 
 namespace SimpleMUD
 {
+	RoomDatabase World::m_rooms;
 
 	World::World()
 	{
