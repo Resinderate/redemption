@@ -23,7 +23,7 @@ namespace SimpleMUD
 
 	// declare the static vector of the room database.
 	//std::vector<Room> EntityDatabaseVector<Room>::m_vector;
-	std::map<BasicLib::vector2, Room, BasicLib::CompareVectors> RoomDatabase::m_rooms;
+	std::unordered_map<BasicLib::vector2, Room> RoomDatabase::m_rooms;
 
 	void RoomDatabase::AddRoom(vector2 p_coords, Room p_room)
 	{
@@ -33,15 +33,24 @@ namespace SimpleMUD
 	bool RoomDatabase::RoomExists(vector2 p_coords)
 	{
 		if (m_rooms.count(p_coords) > 0)
-			return false;
-		else
 			return true;
+		else
+			return false;
 	}
 
 	Room & SimpleMUD::RoomDatabase::GetRoom(BasicLib::vector2 p_coords)
 	{
 		// Could throw an exception if the item doesn't exist.
-		return m_rooms.at(p_coords);
+		try
+		{
+			return m_rooms.at(p_coords);
+		}
+		catch (std::exception)
+		{
+			ERRORLOG.Log("Error finding room in map.");
+		}
+
+		
 	}
 
 	void RoomDatabase::LoadTemplates()

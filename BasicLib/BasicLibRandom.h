@@ -356,14 +356,12 @@ public:
 		y = p_y;
 	}
 
-};
-
-struct CompareVectors
-{
-	bool operator()(const vector2& a, const vector2& b)
+	bool operator==(const vector2 &other) const
 	{
-		return a.x == b.x && a.y == b.y;
+		return (x == other.x && y == other.y);
 	}
+
+
 };
 
 // ----------------------------------------------------------------------------
@@ -381,6 +379,17 @@ extern random_binomial RandomIntNormal;
 
 } // end namespace BasicLib
 
+namespace std
+{
+	template<>
+	struct hash<BasicLib::vector2>
+	{
+		std::size_t operator()(const BasicLib::vector2& v) const
+		{
+			return (hash<int>()(v.x) << 1) ^ (hash<int>()(v.y) << 1);
+		}
+	};
+}
 
 #endif
 

@@ -7,7 +7,7 @@
 
 #include <cmath>
 #include <string>
-#include <map>
+#include <unordered_map>
 #include <set>
 #include <stdexcept>
 
@@ -25,7 +25,8 @@ namespace SimpleMUD
 class RoomDatabase
 {
 protected:
-	static std::map<BasicLib::vector2, Room, BasicLib::CompareVectors> m_rooms;
+	static std::unordered_map<BasicLib::vector2, Room> m_rooms;
+	
 
 public:
 

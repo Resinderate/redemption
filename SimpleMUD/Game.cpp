@@ -271,7 +271,7 @@ void Game::Enter()
 
     Player& p = *m_player;
 	// Rooms broken right now. Will probably not be a pointer either.
-    p.CurrentRoom().AddPlayer( p.ID() );
+    //p.CurrentRoom().AddPlayer( p.ID() );
     p.Active() = true;
     p.LoggedIn() = true;
 
@@ -560,6 +560,12 @@ string Game::PrintExperience()
 
 string Game::PrintRoom( Room p_room )
 {
+	// Temp Print room.
+	 
+	int x = 1 + 1;
+	string test = "test room print";
+	return test;
+	/*
     string desc = "\r\n" + bold + white + p_room.Name() + "\r\n";
     string temp;
     int count;
@@ -568,8 +574,6 @@ string Game::PrintRoom( Room p_room )
 
     
     desc += "\r\n";
-
-
     // ---------------------------------
     // PEOPLE
     // ---------------------------------
@@ -588,9 +592,8 @@ string Game::PrintRoom( Room p_room )
         temp.erase( temp.size() - 2, 2 );
         desc += temp + "\r\n";
     }
-
-
     return desc;
+	*/
 }
 
 void Game::SendRoom( string p_text, Room p_room )
