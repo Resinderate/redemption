@@ -22,8 +22,8 @@ namespace SimpleMUD
 
 Room::Room()
 {
-	m_name = "UNDEFINED";
-    m_description = "UNDEFINED";
+	m_name = "Default Room Name";
+    m_description = "Default Room Desc";
 	m_coords = BasicLib::vector2();
 	// Should always set this correctly for each room.
 	m_baseType = RoomBaseType::DEFAULT;

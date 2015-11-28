@@ -64,6 +64,7 @@ public:
     inline int& StatPoints()                { return m_statpoints; }
     inline int& Experience()                { return m_experience; }
 	inline Room& CurrentRoom() { return World::GetRoom(m_coords); }
+	inline vector2& Coords() { return m_coords; }
 
     inline sint64& NextAttackTime()         { return m_nextattacktime; }
 

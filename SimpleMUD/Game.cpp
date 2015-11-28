@@ -560,19 +560,13 @@ string Game::PrintExperience()
 
 string Game::PrintRoom( Room p_room )
 {
-	// Temp Print room.
-	 
-	int x = 1 + 1;
-	string test = "test room print";
-	return test;
-	/*
+
     string desc = "\r\n" + bold + white + p_room.Name() + "\r\n";
     string temp;
     int count;
 
     desc += bold + magenta + p_room.Description() + "\r\n";
 
-    
     desc += "\r\n";
     // ---------------------------------
     // PEOPLE
@@ -593,7 +587,6 @@ string Game::PrintRoom( Room p_room )
         desc += temp + "\r\n";
     }
     return desc;
-	*/
 }
 
 void Game::SendRoom( string p_text, Room p_room )
@@ -610,12 +603,18 @@ void Game::Move( int p_direction )
     Player& p = *m_player;
     Room previous = p.CurrentRoom();
 
+	// Right
+	p.Coords() = World::ChangeRoom(p.Coords(), vector2(1, 0));
 
     SendRoom( green + p.Name() + " leaves to the " + 
               DIRECTIONSTRINGS[p_direction] + ".",
               previous );
     
-	p.SendString( green + "You walk " + DIRECTIONSTRINGS[p_direction] + "." );
+	p.SendString( yellow + "You walk " + DIRECTIONSTRINGS[p_direction] + "." );
+
+	vector2 coords = p.Coords();
+	string out = "New Coods: " + std::to_string(coords.x) + ", " + std::to_string(coords.y);
+	p.SendString(yellow + out);
 }
 
 
