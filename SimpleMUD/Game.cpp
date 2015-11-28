@@ -9,7 +9,6 @@
 #include "Game.h"
 #include "Train.h"
 #include "PlayerDatabase.h"
-#include "RoomDatabase.h"
 #include "../BasicLib/BasicLib.h"
 
 using namespace SocketLib;
@@ -234,7 +233,6 @@ void Game::Handle( string p_data )
         }
         else if( db == "rooms" )
         {
-            RoomDatabase::LoadTemplates();
             p.SendString( bold + cyan + "Room Template Database Reloaded!" );
         }
         else
@@ -272,7 +270,8 @@ void Game::Enter()
     m_lastcommand = "";
 
     Player& p = *m_player;
-    p.CurrentRoom()->AddPlayer( p.ID() );
+	// Rooms broken right now. Will probably not be a pointer either.
+    //p.CurrentRoom()->AddPlayer( p.ID() );
     p.Active() = true;
     p.LoggedIn() = true;
 
@@ -292,7 +291,8 @@ void Game::Leave()
         " leaving Game state." );
 
     // remove the player from his room
-    m_player->CurrentRoom()->RemovePlayer( m_player );
+	// Rooms broken right now. Will probably not be a pointer either.
+	//m_player->CurrentRoom()->RemovePlayer( m_player );
     m_player->Active() = false;
 
     // log out the player from the database if the connection has been closed
@@ -558,13 +558,13 @@ string Game::PrintExperience()
 }
 
 
-string Game::PrintRoom( room p_room )
+string Game::PrintRoom( Room p_room )
 {
-    string desc = "\r\n" + bold + white + p_room->Name() + "\r\n";
+    string desc = "\r\n" + bold + white + p_room.Name() + "\r\n";
     string temp;
     int count;
 
-    desc += bold + magenta + p_room->Description() + "\r\n";
+    desc += bold + magenta + p_room.Description() + "\r\n";
 
     
     desc += "\r\n";
@@ -575,8 +575,8 @@ string Game::PrintRoom( room p_room )
     // ---------------------------------
     temp = bold + cyan + "People: ";
     count = 0;
-    std::list<player>::iterator playeritr = p_room->Players().begin();
-    while( playeritr != p_room->Players().end() )
+    std::list<player>::iterator playeritr = p_room.Players().begin();
+    while( playeritr != p_room.Players().end() )
     {
         temp += (*playeritr)->Name() + ", ";
         count++;
@@ -593,10 +593,10 @@ string Game::PrintRoom( room p_room )
     return desc;
 }
 
-void Game::SendRoom( string p_text, room p_room )
+void Game::SendRoom( string p_text, Room p_room )
 {
-    std::for_each( p_room->Players().begin(),
-                   p_room->Players().end(),
+    std::for_each( p_room.Players().begin(),
+                   p_room.Players().end(),
                    playersend( p_text ) );
 }
 
@@ -605,7 +605,7 @@ void Game::SendRoom( string p_text, room p_room )
 void Game::Move( int p_direction )
 {
     Player& p = *m_player;
-    room previous = p.CurrentRoom();
+    Room previous = p.CurrentRoom();
 
 
     SendRoom( green + p.Name() + " leaves to the " + 

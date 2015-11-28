@@ -355,7 +355,14 @@ public:
 		x = p_x;
 		y = p_y;
 	}
+};
 
+struct CompareVectors
+{
+	bool operator()(const vector2& a, const vector2& b)
+	{
+		return a.x == b.x && a.y == b.y;
+	}
 };
 
 // ----------------------------------------------------------------------------

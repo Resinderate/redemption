@@ -67,7 +67,6 @@ namespace SimpleMUD
 {
 
 DATABASEPOINTER( player, Player )
-DATABASEPOINTER( room, Room )
 
 } // end namespace SimpleMUD
 

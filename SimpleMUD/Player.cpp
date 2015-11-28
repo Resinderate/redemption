@@ -30,7 +30,6 @@ Player::Player()
 
     m_experience = 0;
     m_level = 1;
-    m_room = 1;
 
     m_nextattacktime = 0;
 
@@ -186,7 +185,6 @@ ostream& operator<<( ostream& p_stream, const Player& p )
     p_stream << "[STATPOINTS]     " << p.m_statpoints << "\n";
     p_stream << "[EXPERIENCE]     " << p.m_experience << "\n";
     p_stream << "[LEVEL]          " << p.m_level << "\n";
-    p_stream << "[ROOM]           " << p.m_room << "\n";
     p_stream << "[HITPOINTS]      " << p.m_hitpoints << "\n";
     p_stream << "[NEXTATTACKTIME] "; insert( p_stream, p.m_nextattacktime );
     p_stream << "\n";
@@ -213,7 +211,6 @@ istream& operator>>( istream& p_stream, Player& p )
     p_stream >> temp >> p.m_statpoints;
     p_stream >> temp >> p.m_experience;
     p_stream >> temp >> p.m_level;
-    p_stream >> temp >> p.m_room;
     p_stream >> temp >> p.m_hitpoints;
     p_stream >> temp; extract( p_stream, p.m_nextattacktime );
     p_stream >> p.m_baseattributes;

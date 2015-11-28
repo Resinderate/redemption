@@ -17,6 +17,7 @@
 #include "Entity.h"
 #include "Attributes.h"
 #include "DatabasePointer.h"
+#include "Room.h"
 
 using SocketLib::Connection;
 using SocketLib::Telnet;
@@ -61,7 +62,7 @@ public:
 
     inline int& StatPoints()                { return m_statpoints; }
     inline int& Experience()                { return m_experience; }
-    inline room& CurrentRoom()              { return m_room; }
+	inline Room& CurrentRoom() { /* Ask the world for the room. */ return Room();  }
 
     inline sint64& NextAttackTime()         { return m_nextattacktime; }
 
@@ -103,8 +104,10 @@ protected:
     int m_statpoints;
     int m_experience;
     int m_level;
-    room m_room;
     int m_hitpoints;
+	// No longer has a room. Just Coords.
+	vector2 m_coords;
+
 
     AttributeSet m_baseattributes;
     AttributeSet m_attributes;
