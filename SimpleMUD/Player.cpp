@@ -42,6 +42,8 @@ Player::Player()
 
     RecalculateStats();
     m_hitpoints = GetAttr( MAXHITPOINTS );
+
+	m_title = PEASANT;
 }
 
 
@@ -100,6 +102,11 @@ void Player::AddToBaseAttr( int p_attr, int p_val )
 {
     m_baseattributes[p_attr] += p_val;
     RecalculateStats();
+}
+
+void Player::SetTitle(string p_str)
+{
+	m_title = GetTitle(p_str);
 }
 
 void Player::AddHitpoints( int p_hitpoints )

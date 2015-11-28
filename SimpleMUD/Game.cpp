@@ -685,7 +685,7 @@ string Game::PrintRoom( room p_room )
     std::list<player>::iterator playeritr = p_room->Players().begin();
     while( playeritr != p_room->Players().end() )
     {
-        temp += (*playeritr)->Name() + ", ";
+		temp += "[" + GetTitleString((*playeritr)->GetPlayerTitle()) + "] " + (*playeritr)->Name() + ", ";
         count++;
         ++playeritr;
     }

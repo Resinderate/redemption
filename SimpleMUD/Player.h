@@ -65,6 +65,8 @@ public:
 
     inline sint64& NextAttackTime()         { return m_nextattacktime; }
 
+	inline PlayerTitle& GetPlayerTitle()			{ return m_title; }
+	void SetTitle(string p_val);
 
     // ------------------------------------------------------------------------
     //  non-savable accessors
@@ -95,7 +97,7 @@ protected:
     //  Player Information
     // -----------------------------------------
     string m_pass;
-    PlayerRank m_rank;
+	PlayerRank m_rank;
 
     // -----------------------------------------
     //  Player attributes
@@ -105,6 +107,9 @@ protected:
     int m_level;
     room m_room;
     int m_hitpoints;
+
+	PlayerTitle m_title;
+	std::list<PlayerTitle> m_availableTitles;
 
     AttributeSet m_baseattributes;
     AttributeSet m_attributes;

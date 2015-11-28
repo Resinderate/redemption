@@ -17,251 +17,297 @@ using std::istream;
 namespace SimpleMUD
 {
 
-// ======================================
-//  GENERIC FUNCTIONS
-// ======================================
+	// ======================================
+	//  GENERIC FUNCTIONS
+	// ======================================
 
-// ----------------------------------------------------------------------------
-//  A function to convert a string into an enumeration. It takes three
-//  template parameters: the type of the enumeration, the size of the enumeration,
-//  and an array of strings holding the enumeration names
-// ----------------------------------------------------------------------------
-template< typename enumeration, int size >
-inline enumeration StrToEnum( string p_str, const string* strs )
-{
-    p_str = BasicLib::UpperCase( p_str );
+	// ----------------------------------------------------------------------------
+	//  A function to convert a string into an enumeration. It takes three
+	//  template parameters: the type of the enumeration, the size of the enumeration,
+	//  and an array of strings holding the enumeration names
+	// ----------------------------------------------------------------------------
+	template< typename enumeration, int size >
+	inline enumeration StrToEnum(string p_str, const string* strs)
+	{
+		p_str = BasicLib::UpperCase(p_str);
 
-    for( int i = 0; i < size; i++ )
-    {
-        if( strs[i] == p_str )
-            return (enumeration)(i);
-    }
+		for (int i = 0; i < size; i++)
+		{
+			if (strs[i] == p_str)
+				return (enumeration)(i);
+		}
 
-    return (enumeration)(0);
-}
+		return (enumeration)(0);
+	}
 
-// ----------------------------------------------------------------------------
-//  A function to convert an enumeration into a string. It takes three
-//  template parameters: the type of the enumeration, the size of the enumeration,
-//  and an array of strings holding the enumeration names
-// ----------------------------------------------------------------------------
-template< typename enumeration >
-inline string EnumToStr( enumeration p_enum, const string* strs )
-{
-    return strs[p_enum];
-}
-
-
+	// ----------------------------------------------------------------------------
+	//  A function to convert an enumeration into a string. It takes three
+	//  template parameters: the type of the enumeration, the size of the enumeration,
+	//  and an array of strings holding the enumeration names
+	// ----------------------------------------------------------------------------
+	template< typename enumeration >
+	inline string EnumToStr(enumeration p_enum, const string* strs)
+	{
+		return strs[p_enum];
+	}
 
 
 
-// ======================================
-//  PLAYER ATTRIBUTES
-// ======================================
-
-// --------------------------------------------------------------------
-//  An enumeration defining the attributes of a player, and 
-//  accompanying functions.
-// --------------------------------------------------------------------
-enum Attribute
-{
-    STRENGTH        = 0,
-    HEALTH          = 1,
-    AGILITY         = 2,
-    MAXHITPOINTS    = 3,
-    ACCURACY        = 4,
-    DODGING         = 5,
-    STRIKEDAMAGE    = 6,
-    DAMAGEABSORB    = 7,
-    HPREGEN         = 8
-};
-
-const int NUMATTRIBUTES = 9;
-
-static const string ATTRIBUTESTRINGS[NUMATTRIBUTES] = 
-{
-    "STRENGTH",
-    "HEALTH",
-    "AGILITY",
-    "MAXHITPOINTS",
-    "ACCURACY",
-    "DODGING",
-    "STRIKEDAMAGE",
-    "DAMAGEABSORB",
-    "HPREGEN"
-};
 
 
-inline Attribute GetAttribute( string p_str )
-{
-    return StrToEnum<Attribute, NUMATTRIBUTES>( p_str, ATTRIBUTESTRINGS );
-}
-inline string GetAttributeString( Attribute p_enum )
-{
-    return EnumToStr<Attribute>( p_enum, ATTRIBUTESTRINGS );
-}
+	// ======================================
+	//  PLAYER ATTRIBUTES
+	// ======================================
+
+	// --------------------------------------------------------------------
+	//  An enumeration defining the attributes of a player, and 
+	//  accompanying functions.
+	// --------------------------------------------------------------------
+	enum Attribute
+	{
+		STRENGTH = 0,
+		HEALTH = 1,
+		AGILITY = 2,
+		MAXHITPOINTS = 3,
+		ACCURACY = 4,
+		DODGING = 5,
+		STRIKEDAMAGE = 6,
+		DAMAGEABSORB = 7,
+		HPREGEN = 8
+	};
+
+	const int NUMATTRIBUTES = 9;
+
+	static const string ATTRIBUTESTRINGS[NUMATTRIBUTES] =
+	{
+		"STRENGTH",
+		"HEALTH",
+		"AGILITY",
+		"MAXHITPOINTS",
+		"ACCURACY",
+		"DODGING",
+		"STRIKEDAMAGE",
+		"DAMAGEABSORB",
+		"HPREGEN"
+	};
 
 
-class AttributeSet
-{
-public:
-    AttributeSet()
-    {
-        for( int i = 0; i < NUMATTRIBUTES; i++ )
-        {
-            m_attributes[i] = 0;
-        }
-    }
-
-    int& operator[]( int p_attr )
-    {
-        return m_attributes[p_attr];
-    }
-
-    friend ostream& operator<<( ostream& p_stream, const AttributeSet& a );
-    friend istream& operator>>( istream& p_stream, AttributeSet& a );
+	inline Attribute GetAttribute(string p_str)
+	{
+		return StrToEnum<Attribute, NUMATTRIBUTES>(p_str, ATTRIBUTESTRINGS);
+	}
+	inline string GetAttributeString(Attribute p_enum)
+	{
+		return EnumToStr<Attribute>(p_enum, ATTRIBUTESTRINGS);
+	}
 
 
-protected:
-    int m_attributes[NUMATTRIBUTES];
-};
+	class AttributeSet
+	{
+	public:
+		AttributeSet()
+		{
+			for (int i = 0; i < NUMATTRIBUTES; i++)
+			{
+				m_attributes[i] = 0;
+			}
+		}
+
+		int& operator[](int p_attr)
+		{
+			return m_attributes[p_attr];
+		}
+
+		friend ostream& operator<<(ostream& p_stream, const AttributeSet& a);
+		friend istream& operator>>(istream& p_stream, AttributeSet& a);
 
 
-inline ostream& operator<<( ostream& p_stream, const AttributeSet& a )
-{
-    for( int i = 0; i < NUMATTRIBUTES; i++ )
-    {
-        p_stream << "[" << GetAttributeString( (Attribute)i ) << 
-                    "] " << a.m_attributes[i] << "\n";
-    }
-
-    return p_stream;
-}
-
-inline istream& operator>>( istream& p_stream, AttributeSet& a )
-{
-    std::string temp;
-
-    for( int i = 0; i < NUMATTRIBUTES; i++ )
-    {
-        p_stream >> temp >> a.m_attributes[i];
-    }
-
-    return p_stream;
-}
-
-// ======================================
-//  PLAYER RANKS
-// ======================================
-
-// --------------------------------------------------------------------
-//  An enumeration defining the various player types and accompanying
-//  functions
-// --------------------------------------------------------------------
-enum PlayerRank
-{
-    REGULAR,
-    GOD,
-    ADMIN
-};
-
-const int NUMPLAYERRANKTYPES = 3;
-
-const string PLAYERRANKSTRINGS[NUMPLAYERRANKTYPES] =
-{
-    "REGULAR",
-    "GOD",
-    "ADMIN"
-};
+	protected:
+		int m_attributes[NUMATTRIBUTES];
+	};
 
 
-inline PlayerRank GetRank( string p_str )
-{
-    return StrToEnum<PlayerRank, NUMPLAYERRANKTYPES>( p_str, PLAYERRANKSTRINGS );
-}
-inline string GetRankString( PlayerRank p_enum )
-{
-    return EnumToStr<PlayerRank>( p_enum, PLAYERRANKSTRINGS );
-}
+	inline ostream& operator<<(ostream& p_stream, const AttributeSet& a)
+	{
+		for (int i = 0; i < NUMATTRIBUTES; i++)
+		{
+			p_stream << "[" << GetAttributeString((Attribute)i) <<
+				"] " << a.m_attributes[i] << "\n";
+		}
+
+		return p_stream;
+	}
+
+	inline istream& operator>>(istream& p_stream, AttributeSet& a)
+	{
+		std::string temp;
+
+		for (int i = 0; i < NUMATTRIBUTES; i++)
+		{
+			p_stream >> temp >> a.m_attributes[i];
+		}
+
+		return p_stream;
+	}
+
+	// ======================================
+	//  PLAYER TITLES
+	// ======================================
+
+	// --------------------------------------------------------------------
+	//  An enumeration defining the various player types and accompanying
+	//  functions
+	//	@author Kevin Duffy
+	// --------------------------------------------------------------------
+	enum PlayerTitle
+	{
+		THEREDEEMED,
+		GOLDLEADER,
+		IRONLEADER,
+		STONELEADER,
+		WOODLEADER,
+		CEO,
+		PEASANT
+	};
+
+	const int NUMPLAYERTITLETYPES = 7;
+
+	const string PLAYERTITLESTRINGS[NUMPLAYERTITLETYPES] =
+	{
+		"The Redeemed",
+		"Gold Leader",
+		"Iron Leader",
+		"Stone Leader",
+		"Wood Leader",
+		"CEO",
+		"Peasant"
+	};
 
 
-
-// ======================================
-//  ROOM TYPES
-// ======================================
-
-// --------------------------------------------------------------------
-//  An enumeration defining the various room types and accompanying
-//  functions
-// --------------------------------------------------------------------
-enum RoomType
-{
-    PLAINROOM,
-    TRAININGROOM,
-    STORE
-};
-
-const int NUMROOMTYPES = 3;
-
-const string ROOMTYPESTRINGS[NUMROOMTYPES] =
-{
-    "PLAINROOM",
-    "TRAININGROOM",
-    "STORE"
-};
-
-
-inline RoomType GetRoomType( string p_str )
-{
-    return StrToEnum<RoomType, NUMROOMTYPES>( p_str, ROOMTYPESTRINGS );
-}
-inline string GetRoomTypeString( RoomType p_enum )
-{
-    return EnumToStr<RoomType>( p_enum, ROOMTYPESTRINGS );
-}
+	inline PlayerTitle GetTitle(string p_str)
+	{
+		return StrToEnum<PlayerTitle, NUMPLAYERTITLETYPES>(p_str, PLAYERTITLESTRINGS);
+	}
+	inline string GetTitleString(PlayerTitle p_enum)
+	{
+		return EnumToStr<PlayerTitle>(p_enum, PLAYERTITLESTRINGS);
+	}
 
 
 
-// ======================================
-//  DIRECTIONS
-// ======================================
 
-// --------------------------------------------------------------------
-//  An enumeration defining the various room directions and accompanying
-//  functions
-// --------------------------------------------------------------------
-enum Direction
-{
-    NORTH,
-    EAST,
-    SOUTH,
-    WEST
-};
+	// ======================================
+	//  PLAYER RANKS
+	// ======================================
 
-const int NUMDIRECTIONS = 4;
+	// --------------------------------------------------------------------
+	//  An enumeration defining the various player types and accompanying
+	//  functions
+	// --------------------------------------------------------------------
+	enum PlayerRank
+	{
+		REGULAR,
+		GOD,
+		ADMIN
+	};
 
-inline int OppositeDirection( int p_dir )
-{
-    return (p_dir + 2) % 4;
-}
+	const int NUMPLAYERRANKTYPES = 3;
 
-const string DIRECTIONSTRINGS[NUMDIRECTIONS] =
-{
-    "NORTH",
-    "EAST",
-    "SOUTH",
-    "WEST"
-};
+	const string PLAYERRANKSTRINGS[NUMPLAYERRANKTYPES] =
+	{
+		"REGULAR",
+		"GOD",
+		"ADMIN"
+	};
 
 
-inline Direction GetDirection( string p_str )
-{
-    return StrToEnum<Direction, NUMDIRECTIONS>( p_str, DIRECTIONSTRINGS );
-}
-inline string GetDirectionString( Direction p_enum )
-{
-    return EnumToStr<Direction>( p_enum, DIRECTIONSTRINGS );
-}
+	inline PlayerRank GetRank(string p_str)
+	{
+		return StrToEnum<PlayerRank, NUMPLAYERRANKTYPES>(p_str, PLAYERRANKSTRINGS);
+	}
+	inline string GetRankString(PlayerRank p_enum)
+	{
+		return EnumToStr<PlayerRank>(p_enum, PLAYERRANKSTRINGS);
+	}
+
+
+
+	// ======================================
+	//  ROOM TYPES
+	// ======================================
+
+	// --------------------------------------------------------------------
+	//  An enumeration defining the various room types and accompanying
+	//  functions
+	// --------------------------------------------------------------------
+	enum RoomType
+	{
+		PLAINROOM,
+		TRAININGROOM,
+		STORE
+	};
+
+	const int NUMROOMTYPES = 3;
+
+	const string ROOMTYPESTRINGS[NUMROOMTYPES] =
+	{
+		"PLAINROOM",
+		"TRAININGROOM",
+		"STORE"
+	};
+
+
+	inline RoomType GetRoomType(string p_str)
+	{
+		return StrToEnum<RoomType, NUMROOMTYPES>(p_str, ROOMTYPESTRINGS);
+	}
+	inline string GetRoomTypeString(RoomType p_enum)
+	{
+		return EnumToStr<RoomType>(p_enum, ROOMTYPESTRINGS);
+	}
+
+
+
+	// ======================================
+	//  DIRECTIONS
+	// ======================================
+
+	// --------------------------------------------------------------------
+	//  An enumeration defining the various room directions and accompanying
+	//  functions
+	// --------------------------------------------------------------------
+	enum Direction
+	{
+		NORTH,
+		EAST,
+		SOUTH,
+		WEST
+	};
+
+	const int NUMDIRECTIONS = 4;
+
+	inline int OppositeDirection(int p_dir)
+	{
+		return (p_dir + 2) % 4;
+	}
+
+	const string DIRECTIONSTRINGS[NUMDIRECTIONS] =
+	{
+		"NORTH",
+		"EAST",
+		"SOUTH",
+		"WEST"
+	};
+
+
+	inline Direction GetDirection(string p_str)
+	{
+		return StrToEnum<Direction, NUMDIRECTIONS>(p_str, DIRECTIONSTRINGS);
+	}
+	inline string GetDirectionString(Direction p_enum)
+	{
+		return EnumToStr<Direction>(p_enum, DIRECTIONSTRINGS);
+	}
 
 }   // end namespace SimpleMUD
 
