@@ -150,50 +150,6 @@ inline istream& operator>>( istream& p_stream, AttributeSet& a )
     return p_stream;
 }
 
-
-
-
-
-
-// ======================================
-//  ITEM TYPES
-// ======================================
-
-// --------------------------------------------------------------------
-//  An enumeration defining the various item types and accompanying
-//  functions
-// --------------------------------------------------------------------
-enum ItemType
-{
-    WEAPON,
-    ARMOR,
-    HEALING
-};
-
-const int NUMITEMTYPES = 3;
-
-const string ITEMSTRINGS[NUMITEMTYPES] =
-{
-    "WEAPON",
-    "ARMOR",
-    "HEALING"
-};
-
-inline ItemType GetItemType( string p_str )
-{
-    return StrToEnum<ItemType, NUMITEMTYPES>( p_str, ITEMSTRINGS );
-}
-inline string GetItemTypeString( ItemType p_enum )
-{
-    return EnumToStr<ItemType>( p_enum, ITEMSTRINGS );
-}
-
-
-
-
-
-
-
 // ======================================
 //  PLAYER RANKS
 // ======================================

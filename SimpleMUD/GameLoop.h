@@ -10,11 +10,8 @@
 
 #include <string>
 
-#include "ItemDatabase.h"
 #include "PlayerDatabase.h"
 #include "RoomDatabase.h"
-#include "StoreDatabase.h"
-#include "EnemyDatabase.h"
 #include "Game.h"
 #include "SimpleMUDLogs.h"
 
@@ -35,10 +32,6 @@ public:
 
     void Load();                // load gameloop data
     void Save();                // save gameloop data
-    void PerformRound();        // perform combat round
-    void PerformRegen();        // perform enemy regen round
-    void PerformHeal();         // perform healing round
-
 
 protected:
     BasicLib::sint64 m_savedatabases;

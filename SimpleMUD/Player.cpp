@@ -12,7 +12,6 @@
 
 #include "SimpleMUDLogs.h"
 #include "Player.h"
-#include "Item.h"
 
 namespace SimpleMUD
 {
@@ -32,17 +31,12 @@ Player::Player()
     m_experience = 0;
     m_level = 1;
     m_room = 1;
-    m_money = 0;
 
     m_nextattacktime = 0;
 
     m_baseattributes[STRENGTH] = 1;
     m_baseattributes[HEALTH]   = 1;
     m_baseattributes[AGILITY]  = 1;
-
-    m_items = 0;
-    m_weapon = -1;
-    m_armor = -1;
 
     m_statpoints = 18;
 
@@ -92,21 +86,6 @@ void Player::RecalculateStats()
     if( m_hitpoints > GetAttr( MAXHITPOINTS ) )
         m_hitpoints = GetAttr( MAXHITPOINTS );
  
-    if( Weapon() != 0 )
-        AddDynamicBonuses( Weapon() );
-    if( Armor() != 0 )
-        AddDynamicBonuses( Armor() );
-}
-
-void Player::AddDynamicBonuses( item p_item )
-{
-    if( p_item == 0 )
-        return;
-
-    Item& i = *p_item;
-
-    for( int x = 0; x < NUMATTRIBUTES; x++ )
-        m_attributes[x] += i.GetAttr( x );
 }
 
 
@@ -136,103 +115,6 @@ void Player::SetHitpoints( int p_hitpoints )
         m_hitpoints = 0;
     if( m_hitpoints > GetAttr( MAXHITPOINTS ) )
         m_hitpoints = GetAttr( MAXHITPOINTS );
-}
-
-
-bool Player::PickUpItem( item p_item )
-{
-    if( m_items < MaxItems() )
-    {
-        // find the first open index to put the item in.
-        item* itr = m_inventory;
-        while( *itr != 0 )
-            ++itr;
-
-        // insert the item
-        *itr = p_item;
-        m_items++;
-
-        return true;
-    }
-    return false;
-}
-
-
-bool Player::DropItem( int p_index )
-{
-    if( m_inventory[p_index] != 0 )
-    {
-        // remove the weapon or armor if needed
-        if( m_weapon == p_index )
-            RemoveWeapon();
-        if( m_armor == p_index )
-            RemoveArmor();
-
-        m_inventory[p_index] = 0;
-        m_items--;
-
-        return true;
-    }
-    return false;
-}
-
-void Player::AddBonuses( item p_item )
-{
-    if( p_item == 0 )
-        return;
-
-    Item& itm = *p_item;
-    for( int i = 0; i < NUMATTRIBUTES; i++ )
-        m_baseattributes[i] += itm.GetAttr( i );
-    RecalculateStats();
-}
-
-
-
-void Player::RemoveWeapon()
-{
-    m_weapon = -1;
-    RecalculateStats();
-}
-
-
-void Player::RemoveArmor()
-{
-    m_armor = -1;
-    RecalculateStats();
-}
-
-
-void Player::UseWeapon( int p_index )
-{
-    RemoveWeapon();
-    m_weapon = p_index;
-    RecalculateStats();
-}
-
-
-void Player::UseArmor( int p_index )
-{
-    RemoveArmor();
-    m_armor = p_index;
-    RecalculateStats();
-}
-
-
-// ------------------------------------------------------------------------
-//  This gets the index of an item within the players inventory given a 
-//  name.
-// ------------------------------------------------------------------------
-int Player::GetItemIndex( const std::string& p_name )
-{
-    item* i = double_find_if( m_inventory, 
-                              m_inventory + MaxItems(),
-                              matchentityfull( p_name ),
-                              matchentity( p_name ) );
-
-    if( i == m_inventory + MaxItems() )
-        return -1;
-    return (int)(i - m_inventory);
 }
 
 
@@ -305,22 +187,13 @@ ostream& operator<<( ostream& p_stream, const Player& p )
     p_stream << "[EXPERIENCE]     " << p.m_experience << "\n";
     p_stream << "[LEVEL]          " << p.m_level << "\n";
     p_stream << "[ROOM]           " << p.m_room << "\n";
-    p_stream << "[MONEY]          " << p.m_money << "\n";
     p_stream << "[HITPOINTS]      " << p.m_hitpoints << "\n";
     p_stream << "[NEXTATTACKTIME] "; insert( p_stream, p.m_nextattacktime );
     p_stream << "\n";
     p_stream << p.m_baseattributes;
 
-    p_stream << "[INVENTORY]      ";
-    for( int i = 0; i < p.MaxItems(); i++ )
-    {
-        p_stream << p.m_inventory[i] << " ";
-    }
     p_stream << "\n";
 
-
-    p_stream << "[WEAPON]         " << p.m_weapon << "\n";
-    p_stream << "[ARMOR]          " << p.m_armor << "\n";
 
     return p_stream;
 }
@@ -341,22 +214,12 @@ istream& operator>>( istream& p_stream, Player& p )
     p_stream >> temp >> p.m_experience;
     p_stream >> temp >> p.m_level;
     p_stream >> temp >> p.m_room;
-    p_stream >> temp >> p.m_money;
     p_stream >> temp >> p.m_hitpoints;
     p_stream >> temp; extract( p_stream, p.m_nextattacktime );
     p_stream >> p.m_baseattributes;
 
     p_stream >> temp;
-    p.m_items = 0;
-    for( int i = 0; i < p.MaxItems(); i++ )
-    {
-        p_stream >> p.m_inventory[i];
-        if( p.m_inventory[i] != 0 )   
-            p.m_items++;
-    }
-
-    p_stream >> temp >> p.m_weapon;
-    p_stream >> temp >> p.m_armor;
+  
 
     p.RecalculateStats();
 
