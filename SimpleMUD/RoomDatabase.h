@@ -25,7 +25,7 @@ namespace SimpleMUD
 class RoomDatabase
 {
 protected:
-	std::map<BasicLib::vector2, Room, BasicLib::CompareVectors> m_rooms;
+	static std::map<BasicLib::vector2, Room, BasicLib::CompareVectors> m_rooms;
 
 public:
 
@@ -38,13 +38,13 @@ public:
 
 	// Adding a room.
 	// Adding a new room that it was given.
-	void AddRoom(BasicLib::vector2 p_coords, Room p_room);
+	static void AddRoom(BasicLib::vector2 p_coords, Room p_room);
 
 	// Does a room at coord X exist?
 	// Using map.count(Key) to see if the thing is there
-	bool RoomExists(BasicLib::vector2 p_coords);
+	static bool RoomExists(BasicLib::vector2 p_coords);
 
-	Room& GetRoom(BasicLib::vector2 p_coords);
+	static Room& GetRoom(BasicLib::vector2 p_coords);
 
 };  // end class RoomDatabase
 

@@ -21,8 +21,9 @@ using std::ofstream;
 namespace SimpleMUD
 {
 
-// declare the static vector of the room database.
-//std::vector<Room> EntityDatabaseVector<Room>::m_vector;
+	// declare the static vector of the room database.
+	//std::vector<Room> EntityDatabaseVector<Room>::m_vector;
+	std::map<BasicLib::vector2, Room, BasicLib::CompareVectors> RoomDatabase::m_rooms;
 
 	void RoomDatabase::AddRoom(vector2 p_coords, Room p_room)
 	{
@@ -43,55 +44,55 @@ namespace SimpleMUD
 		return m_rooms.at(p_coords);
 	}
 
-void RoomDatabase::LoadTemplates()
-{
-	// Load Tempaltes.
-	/*
-    std::ifstream file( "maps/default.map" );
-    entityid id;
-    std::string temp;
+	void RoomDatabase::LoadTemplates()
+	{
+		// Load Tempaltes.
+		/*
+		std::ifstream file( "maps/default.map" );
+		entityid id;
+		std::string temp;
 
-    while( file.good() )
-    {
-        // read the ID from disk
-        file >> temp >> id;
+		while( file.good() )
+		{
+			// read the ID from disk
+			file >> temp >> id;
 
-        // make sure there's enough room for the room
-        if( m_vector.size() <= id )
-            m_vector.resize( id + 1 );
+			// make sure there's enough room for the room
+			if( m_vector.size() <= id )
+				m_vector.resize( id + 1 );
 
-        m_vector[id].ID() = id;
-        m_vector[id].LoadTemplate( file );     
-        file >> std::ws;
-    }
-	*/
-}
+			m_vector[id].ID() = id;
+			m_vector[id].LoadTemplate( file );     
+			file >> std::ws;
+		}
+		*/
+	}
 
-void RoomDatabase::LoadData()
-{
-	// Load Data.
-	/*
-    std::ifstream file( "maps/default.data" );
+	void RoomDatabase::LoadData()
+	{
+		// Load Data.
+		/*
+		std::ifstream file( "maps/default.data" );
 
-    string temp;
-    entityid roomid;
+		string temp;
+		entityid roomid;
 
-    while( file.good() )
-    {
-        // load in the room id
-        file >> temp >> roomid;
+		while( file.good() )
+		{
+			// load in the room id
+			file >> temp >> roomid;
 
-        // load the entry
-        m_vector[roomid].LoadData( file );
-        file >> std::ws;
-    }
-	*/
-}
+			// load the entry
+			m_vector[roomid].LoadData( file );
+			file >> std::ws;
+		}
+		*/
+	}
 
-void RoomDatabase::SaveData()
-{
-    // Save Data.
-}
+	void RoomDatabase::SaveData()
+	{
+		// Save Data.
+	}
 
 
 }   // end namespace SimpleMUD
