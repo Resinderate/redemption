@@ -30,12 +30,6 @@
     <ClCompile Include="Demo10-01.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="SimpleMUD\Enemy.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="SimpleMUD\EnemyDatabase.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="SimpleMUD\Game.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
