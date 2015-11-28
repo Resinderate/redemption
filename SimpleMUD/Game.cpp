@@ -12,7 +12,6 @@
 #include "PlayerDatabase.h"
 #include "RoomDatabase.h"
 #include "StoreDatabase.h"
-#include "EnemyDatabase.h"
 #include "../BasicLib/BasicLib.h"
 
 using namespace SocketLib;
@@ -238,13 +237,6 @@ void Game::Handle( string p_data )
         return;
     }
 
-
-    if( firstword == "attack" || firstword == "a" )
-    {
-        PlayerAttack( RemoveWord( p_data, 0 ) );
-        return;
-    }
-
     // ------------------------------------------------------------------------
     //  GOD access commands
     // ------------------------------------------------------------------------
@@ -344,11 +336,6 @@ void Game::Handle( string p_data )
         {
             StoreDatabase::Load();
             p.SendString( bold + cyan + "Store Database Reloaded!" );
-        }
-        else if( db == "enemies" )
-        {
-            EnemyTemplateDatabase::Load();
-            p.SendString( bold + cyan + "Enemy Database Reloaded!" );
         }
         else
         {
@@ -606,8 +593,7 @@ string Game::PrintHelp( PlayerRank p_rank )
         " train                      - Train to the next level (TR)\r\n" +
         " editstats                  - Edit your statistics (TR)\r\n" +
         " list                       - Lists items in a store (ST)\r\n" +
-        " buy/sell <item>            - Buy or Sell an item in a store (ST)\r\n" +
-        " attack <enemy>             - Attack an enemy\r\n";
+        " buy/sell <item>            - Buy or Sell an item in a store (ST)\r\n";
 
 
     static string god = yellow + bold +
@@ -861,25 +847,6 @@ string Game::PrintRoom( room p_room )
         desc += temp + "\r\n";
     }
 
-    // ---------------------------------
-    // ENEMIES
-    // ---------------------------------
-    temp = bold + red + "Enemies: ";
-    count = 0;
-    std::list<enemy>::iterator enemyitr = p_room->Enemies().begin();
-    while( enemyitr != p_room->Enemies().end() )
-    {
-        temp += (*enemyitr)->Name() + ", ";
-        count++;
-        ++enemyitr;
-    }
-
-    if( count > 0 )
-    {
-        temp.erase( temp.size() - 2, 2 );
-        desc += temp + "\r\n";
-    }
-
 
     return desc;
 }
@@ -1073,8 +1040,6 @@ void Game::Buy( const string& p_item )
 }
 
 
-
-
 void Game::Sell( const string& p_item )
 {
     Player& p = *m_player;
@@ -1100,55 +1065,6 @@ void Game::Sell( const string& p_item )
               p.CurrentRoom() );
 }
 
-
-
-void Game::EnemyAttack( enemy p_enemy )
-{
-    Enemy& e = *p_enemy;
-    room r = e.CurrentRoom();
-
-    std::list<player>::iterator itr = r->Players().begin();
-
-    std::advance( itr, BasicLib::RandomInt( 0, r->Players().size() - 1 ) );
- 
-    Player& p = **itr;
-
-    sint64 now = Game::GetTimer().GetMS();
-
-    int damage;
-    if( e.Weapon() == 0 )
-    {
-        damage = BasicLib::RandomInt( 1, 3 );
-        e.NextAttackTime() = now + seconds( 1 );
-    }
-    else
-    {
-        damage = BasicLib::RandomInt( e.Weapon()->Min(), e.Weapon()->Max() );
-        e.NextAttackTime() = now + seconds( e.Weapon()->Speed() );
-    }
-
-    if( BasicLib::RandomInt( 0, 99 ) >= e.Accuracy() - p.GetAttr( DODGING ) )
-    {
-        Game::SendRoom( white + e.Name() + " swings at " + p.Name() + 
-                        " but misses!", e.CurrentRoom() );
-        return;
-    }
-
-    damage += e.StrikeDamage();
-    damage -= p.GetAttr( DAMAGEABSORB );
-
-    if( damage < 1 )
-        damage = 1;
-
-    p.AddHitpoints( -damage );
-
-    Game::SendRoom( red + e.Name() + " hits " + p.Name() + " for " + 
-                    tostring( damage ) + " damage!", e.CurrentRoom() );
-
-
-    if( p.HitPoints() <= 0 )
-        PlayerKilled( p.ID() );
-}
 
 void Game::PlayerKilled( player p_player )
 {
@@ -1196,105 +1112,6 @@ void Game::PlayerKilled( player p_player )
                   p.CurrentRoom()->Name() );
     p.SendString( red + bold + "You have lost " + tostring( exp ) + " experience!" );
     Game::SendRoom( white + bold + p.Name() + " appears out of nowhere!!" , p.CurrentRoom() );
-}
-
-
-
-void Game::PlayerAttack( const string& p_enemy )
-{
-    Player& p = *m_player;
-    sint64 now = Game::GetTimer().GetMS();
-
-    if( now < p.NextAttackTime() )
-    {
-        p.SendString( red + bold + "You can't attack yet!" );
-        return;
-    }
-
-
-    enemy ptr = p.CurrentRoom()->FindEnemy( p_enemy );
-
-    if( ptr == 0 )
-    {
-        p.SendString( red + bold + "You don't see that here!" );
-        return;
-    }
-
-    Enemy& e = *ptr;
-
-    int damage;
-    if( p.Weapon() == 0 )
-    {
-        damage = BasicLib::RandomInt( 1, 3 );
-        p.NextAttackTime() = now + seconds( 1 );
-    }
-    else
-    {
-        damage = BasicLib::RandomInt( p.Weapon()->Min(), p.Weapon()->Max() );
-        p.NextAttackTime() = now + seconds( p.Weapon()->Speed() );
-    }
-
-    if( BasicLib::RandomInt( 0, 99 ) >= p.GetAttr( ACCURACY ) - e.Dodging() )
-    {
-        SendRoom( white + p.Name() + " swings at " + e.Name() + 
-                  " but misses!", p.CurrentRoom() );
-        return;
-    }
-
-    damage += p.GetAttr( STRIKEDAMAGE );
-    damage -= e.DamageAbsorb();
-
-    if( damage < 1 )
-        damage = 1;
-
-    e.HitPoints() -= damage;
-
-    SendRoom( red + p.Name() + " hits " + e.Name() + " for " + 
-              tostring( damage ) + " damage!", p.CurrentRoom() );
-
-
-    if( e.HitPoints() <= 0 )
-        EnemyKilled( e.ID(), m_player );
-}
-
-
-void Game::EnemyKilled( enemy p_enemy, player p_player )
-{
-    Enemy& e = *p_enemy;
-
-    SendRoom( cyan + bold + e.Name() + " has died!", e.CurrentRoom() );
-    
-
-    // drop the money
-    money m = BasicLib::RandomInt( e.MoneyMin(), e.MoneyMax() );
-    if( m > 0 )
-    {
-        e.CurrentRoom()->Money() += m;
-        SendRoom( cyan + "$" + tostring( m ) + 
-                " drops to the ground.", e.CurrentRoom() );
-    }
-
-    // drop all the items
-    std::list<loot>::iterator itr = e.LootList().begin();
-    while( itr != e.LootList().end() )
-    {
-        if( BasicLib::RandomInt( 0, 99 ) < itr->second )
-        {
-            e.CurrentRoom()->AddItem( itr->first );
-            SendRoom( cyan + (itr->first)->Name() + 
-                      " drops to the ground.", e.CurrentRoom() );
-        }
-        ++itr;
-    }
-
-    // add experience to the player who killed it
-    Player& p = *p_player;
-    p.Experience() += e.Experience();
-    p.SendString( cyan + bold + "You gain " + tostring( e.Experience() ) +
-                    " experience." );
-    
-    // remove the enemy from the game
-    EnemyDatabase::Delete( p_enemy );
 }
 
 }   // end namespace SimpleMUD

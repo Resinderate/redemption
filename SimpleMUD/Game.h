@@ -98,14 +98,7 @@ public:
     void Buy( const string& p_item );
     void Sell( const string& p_item );
 
-
-    // ------------------------------------------------------------------------
-    //  Enemy Functions Added in Chapter 10
-    // ------------------------------------------------------------------------
-    static void EnemyAttack( enemy p_enemy );
-    static void PlayerKilled( player p_player );
-    void PlayerAttack( const string& p_enemy );
-    static void EnemyKilled( enemy p_enemy, player p_player );
+	void PlayerKilled(player p_player);
 
 protected:
 

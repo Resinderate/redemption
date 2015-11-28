@@ -11,7 +11,6 @@
 #include <iostream>
 
 #include "Room.h"
-#include "Enemy.h"
 #include "../BasicLib/BasicLib.h"
 
 using std::ostream;
@@ -31,8 +30,6 @@ Room::Room()
     for( int d = 0; d < NUMDIRECTIONS; d++ )
         m_rooms[d] = 0;
 
-    m_spawnwhich = 0;
-    m_maxenemies = 0;
     m_money = 0;
 }
 
@@ -82,35 +79,6 @@ void Room::RemoveItem( item p_item )
 }
 
 
-enemy Room::FindEnemy( const string& p_enemy )
-{
-    std::list<enemy>::iterator itr = 
-            BasicLib::double_find_if(
-                m_enemies.begin(),
-                m_enemies.end(),
-                matchentityfull( p_enemy ),
-                matchentity( p_enemy ) );
-
-    if( itr == m_enemies.end() )
-        return 0;
-
-    return *itr;
-}
-
-
-void Room::AddEnemy( enemy p_enemy )
-{
-    m_enemies.push_back( p_enemy );
-}
-
-void Room::RemoveEnemy( enemy p_enemy )
-{
-    m_enemies.erase( std::find( m_enemies.begin(), 
-                                m_enemies.end(), 
-                                (entityid)p_enemy ) );
-}
-
-
 void Room::LoadTemplate( istream& p_stream )
 {
     string temp;
@@ -123,8 +91,6 @@ void Room::LoadTemplate( istream& p_stream )
     for( int d = 0; d < NUMDIRECTIONS; d++ )
         p_stream >> temp >> m_rooms[d];
 
-    p_stream >> temp >> m_spawnwhich;
-    p_stream >> temp >> m_maxenemies;
 }
 
 void Room::LoadData( istream& p_stream )
