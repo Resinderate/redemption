@@ -176,7 +176,19 @@ void Game::Handle( string p_data )
 	//Display players titles
 	if (firstword == "titles")
 	{ 
+		string temp = "Available Titles: ";
+		std::list<PlayerTitle>::iterator itr = p.Titles().begin();
+		for (itr; itr != p.Titles().end(); ++itr)
+		{
+			PlayerTitle t = *itr;
+			temp += GetTitleString(t) + ", ";
+		}
 
+			temp.erase(temp.size() - 2, 2);
+			temp += "\r\n";
+
+			p.SendString(green + bold + temp);
+			return;
 	}
 
 	//Change players title
@@ -186,6 +198,7 @@ void Game::Handle( string p_data )
 
 		string secondword = ParseWord(p_data, 1);
 		p.SetTitle(secondword);
+		return;
 	}
 
 	//Rebind a command to a shortcut key

@@ -68,7 +68,7 @@ public:
 	inline PlayerTitle& GetPlayerTitle() { return m_title; }
 	inline std::list<PlayerTitle>& Titles() { return m_availableTitles; }
 	void SetTitle(string p_str);
-	void AddTitle(string p_str);
+	void AddTitle(PlayerTitle p_val);
 
     // ------------------------------------------------------------------------
     //  non-savable accessors

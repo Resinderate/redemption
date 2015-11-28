@@ -42,8 +42,7 @@ Player::Player()
     m_hitpoints = GetAttr( MAXHITPOINTS );
 
 	m_title = PEASANT;
-	m_noOfTitles = 1;
-	AddTitle("Peasant");
+	AddTitle(PEASANT);
 }
 
 
@@ -110,29 +109,31 @@ void Player::SetTitle(string p_str)
 	while (itr != m_availableTitles.end())
 	{
 		PlayerTitle& t = *itr;
-		if (GetTitleString(t) == p_str)
+		string temp = GetTitleString(t);
+		if (temp == p_str)
 		{
-			m_title = GetTitle(p_str);
+			m_title = t;
 			return;
 		}		
 		++itr;
 	}
 }
 //	@author Kevin Duffy
-void Player::AddTitle(string p_str)
+void Player::AddTitle(PlayerTitle p_val)
 {
-	PlayerTitle t = GetTitle(p_str);
+	bool exists = false;
 	std::list<PlayerTitle>::iterator itr = m_availableTitles.begin();
 	while (itr != m_availableTitles.end())
 	{
 		PlayerTitle& t = *itr;
-		if (GetTitleString(t) == p_str)
+		if (t == p_val)
 		{
-			return;
+			exists = true;
 		}
 		++itr;
 	}
-	m_availableTitles.push_back(GetTitle(p_str));
+	if(!exists)
+	m_availableTitles.push_back(p_val);
 }
 
 void Player::AddHitpoints( int p_hitpoints )
@@ -231,11 +232,12 @@ ostream& operator<<( ostream& p_stream, const Player& p )
 	
 		Player q = p;
 		std::list<PlayerTitle>::iterator itr = q.m_availableTitles.begin();
-		while (itr != q.m_availableTitles.end())
+		for (itr; itr != q.m_availableTitles.end(); ++itr)
 		{
 			p_stream << GetTitleString(*itr) << " ";
 		}
 
+		p_stream << "-1";
 		p_stream << "\n";
 	
 
@@ -269,8 +271,12 @@ istream& operator>>( istream& p_stream, Player& p )
 	for (int i = 0; i < 8; i++)
 	{
 		p_stream >> temp;
-		if (temp != "-1")
-		p.AddTitle(temp);
+		if (temp == "-1")
+		{
+			break;
+		}
+
+		p.AddTitle(GetTitle(temp));
 	}
 
 	//	p_stream << "\n";
