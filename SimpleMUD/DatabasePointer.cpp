@@ -6,7 +6,6 @@
 // 
 
 #include "DatabasePointer.h"
-#include "ItemDatabase.h"
 #include "PlayerDatabase.h"
 #include "RoomDatabase.h"
 
@@ -43,7 +42,6 @@ namespace SimpleMUD
 {
 
 DATABASEPOINTERIMPL( player, Player, PlayerDatabase )
-DATABASEPOINTERIMPL( item, Item, ItemDatabase )
 DATABASEPOINTERIMPL( room, Room, RoomDatabase )
 
 } // end namespace SimpleMUD

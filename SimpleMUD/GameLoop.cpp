@@ -66,11 +66,9 @@ void GameLoop::Loop()
 void GameLoop::LoadDatabases()
 {
     Load();
-    ItemDatabase::Load();
     PlayerDatabase::Load();
     RoomDatabase::LoadTemplates();
     RoomDatabase::LoadData();
-    StoreDatabase::Load();
 }
 
 

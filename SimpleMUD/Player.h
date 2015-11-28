@@ -16,7 +16,6 @@
 
 #include "Entity.h"
 #include "Attributes.h"
-#include "Item.h"
 #include "DatabasePointer.h"
 
 using SocketLib::Connection;
@@ -63,30 +62,9 @@ public:
     inline int& StatPoints()                { return m_statpoints; }
     inline int& Experience()                { return m_experience; }
     inline room& CurrentRoom()              { return m_room; }
-    inline money& Money()                   { return m_money; }
 
     inline sint64& NextAttackTime()         { return m_nextattacktime; }
 
-    // ------------------------------------------------------------------------
-    //  Item Functions
-    // ------------------------------------------------------------------------
-    inline item GetItem( int p_index )      { return m_inventory[p_index]; }
-    inline int Items()                      { return m_items; }
-    inline int MaxItems() const             { return PLAYERITEMS; }
-    inline item Weapon();
-    inline item Armor();
-
-    void AddBonuses( item p_item );
-    void AddDynamicBonuses( item p_item );
-
-    bool PickUpItem( item p_item );
-    bool DropItem( int p_index );
-    void RemoveWeapon();
-    void RemoveArmor();
-    void UseWeapon( int p_index );
-    void UseArmor( int p_index );
-
-    int GetItemIndex( const string& p_name );
 
     // ------------------------------------------------------------------------
     //  non-savable accessors
@@ -126,21 +104,12 @@ protected:
     int m_experience;
     int m_level;
     room m_room;
-    money m_money;
     int m_hitpoints;
 
     AttributeSet m_baseattributes;
     AttributeSet m_attributes;
 
     BasicLib::sint64 m_nextattacktime;
-
-    // -----------------------------------------
-    //  Player Inventory
-    // -----------------------------------------
-    item m_inventory[PLAYERITEMS];
-    int m_items;
-    int m_weapon;
-    int m_armor;
 
     // -----------------------------------------
     //  Non-savable info
@@ -187,27 +156,6 @@ inline int Player::GetBaseAttr( int p_attr )
     // return just the base value
     return m_baseattributes[p_attr];
 }
-
-
-inline item Player::Weapon()
-{ 
-    if( m_weapon == -1 )                // if no weapon armed
-        return 0;                       // return 0
-    else
-        return m_inventory[m_weapon];   // return item id
-}
-
-
-inline item Player::Armor()
-{ 
-    if( m_armor == -1 )                 // if no armor armed
-        return 0;                       // return 0
-    else
-        return m_inventory[m_armor];    // return item id
-}
-
-
-
 
 
 // --------------------------------------------------------------------

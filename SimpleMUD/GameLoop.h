@@ -10,10 +10,8 @@
 
 #include <string>
 
-#include "ItemDatabase.h"
 #include "PlayerDatabase.h"
 #include "RoomDatabase.h"
-#include "StoreDatabase.h"
 #include "Game.h"
 #include "SimpleMUDLogs.h"
 

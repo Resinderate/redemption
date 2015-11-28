@@ -36,12 +36,6 @@
     <ClCompile Include="SimpleMUD\GameLoop.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="SimpleMUD\ItemDatabase.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="SimpleMUD\Logon.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="SimpleMUD\Player.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -69,13 +63,13 @@
     <ClCompile Include="SocketLib\SocketSet.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="SimpleMUD\StoreDatabase.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="SocketLib\Telnet.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="SimpleMUD\Train.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="SimpleMUD\Logon.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -128,12 +122,6 @@
     <ClInclude Include="SimpleMUD\GameLoop.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="SimpleMUD\Item.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="SimpleMUD\ItemDatabase.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="SocketLib\ListeningManager.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -171,12 +159,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="SocketLib\SocketSet.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="SimpleMUD\Store.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="SimpleMUD\StoreDatabase.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="SocketLib\Telnet.h">
