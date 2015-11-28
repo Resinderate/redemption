@@ -57,6 +57,9 @@ protected:
 	BasicLib::vector2 m_coords;
 	RoomBaseType m_baseType;
 
+	// probably changed to a player later when it's figured out.
+	string m_owner;
+
     // -----------------------------------------
     //  volatile data (save to disk)
     // -----------------------------------------
