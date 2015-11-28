@@ -34,24 +34,13 @@ class Room : public Entity
 {
 public:
     Room();
-
-    inline RoomType& Type()         { return m_type; }
-    inline int& Data()              { return m_data; }
+	inline string& Name()			{ return m_name; }
     inline string& Description()    { return m_description; }
-    inline entityid& Adjacent( int p_dir ) { return m_rooms[p_dir]; }
-
-
-    inline list<item>& Items()      { return m_items; }
-    inline money& Money()           { return m_money; }
 
     inline list<player>& Players()  { return m_players; }
 
     void AddPlayer( player p_player );
     void RemovePlayer( player p_player );
-
-    item FindItem( const string& p_item );
-    void AddItem( item p_item );
-    void RemoveItem( item p_item );
 
     void LoadTemplate( istream& p_stream );
     void LoadData( istream& p_stream );
@@ -62,19 +51,15 @@ protected:
     // -----------------------------------------
     //  template information
     // -----------------------------------------
-    RoomType m_type;
-    int m_data;         // auxilliary data defined by room type
+	
+	// Might be some other symantic for this.
+	string m_name;
     string m_description;
-    entityid m_rooms[NUMDIRECTIONS];
-
-    int m_maxenemies;
-
+	BasicLib::vector2 m_coords;
 
     // -----------------------------------------
     //  volatile data (save to disk)
     // -----------------------------------------
-    list<item> m_items;
-    money m_money;
 
 
     // -----------------------------------------
