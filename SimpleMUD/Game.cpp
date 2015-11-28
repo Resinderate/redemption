@@ -198,6 +198,8 @@ void Game::Handle( string p_data )
 
 		string secondword = ParseWord(p_data, 1);
 		p.SetTitle(secondword);
+
+		p.SendString(green + bold + "Title changed to [" + secondword + "]");
 		return;
 	}
 
