@@ -174,11 +174,11 @@ namespace SimpleMUD
 
 	const string PLAYERTITLESTRINGS[NUMPLAYERTITLETYPES] =
 	{
-		"The Redeemed",
-		"Gold Leader",
-		"Iron Leader",
-		"Stone Leader",
-		"Wood Leader",
+		"TheRedeemed",
+		"GoldLeader",
+		"IronLeader",
+		"StoneLeader",
+		"WoodLeader",
 		"CEO",
 		"Peasant"
 	};

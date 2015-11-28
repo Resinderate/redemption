@@ -172,6 +172,21 @@ void Game::Handle( string p_data )
 			return;
 		}
 	}
+	
+	//Display players titles
+	if (firstword == "titles")
+	{ 
+
+	}
+
+	//Change players title
+	if (firstword == "change")
+	{
+		//Syntax (change <title_name>)
+
+		string secondword = ParseWord(p_data, 1);
+		p.SetTitle(secondword);
+	}
 
 	//Rebind a command to a shortcut key
 	if (firstword == "rebind")

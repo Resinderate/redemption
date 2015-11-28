@@ -16,8 +16,6 @@
 namespace SimpleMUD
 {
 
-
-
 Player::Player()
 {
     m_pass = "UNDEFINED";
@@ -44,6 +42,8 @@ Player::Player()
     m_hitpoints = GetAttr( MAXHITPOINTS );
 
 	m_title = PEASANT;
+	m_noOfTitles = 1;
+	AddTitle("Peasant");
 }
 
 
@@ -103,10 +103,36 @@ void Player::AddToBaseAttr( int p_attr, int p_val )
     m_baseattributes[p_attr] += p_val;
     RecalculateStats();
 }
-
+//	@author Kevin Duffy
 void Player::SetTitle(string p_str)
 {
-	m_title = GetTitle(p_str);
+	std::list<PlayerTitle>::iterator itr = m_availableTitles.begin();
+	while (itr != m_availableTitles.end())
+	{
+		PlayerTitle& t = *itr;
+		if (GetTitleString(t) == p_str)
+		{
+			m_title = GetTitle(p_str);
+			return;
+		}		
+		++itr;
+	}
+}
+//	@author Kevin Duffy
+void Player::AddTitle(string p_str)
+{
+	PlayerTitle t = GetTitle(p_str);
+	std::list<PlayerTitle>::iterator itr = m_availableTitles.begin();
+	while (itr != m_availableTitles.end())
+	{
+		PlayerTitle& t = *itr;
+		if (GetTitleString(t) == p_str)
+		{
+			return;
+		}
+		++itr;
+	}
+	m_availableTitles.push_back(GetTitle(p_str));
 }
 
 void Player::AddHitpoints( int p_hitpoints )
@@ -184,6 +210,7 @@ void Player::PrintStatbar( bool p_update )
 
 // --------------------------------------------------------------------
 //  Inserts an item in text form into a stream
+//	@author Kevin Duffy
 // --------------------------------------------------------------------
 ostream& operator<<( ostream& p_stream, const Player& p )
 {
@@ -200,8 +227,17 @@ ostream& operator<<( ostream& p_stream, const Player& p )
     p_stream << "\n";
     p_stream << p.m_baseattributes;
 
-    p_stream << "\n";
+	p_stream << "[TITLES]         ";
+	
+		Player q = p;
+		std::list<PlayerTitle>::iterator itr = q.m_availableTitles.begin();
+		while (itr != q.m_availableTitles.end())
+		{
+			p_stream << GetTitleString(*itr) << " ";
+		}
 
+		p_stream << "\n";
+	
 
     return p_stream;
 }
@@ -209,6 +245,7 @@ ostream& operator<<( ostream& p_stream, const Player& p )
 
 // --------------------------------------------------------------------
 //  Extracts an item in text form from a stream
+//	@author Kevin Duffy
 // --------------------------------------------------------------------
 istream& operator>>( istream& p_stream, Player& p )
 {
@@ -228,8 +265,22 @@ istream& operator>>( istream& p_stream, Player& p )
     p_stream >> temp; extract( p_stream, p.m_nextattacktime );
     p_stream >> p.m_baseattributes;
 
-    p_stream >> temp;
-  
+	p_stream >> temp;
+	for (int i = 0; i < 8; i++)
+	{
+		p_stream >> temp;
+		if (temp != "-1")
+		p.AddTitle(temp);
+	}
+
+	//	p_stream << "\n";
+	//}
+	//for (int i = 0; i < p.MaxItems(); i++)
+	//{
+	//	p_stream >> p.m_inventory[i];
+	//	if (p.m_inventory[i] != 0)
+	//		p.m_items++;
+	//}
 
     p.RecalculateStats();
 

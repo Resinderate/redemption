@@ -65,8 +65,10 @@ public:
 
     inline sint64& NextAttackTime()         { return m_nextattacktime; }
 
-	inline PlayerTitle& GetPlayerTitle()			{ return m_title; }
-	void SetTitle(string p_val);
+	inline PlayerTitle& GetPlayerTitle() { return m_title; }
+	inline std::list<PlayerTitle>& Titles() { return m_availableTitles; }
+	void SetTitle(string p_str);
+	void AddTitle(string p_str);
 
     // ------------------------------------------------------------------------
     //  non-savable accessors
@@ -109,6 +111,7 @@ protected:
     int m_hitpoints;
 
 	PlayerTitle m_title;
+	int m_noOfTitles;
 	std::list<PlayerTitle> m_availableTitles;
 
     AttributeSet m_baseattributes;
