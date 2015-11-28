@@ -196,11 +196,14 @@ inline string GetRankString( PlayerRank p_enum )
 // --------------------------------------------------------------------
 enum RoomType
 {
-    PLAINROOM,
-    TRAININGROOM,
-    STORE
+    ASSASSIN,
+	TRADING,
+	COPPORATION
+	// Add more types of rooms as needed.
 };
 
+// Might need this stuff.
+/*
 const int NUMROOMTYPES = 3;
 
 const string ROOMTYPESTRINGS[NUMROOMTYPES] =
@@ -219,7 +222,7 @@ inline string GetRoomTypeString( RoomType p_enum )
 {
     return EnumToStr<RoomType>( p_enum, ROOMTYPESTRINGS );
 }
-
+*/
 
 
 // ======================================

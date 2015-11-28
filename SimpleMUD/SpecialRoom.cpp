@@ -15,9 +15,10 @@ namespace SimpleMUD
 
 	SpecialRoom::SpecialRoom()
 	{
-
+		// Set it to something by default.
+		// Ideally this is set up by the world, which manages the rooms.
+		m_roomType = RoomType::TRADING;
 	}
-
 
 }   // end namespace SimpleMUD
 
