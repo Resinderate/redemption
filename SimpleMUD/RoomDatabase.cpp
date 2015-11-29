@@ -21,13 +21,12 @@ using std::ofstream;
 namespace SimpleMUD
 {
 
-	// declare the static vector of the room database.
-	//std::vector<Room> EntityDatabaseVector<Room>::m_vector;
-	std::unordered_map<BasicLib::vector2, Room> RoomDatabase::m_rooms;
+	// declare the static vector of the room database
+	std::unordered_map<BasicLib::vector2, std::shared_ptr<Room>> RoomDatabase::m_rooms;
 
-	void RoomDatabase::AddRoom(vector2 p_coords, Room p_room)
+	void RoomDatabase::AddRoom(vector2 p_coords, std::shared_ptr<Room> p_room)
 	{
-		m_rooms.insert(std::pair<vector2, Room>( p_coords, p_room ));
+		m_rooms.insert(std::pair<vector2, std::shared_ptr<Room>>( p_coords, p_room ));
 	}
 
 	bool RoomDatabase::RoomExists(vector2 p_coords)
@@ -38,7 +37,7 @@ namespace SimpleMUD
 			return false;
 	}
 
-	Room & SimpleMUD::RoomDatabase::GetRoom(BasicLib::vector2 p_coords)
+	std::shared_ptr<Room>& SimpleMUD::RoomDatabase::GetRoom(BasicLib::vector2 p_coords)
 	{
 		// Could throw an exception if the item doesn't exist.
 		try

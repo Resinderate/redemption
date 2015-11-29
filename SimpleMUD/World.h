@@ -28,7 +28,7 @@ namespace SimpleMUD
 		World();
 
 		// Should probably be a safe part here, where if you are 0, 0. It makes a new room before sending it back?
-		static Room& GetRoom(BasicLib::vector2 p_coords);
+		static std::shared_ptr<Room>& GetRoom(BasicLib::vector2 p_coords);
 
 		// Needs to take commands, saying where to go.
 		// Takes in current coords, as well as a move vector showing direction

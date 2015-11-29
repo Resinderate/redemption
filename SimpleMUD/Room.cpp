@@ -30,6 +30,10 @@ Room::Room()
 	m_owner = "";
 }
 
+Room::~Room()
+{
+}
+
 Room::Room(string p_name, string p_desc, RoomBaseType p_baseType, BasicLib::vector2 p_coords) :
 	m_name(p_name),
 	m_description(p_desc),

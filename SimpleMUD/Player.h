@@ -44,7 +44,7 @@ public:
     // ------------------------------------------------------------------------
     //  Attribute Functions
     // ------------------------------------------------------------------------
-	inline Room& CurrentRoom() { return World::GetRoom(m_coords); }
+	inline std::shared_ptr<Room>& CurrentRoom() { return World::GetRoom(m_coords); }
 	inline vector2& Coords() { return m_coords; }
 
 	inline PlayerTitle& GetPlayerTitle() { return m_title; }

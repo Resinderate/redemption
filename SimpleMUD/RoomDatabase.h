@@ -10,6 +10,7 @@
 #include <unordered_map>
 #include <set>
 #include <stdexcept>
+#include <memory>
 
 #include "EntityDatabase.h"
 #include "Room.h"
@@ -25,7 +26,7 @@ namespace SimpleMUD
 class RoomDatabase
 {
 protected:
-	static std::unordered_map<BasicLib::vector2, Room> m_rooms;
+	static std::unordered_map<BasicLib::vector2, std::shared_ptr<Room>> m_rooms;
 	
 
 public:
@@ -39,13 +40,13 @@ public:
 
 	// Adding a room.
 	// Adding a new room that it was given.
-	static void AddRoom(BasicLib::vector2 p_coords, Room p_room);
+	static void AddRoom(BasicLib::vector2 p_coords, std::shared_ptr<Room> p_room);
 
 	// Does a room at coord X exist?
 	// Using map.count(Key) to see if the thing is there
 	static bool RoomExists(BasicLib::vector2 p_coords);
 
-	static Room& GetRoom(BasicLib::vector2 p_coords);
+	static std::shared_ptr<Room>& GetRoom(BasicLib::vector2 p_coords);
 
 };  // end class RoomDatabase
 

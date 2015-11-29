@@ -137,7 +137,7 @@ void Game::Handle( string p_data )
 	//Description of the current tile
 	if (firstword == "look")
     {
-		p.SendString(PrintRoom(p.CurrentRoom()));
+		p.SendString(PrintRoom(*p.CurrentRoom()));
         return;
     }
 
@@ -385,7 +385,7 @@ void Game::Handle( string p_data )
     // ------------------------------------------------------------------------
 	// If command is not in dictionary Say unrecognised.
 	// If command is a commonly used shortcut inform player of rebind ability.
-	SendRoom( bold + titledName + " says: " + dim + p_data, p.CurrentRoom() );
+	SendRoom( bold + titledName + " says: " + dim + p_data, *p.CurrentRoom() );
 
 }
 
@@ -410,9 +410,9 @@ void Game::Enter()
 
     SendGame( bold + green + titledName + " has entered the realm." );
 
-	p.CurrentRoom().AddPlayer(p.ID());
+	p.CurrentRoom()->AddPlayer(p.ID());
 
-    p.SendString( PrintRoom( p.CurrentRoom() ) );
+    p.SendString( PrintRoom( *p.CurrentRoom() ) );
 }
 
 void Game::Leave()
@@ -703,17 +703,16 @@ void Game::SendRoom( string p_text, Room p_room )
 void Game::Move( int p_direction )
 {
     Player& p = *m_player;
-    Room previous = p.CurrentRoom();
 
 	// Right
 	p.Coords() = World::ChangeRoom(p.Coords(), vector2(1, 0));
 
-	previous.RemovePlayer(p.ID());
-	World::GetRoom(p.Coords()).AddPlayer(p.ID());
+	p.CurrentRoom()->RemovePlayer(p.ID());
+	World::GetRoom(p.Coords())->AddPlayer(p.ID());
 
     SendRoom( green + p.Name() + " leaves to the " + 
               DIRECTIONSTRINGS[p_direction] + ".",
-              previous );
+              *p.CurrentRoom());
 
 	p.SendString( yellow + "You walk " + DIRECTIONSTRINGS[p_direction] + "." );
 
@@ -725,13 +724,16 @@ void Game::Move( int p_direction )
 void SimpleMUD::Game::Collect()
 {
 	Player& p = *m_player;
-	Room room = p.CurrentRoom();
 
-	if (room.GetBaseType() == RoomBaseType::COLLECTING)
+	if (p.CurrentRoom()->GetBaseType() == RoomBaseType::COLLECTING)
 	{
 		// Get the value from the Room
 			// Reset the time inside the call preferably.
 		// Get the type from the room.
+
+		CollectingRoom* cRoom = dynamic_cast<CollectingRoom*>(p.CurrentRoom().get());
+		resource val = cRoom->Collect();
+
 
 		// Might check if the player is the owner.
 		//room.GetOwner() == p;

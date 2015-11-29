@@ -19,7 +19,7 @@ namespace SimpleMUD
 
 	}
 
-	Room& World::GetRoom(BasicLib::vector2 p_coords)
+	std::shared_ptr<Room>&World::GetRoom(BasicLib::vector2 p_coords)
 	{
 		// While there is not room generated.
 		// Shouldn't really be able to get to a room that hasn't been generated, but as a fail safe.
@@ -104,7 +104,7 @@ namespace SimpleMUD
 			+ " - (Temp coords: " + std::to_string(p_coords.x) + ", " + std::to_string(p_coords.y) + ")";
 
 		//m_rooms.AddRoom(p_coords, SpecialRoom());
-		m_rooms.AddRoom(p_coords, CollectingRoom(name, desc, roomType, p_coords, resourceType, resourceSize));
+		m_rooms.AddRoom(p_coords, std::unique_ptr<Room>(new CollectingRoom(name, desc, roomType, p_coords, resourceType, resourceSize)));
 
 	}
 
