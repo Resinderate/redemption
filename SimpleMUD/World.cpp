@@ -80,7 +80,7 @@ namespace SimpleMUD
 
 		// Random Room Size.
 		int sizeIndex = -1;
-		float random = static_cast<float> (rand()) / static_cast<float> (RAND_MAX);
+		random = static_cast<float> (rand()) / static_cast<float> (RAND_MAX);
 
 		size = sizeof(SIZEWEIGHTS) / sizeof(SIZEWEIGHTS[0]);
 		for (int i = 0; i < size; i++)

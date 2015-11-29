@@ -48,7 +48,6 @@ namespace SimpleMUD
 		catch (std::exception)
 		{
 			ERRORLOG.Log("Error finding room in map.");
-			return;
 		}
 
 		

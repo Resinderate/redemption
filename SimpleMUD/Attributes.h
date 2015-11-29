@@ -292,7 +292,7 @@ const float SMALLWEIGHT = 0.5f;
 const float MEDIUMWEIGHT = 0.3f;
 const float LARGEWEIGHT = 0.2f;
 
-float SIZEWEIGHTS[4] = { SMALLWEIGHT, MEDIUMWEIGHT, LARGEWEIGHT };
+const float SIZEWEIGHTS[4] = { SMALLWEIGHT, MEDIUMWEIGHT, LARGEWEIGHT };
 
 // All weights should add up to 1.0f
 const float TOTALWEIGHT = 1.0f;
