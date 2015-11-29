@@ -410,10 +410,8 @@ void Game::Enter()
 
     SendGame( bold + green + titledName + " has entered the realm." );
 
-    if( p.Newbie() )
-        GotoTrain();
-    else
-        p.SendString( PrintRoom( p.CurrentRoom() ) );
+
+    p.SendString( PrintRoom( p.CurrentRoom() ) );
 }
 
 void Game::Leave()
@@ -720,14 +718,6 @@ void Game::Move( int p_direction )
 	p.SendString(yellow + out);
 }
 
-
-void Game::GotoTrain()
-{
-            Player& p = *m_player;
-            p.Active() = false;
-            p.Conn()->AddHandler( new Train( *m_connection, p.ID() ) );
-            LogoutMessage( p.Name() + " leaves to edit stats" );
-}
 //
 //
 //string Game::StoreList( entityid p_store )

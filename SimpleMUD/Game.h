@@ -53,7 +53,6 @@ public:
     void Leave();
     void Hungup();
     void Flooded();
-    void GotoTrain();
 
     // ------------------------------------------------------------------------
     //  sending functions
