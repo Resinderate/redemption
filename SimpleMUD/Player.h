@@ -101,9 +101,7 @@ protected:
 	int m_noOfTitles;
 	std::list<PlayerTitle> m_availableTitles;
 
-	// Might need something similar.
-    //AttributeSet m_baseattributes;
-    //AttributeSet m_attributes;
+	string m_corp;
 
     // -----------------------------------------
     //  Non-savable info

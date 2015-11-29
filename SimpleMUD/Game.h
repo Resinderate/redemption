@@ -92,8 +92,6 @@ protected:
     static BasicLib::Timer s_timer;
     static bool s_running;
 
-
-
 };  // end class Game
 
 

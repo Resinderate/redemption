@@ -409,6 +409,7 @@ void Game::Enter()
 
     SendGame( bold + green + titledName + " has entered the realm." );
 
+	p.CurrentRoom().AddPlayer(p.ID());
 
     p.SendString( PrintRoom( p.CurrentRoom() ) );
 }
@@ -705,6 +706,9 @@ void Game::Move( int p_direction )
 
 	// Right
 	p.Coords() = World::ChangeRoom(p.Coords(), vector2(1, 0));
+
+	previous.RemovePlayer(p.ID());
+	World::GetRoom(p.Coords()).AddPlayer(p.ID());
 
     SendRoom( green + p.Name() + " leaves to the " + 
               DIRECTIONSTRINGS[p_direction] + ".",

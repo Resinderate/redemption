@@ -35,6 +35,8 @@ Player::Player()
 		m_itemLevels[i] = 0;
 	}
 
+	m_corp = "";
+
 	m_coords = vector2(0, 0);
 }
 
