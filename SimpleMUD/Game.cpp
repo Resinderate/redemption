@@ -55,7 +55,8 @@ void Game::Handle( string p_data )
 	if (firstword == "say")
     {
 		string text = RemoveWord(p_data, 0);
-		SendGame(magenta + bold + titledName + " -> Room: " + white + text);
+		SendRoom(magenta + bold + titledName + " -> Room: " + dim + text, p.CurrentRoom());
+		//SendGame(magenta + bold + titledName + " -> Room: " + white + text);
         return;
     }
 
@@ -68,7 +69,7 @@ void Game::Handle( string p_data )
 		while (ritr != rlist.end())
 		{
 			vector2& v = *ritr;
-			SendRoom(bold + titledName + " -> Local:  " + dim + text , World::GetRoom(v));
+			SendRoom(cyan + bold + titledName + " -> Local:  " + dim + text , World::GetRoom(v));
 			++ritr;
 		}
         return;
@@ -79,7 +80,7 @@ void Game::Handle( string p_data )
     {
 		//Need to have a pointer to the list of members of a players corporations
 		string text = RemoveWord(p_data, 0);
-		SendGame(magenta + bold + titledName + " -> Corporation: " + white + text);
+		SendGame(yellow + bold + titledName + " -> Corporation: " + white + text);
         return;
     }
 
@@ -87,7 +88,7 @@ void Game::Handle( string p_data )
 	if (firstword == "global")
 	{
 		string text = RemoveWord(p_data, 0);
-		SendGame(magenta + bold + titledName + " -> Global: " + white + text);
+		SendGame(blue + bold + titledName + " -> Global: " + white + text);
 		return;
 	}
 
@@ -392,8 +393,9 @@ void Game::Handle( string p_data )
     // ------------------------------------------------------------------------
 	// If command is not in dictionary Say unrecognised.
 	// If command is a commonly used shortcut inform player of rebind ability.
-	SendRoom( bold + titledName + " says: " + dim + p_data, p.CurrentRoom() );
+	//SendRoom( bold + titledName + " says: " + dim + p_data, p.CurrentRoom() );
 
+	p.SendString(bold + red + "Invalid Command");
 }
 
 

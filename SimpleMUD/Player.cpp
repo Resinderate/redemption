@@ -72,6 +72,8 @@ void Player::SetTitle(string p_str)
 	}
 }
 //	@author Kevin Duffy
+//	Function to add a title to a players collection
+//	For use later with 
 void Player::AddTitle(PlayerTitle p_val)
 {
 	bool exists = false;
@@ -125,7 +127,7 @@ void Player::PrintStatbar( bool p_update )
     if( p_update && Conn()->Protocol().Buffered() > 0 )
         return;
 
-    string statbar = white + bold + "[]";
+    string statbar = white + bold + ">";
 
     // color code your hitpoints so that they are red if low,
     // yellow if medium, and green if high.
