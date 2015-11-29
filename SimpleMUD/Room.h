@@ -46,6 +46,9 @@ public:
     void LoadData( istream& p_stream );
     void SaveData( ostream& p_stream );
 
+	inline BasicLib::vector2 GetCoords() { return m_coords; }
+	inline RoomBaseType GetBaseType() { return m_baseType;  }
+
 
 protected:
     // -----------------------------------------

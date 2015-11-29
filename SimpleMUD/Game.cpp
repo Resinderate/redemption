@@ -210,6 +210,7 @@ void Game::Handle( string p_data )
 	//If in a resource room collect whatever resource is there
 	if (firstword == "collect" /*&& current room == resource room*/)
 	{
+		// Add in the function for collecting from this room.
 
 	}
 
@@ -719,6 +720,29 @@ void Game::Move( int p_direction )
 	vector2 coords = p.Coords();
 	string out = "New Coods: " + std::to_string(coords.x) + ", " + std::to_string(coords.y);
 	p.SendString(yellow + out);
+}
+
+void SimpleMUD::Game::Collect()
+{
+	Player& p = *m_player;
+	Room room = p.CurrentRoom();
+
+	if (room.GetBaseType() == RoomBaseType::COLLECTING)
+	{
+		// Get the value from the Room
+			// Reset the time inside the call preferably.
+		// Get the type from the room.
+
+		// Might check if the player is the owner.
+		//room.GetOwner() == p;
+
+		// Add that to the players totals.
+
+	}
+	else
+	{
+		// Cant collect in this type of room.
+	}
 }
 
 //

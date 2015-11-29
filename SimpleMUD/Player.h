@@ -18,8 +18,8 @@
 #include "Entity.h"
 #include "Attributes.h"
 #include "DatabasePointer.h"
-#include "Room.h"
 #include "World.h"
+class Room;
 
 using SocketLib::Connection;
 using SocketLib::Telnet;
