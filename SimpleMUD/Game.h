@@ -70,7 +70,6 @@ public:
     static string WhoList( const string& p_who );
     static string PrintHelp( PlayerRank p_rank = REGULAR );
     string PrintStats();
-    string PrintExperience();
     // ------------------------------------------------------------------------
     //  Accessors
     // ------------------------------------------------------------------------

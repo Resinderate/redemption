@@ -37,14 +37,6 @@ void Train::Handle( string p_data )
     }
 
     char n = p_data[0];
-    if( n >= '1' && n <= '3' )
-    {
-        if( p.StatPoints() > 0 )
-        {
-            p.StatPoints()--;
-            p.AddToBaseAttr( n - '1', 1 );
-        }
-    }
 
     PrintStats( true );
 
@@ -92,11 +84,11 @@ void Train::PrintStats( bool p_clear )
     p.SendString( white + bold + 
         "--------------------------------- Your Stats ----------------------------------\r\n" +
         "Player:           " + p.Name() + "\r\n" + 
-        "Level:            " + tostring( p.Level() ) + "\r\n" +
-        "Stat Points Left: " + tostring( p.StatPoints() ) + "\r\n" + 
-        "1) Strength:      " + tostring( p.GetAttr( STRENGTH ) ) + "\r\n" +
-        "2) Health:        " + tostring( p.GetAttr( HEALTH ) ) + "\r\n" +
-        "3) Agility:       " + tostring( p.GetAttr( AGILITY ) ) + "\r\n" +
+        "Level:            " + "NUKED" + "\r\n" +
+        "Stat Points Left: " + "\r\n" + 
+        "1) Strength:      " + "\r\n" +
+        "2) Health:        " + "\r\n" +
+        "3) Agility:       " +  "\r\n" +
         bold + 
         "-------------------------------------------------------------------------------\r\n" +
         "Enter 1, 2, or 3 to add a stat point, or \"quit\" to enter the realm: " );

@@ -536,9 +536,7 @@ struct wholist
 
     void operator() ( Player& p )
     {
-        str += " " + tostring( p.Name(), 17 ) + "| ";
-        str += tostring( p.Level(), 10 ) + "| ";
-        
+        str += " " + tostring( p.Name(), 17 ) + "| ";        
         
         if( p.Active() )
             str += green + "Online  " + white;
@@ -659,37 +657,9 @@ string Game::PrintStats()
     return white + bold +
         "---------------------------------- Your Stats ----------------------------------\r\n" + 
         " Name:          " + p.Name() + "\r\n" +
-        " Rank:          " + GetRankString( p.Rank() ) + "\r\n" + 
-        " HP/Max:        " + tostring( p.HitPoints() ) + "/" + tostring( p.GetAttr( MAXHITPOINTS ) ) +
-        "  (" + tostring( percent( p.HitPoints(), p.GetAttr( MAXHITPOINTS )) ) + "%)\r\n" +
-        PrintExperience() + "\r\n" + 
-        " Strength:      " + tostring( p.GetAttr( STRENGTH ), 16 ) + 
-        " Accuracy:      " + tostring( p.GetAttr( ACCURACY ) ) + "\r\n" +
-        " Health:        " + tostring( p.GetAttr( HEALTH ), 16 ) + 
-        " Dodging:       " + tostring( p.GetAttr( DODGING ) ) + "\r\n" +
-        " Agility:       " + tostring( p.GetAttr( AGILITY ), 16 ) + 
-        " Strike Damage: " + tostring( p.GetAttr( STRIKEDAMAGE ) ) + "\r\n" +
-        " StatPoints:    " + tostring( p.StatPoints(), 16 ) + 
-        " Damage Absorb: " + tostring( p.GetAttr( DAMAGEABSORB ) ) + "\r\n" +
+        " Rank:          " + GetRankString( p.Rank() ) + "\r\n" +
         "--------------------------------------------------------------------------------";
 }
-
-// ------------------------------------------------------------------------
-//  This prints up the experience of the player
-// ------------------------------------------------------------------------
-string Game::PrintExperience()
-{
-    using namespace BasicLib;
-    Player& p = *m_player;
-
-    return white + bold +
-        " Level:         " + tostring( p.Level() ) + "\r\n" + 
-        " Experience:    " + tostring( p.Experience() ) + "/" +
-        tostring( p.NeedForLevel( p.Level() + 1 ) ) + " (" + 
-        tostring( percent( p.Experience(), p.NeedForLevel( p.Level() + 1 ) ) ) + 
-        "%)";
-}
-
 
 string Game::PrintRoom( Room p_room )
 {
