@@ -56,7 +56,7 @@ void Game::Handle( string p_data )
 	if (firstword == "say")
     {
 		string text = RemoveWord(p_data, 0);
-		SendGame(magenta + bold + titledName + " -> Local: " + white + text);
+		SendGame(magenta + bold + titledName + " -> Room: " + white + text);
         return;
     }
 
@@ -64,13 +64,21 @@ void Game::Handle( string p_data )
 	if (firstword == "shout")
     {
 		string text = RemoveWord(p_data, 0);
-		SendGame(magenta + bold + titledName + " -> Neighbour:  " + white + text);
+		list<vector2>& rlist = p.AdjacentRooms();
+		list<vector2>::iterator ritr = rlist.begin();
+		while (ritr != rlist.end())
+		{
+			vector2& v = *ritr;
+			SendRoom(bold + titledName + " -> Local:  " + dim + text , World::GetRoom(v));
+			++ritr;
+		}
         return;
     }
 
 	// message sent to all corporation members
 	if (firstword == "corp")
     {
+		//Need to have a pointer to the list of members of a players corporations
 		string text = RemoveWord(p_data, 0);
 		SendGame(magenta + bold + titledName + " -> Corporation: " + white + text);
         return;
@@ -409,11 +417,8 @@ void Game::Enter()
     p.LoggedIn() = true;
 
     SendGame( bold + green + titledName + " has entered the realm." );
-
-    if( p.Newbie() )
-        GotoTrain();
-    else
-        p.SendString( PrintRoom( p.CurrentRoom() ) );
+	p.CurrentRoom().AddPlayer(p.ID());
+    p.SendString( PrintRoom( p.CurrentRoom() ) );
 }
 
 void Game::Leave()
@@ -517,7 +522,7 @@ void Game::Whisper( std::string p_str, std::string p_player )
     {
         m_player->SendString( red + bold + "Error, cannot find user." );
     }
-    else
+    else 
     {
         itr->SendString( yellow + m_player->Name() + " whispers to you: " + 
                          reset + p_str );
@@ -738,6 +743,8 @@ void Game::Move( int p_direction )
 
 	// Right
 	p.Coords() = World::ChangeRoom(p.Coords(), vector2(1, 0));
+	previous.RemovePlayer(p.ID());
+	World::GetRoom(p.Coords()).AddPlayer(p.ID());
 
     SendRoom( green + p.Name() + " leaves to the " + 
               DIRECTIONSTRINGS[p_direction] + ".",

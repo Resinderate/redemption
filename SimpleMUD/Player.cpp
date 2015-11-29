@@ -104,8 +104,23 @@ void Player::AddToBaseAttr( int p_attr, int p_val )
     RecalculateStats();
 }
 //	@author Kevin Duffy
+//  Return a list of rooms adjacent to the player to 
+std::list<vector2> Player::AdjacentRooms()
+{
+	std::list<vector2> ret;
+	ret.push_back(vector2(m_coords.x + 0, m_coords.y + 0));
+	ret.push_back(vector2(m_coords.x + 1, m_coords.y + 0));
+	ret.push_back(vector2(m_coords.x + 0, m_coords.y + 1));
+	ret.push_back(vector2(m_coords.x - 1, m_coords.y + 0));
+	ret.push_back(vector2(m_coords.x + 0, m_coords.y - 1));
+	return ret;
+}
+
+//	@author Kevin Duffy
+//  Choose a players Title
 void Player::SetTitle(string p_str)
 {
+	//iterate through the list of player's titles and see if the title exists 
 	std::list<PlayerTitle>::iterator itr = m_availableTitles.begin();
 	while (itr != m_availableTitles.end())
 	{
@@ -115,7 +130,7 @@ void Player::SetTitle(string p_str)
 		{
 			m_title = t;
 			return;
-		}		
+		}
 		++itr;
 	}
 }
@@ -230,14 +245,14 @@ ostream& operator<<( ostream& p_stream, const Player& p )
 
 	p_stream << "[TITLES]         ";
 	
-		Player q = p;
-		std::list<PlayerTitle>::iterator itr = q.m_availableTitles.begin();
-		for (itr; itr != q.m_availableTitles.end(); ++itr)
-		{
-			p_stream << GetTitleString(*itr) << " ";
-		}
+	Player q = p;
+	std::list<PlayerTitle>::iterator itr = q.m_availableTitles.begin();
+	for (itr; itr != q.m_availableTitles.end(); ++itr)
+	{
+		p_stream << GetTitleString(*itr) << " ";
+	}
 
-		p_stream << "-1";
+	p_stream << "-1";
     p_stream << "\n";
 
 
