@@ -148,27 +148,27 @@ void Game::Handle( string p_data )
 		if (secondword == "north")
 		{
 			Move(NORTH);
-        return;
-    }
-		if (secondword == "east")
-    {
-			Move(EAST);
-        return;
-    }
-		if (secondword == "south")
-    {
-			Move(SOUTH);
-        return;
-    }
-		if (secondword == "west")
-    {
-			Move(WEST);
-        return;
-    }
-		else
-    {
-        return;
-    }
+			return;
+		}
+			if (secondword == "east")
+		{
+				Move(EAST);
+			return;
+		}
+			if (secondword == "south")
+		{
+				Move(SOUTH);
+			return;
+		}
+			if (secondword == "west")
+		{
+				Move(WEST);
+			return;
+		}
+			else
+		{
+			return;
+		}
 	}
 
 	//Display players titles
@@ -208,10 +208,11 @@ void Game::Handle( string p_data )
 	}
 
 	//If in a resource room collect whatever resource is there
-	if (firstword == "collect" /*&& current room == resource room*/)
+	if (firstword == "collect")
 	{
 		// Add in the function for collecting from this room.
-
+		Collect();
+		return;
 	}
 
 	//give a player a certain amount of a resource
@@ -657,6 +658,10 @@ string Game::PrintStats()
         "---------------------------------- Your Stats ----------------------------------\r\n" + 
         " Name:          " + p.Name() + "\r\n" +
         " Rank:          " + GetRankString( p.Rank() ) + "\r\n" +
+		" Wood           " + std::to_string(p.GetResources()[WOOD]) + "\r\n" +
+		" Stone          " + std::to_string(p.GetResources()[STONE]) + "\r\n" +
+		" Iron           " + std::to_string(p.GetResources()[IRON]) + "\r\n" +
+		" Gold           " + std::to_string(p.GetResources()[GOLD]) + "\r\n" +
         "--------------------------------------------------------------------------------";
 }
 
@@ -704,21 +709,41 @@ void Game::Move( int p_direction )
 {
     Player& p = *m_player;
 
-	// Right
-	p.Coords() = World::ChangeRoom(p.Coords(), vector2(1, 0));
 
-	p.CurrentRoom()->RemovePlayer(p.ID());
+	// Right
+	vector2 dir;
+	std::shared_ptr<Room> prev = p.CurrentRoom();
+
+	if (p_direction == EAST)
+		dir = vector2(1, 0);
+	else if (p_direction == NORTH)
+		dir = vector2(0, 1);
+	else if (p_direction == WEST)
+		dir = vector2(-1, 0);
+	else if (p_direction == SOUTH)
+		dir = vector2(0, -1);
+	else
+		dir = vector2();
+
+	p.Coords() = World::ChangeRoom(p.Coords(), dir);
+
+
+	prev->RemovePlayer(p.ID());
 	World::GetRoom(p.Coords())->AddPlayer(p.ID());
+	
+	
 
     SendRoom( green + p.Name() + " leaves to the " + 
               DIRECTIONSTRINGS[p_direction] + ".",
-              *p.CurrentRoom());
+              *prev);
 
 	p.SendString( yellow + "You walk " + DIRECTIONSTRINGS[p_direction] + "." );
 
 	vector2 coords = p.Coords();
 	string out = "New Coods: " + std::to_string(coords.x) + ", " + std::to_string(coords.y);
 	p.SendString(yellow + out);
+
+	p.SendString(PrintRoom(*p.CurrentRoom()));
 }
 
 void SimpleMUD::Game::Collect()
@@ -728,18 +753,17 @@ void SimpleMUD::Game::Collect()
 	if (p.CurrentRoom()->GetBaseType() == RoomBaseType::COLLECTING)
 	{
 		// Get the value from the Room
-			// Reset the time inside the call preferably.
-		// Get the type from the room.
-
 		CollectingRoom* cRoom = dynamic_cast<CollectingRoom*>(p.CurrentRoom().get());
-		resource val = cRoom->Collect();
+		resource reward = cRoom->Collect();
 
+		// Get the type from the room.
+		ResourceType type = cRoom->GetResourceType();
 
-		// Might check if the player is the owner.
+		// Check if the player is the owner.
 		//room.GetOwner() == p;
 
 		// Add that to the players totals.
-
+		p.GetResources()[type] += reward;
 	}
 	else
 	{

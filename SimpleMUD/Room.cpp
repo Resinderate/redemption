@@ -49,11 +49,9 @@ void Room::AddPlayer( player p_player )
 
 void Room::RemovePlayer( player p_player )
 {
-    m_players.erase( std::find( m_players.begin(), 
-                                m_players.end(), 
-                                (entityid)p_player ) );
+	auto pIt = std::find(m_players.begin(), m_players.end(), (entityid)p_player);
+    m_players.erase(pIt);
 }
-
 
 
 void Room::LoadTemplate( istream& p_stream )

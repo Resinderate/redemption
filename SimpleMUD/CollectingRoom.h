@@ -29,6 +29,9 @@ namespace SimpleMUD
 
 		BasicLib::resource Collect();
 
+		inline ResourceType GetResourceType() { return m_resourceType; }
+		inline ResourceSize GetResourceSize() { return m_resourceSize; }
+
 
 
 	protected:

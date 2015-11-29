@@ -28,6 +28,7 @@ Player::Player()
 
 	m_title = PEASANT;
 	AddTitle(PEASANT);
+	
 
 	for (int i = 0; i < NumResourceType; i++)
 	{
