@@ -55,7 +55,7 @@ void Game::Handle( string p_data )
 	if (firstword == "say")
     {
 		string text = RemoveWord(p_data, 0);
-		SendRoom(magenta + bold + titledName + " -> Room: " + dim + text, p.CurrentRoom());
+		SendRoom(magenta + bold + titledName + " -> Room: " + dim + text, *p.CurrentRoom());
 		//SendGame(magenta + bold + titledName + " -> Room: " + white + text);
         return;
     }
@@ -69,7 +69,7 @@ void Game::Handle( string p_data )
 		while (ritr != rlist.end())
 		{
 			vector2& v = *ritr;
-			SendRoom(cyan + bold + titledName + " -> Local:  " + dim + text , World::GetRoom(v));
+			SendRoom(cyan + bold + titledName + " -> Local:  " + dim + text , *World::GetRoom(v));
 			++ritr;
 		}
         return;
@@ -718,11 +718,11 @@ void Game::SendRoom( string p_text, Room p_room )
 void Game::Move( int p_direction )
 {
     Player& p = *m_player;
-    Room previous = p.CurrentRoom();
+	std::shared_ptr<Room> prev = p.CurrentRoom();
 
 	// Right
 	vector2 dir;
-	std::shared_ptr<Room> prev = p.CurrentRoom();
+	
 
 	if (p_direction == EAST)
 		dir = vector2(1, 0);
@@ -737,13 +737,9 @@ void Game::Move( int p_direction )
 
 	p.Coords() = World::ChangeRoom(p.Coords(), dir);
 
-
 	prev->RemovePlayer(p.ID());
 	World::GetRoom(p.Coords())->AddPlayer(p.ID());
 	
-
-	previous.RemovePlayer(p.ID());
-	World::GetRoom(p.Coords()).AddPlayer(p.ID());
 
     SendRoom( green + p.Name() + " leaves to the " + 
               DIRECTIONSTRINGS[p_direction] + ".",
