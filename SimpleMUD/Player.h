@@ -30,8 +30,6 @@ using std::string;
 
 namespace SimpleMUD
 {
-	// A measurement of a resource.
-	typedef unsigned long long resource;
 
 class Player : public Entity
 {

@@ -742,6 +742,7 @@ void SimpleMUD::Game::Collect()
 	else
 	{
 		// Cant collect in this type of room.
+		// Some sort of message to the player.
 	}
 }
 

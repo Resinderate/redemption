@@ -32,10 +32,10 @@ namespace SimpleMUD
 		m_owner = NULL;
 	}
 
-	void CollectingRoom::Collect(player p_player)
+	BasicLib::resource CollectingRoom::Collect()
 	{
 		// Based on the Type / Size / TimeSinceLastCollect / Owner, give the player some resources.
-		int reward = 10;
+		BasicLib::resource reward = 10;
 
 		// 10, 20, 30
 		reward *= m_resourceSize + 1;
@@ -43,8 +43,11 @@ namespace SimpleMUD
 		// No Owner.
 
 		// No time consideration.
+		
+		// Reset the timer.
+		// m_lastCollection = time.now
 
-		Player& p = *p_player;
+		return reward;
 	}
 
 

@@ -16,6 +16,7 @@ namespace BasicLib
 {
 
 
+
 template<typename type, type modulus, type multiplier, type increment>
 struct linear_congruency
 {
