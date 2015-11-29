@@ -29,6 +29,12 @@ Player::Player()
 	m_title = PEASANT;
 	AddTitle(PEASANT);
 
+	for (int i = 0; i < NumResourceType; i++)
+	{
+		m_resourceAmounts[i] = 0;
+		m_itemLevels[i] = 0;
+	}
+
 	m_coords = vector2(0, 0);
 }
 

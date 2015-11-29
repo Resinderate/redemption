@@ -11,6 +11,7 @@
 
 #include <math.h>
 #include <string>
+#include <array>
 #include "../SocketLib/SocketLib.h"
 #include "../BasicLib/BasicLib.h"
 
@@ -29,9 +30,8 @@ using std::string;
 
 namespace SimpleMUD
 {
-
-const int PLAYERITEMS = 16;
-
+	// A measurement of a resource.
+	typedef unsigned long long resource;
 
 class Player : public Entity
 {
@@ -53,6 +53,9 @@ public:
 	inline std::list<PlayerTitle>& Titles() { return m_availableTitles; }
 	void SetTitle(string p_str);
 	void AddTitle(PlayerTitle p_val);
+
+	inline std::array<resource, NumResourceType>& GetResources() { return m_resourceAmounts; }
+	inline std::array<int, NumResourceType>& GetItemLevels() { return m_itemLevels; }
 
     // ------------------------------------------------------------------------
     //  non-savable accessors
@@ -89,6 +92,10 @@ protected:
     // -----------------------------------------
 	// No longer has a room. Just Coords.
 	vector2 m_coords;
+
+	// All an array of length 4, to correspond to the different resources.
+	std::array<resource, NumResourceType> m_resourceAmounts;
+	std::array<int, NumResourceType> m_itemLevels;
 
 	PlayerTitle m_title;
 	int m_noOfTitles;
