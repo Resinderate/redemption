@@ -22,14 +22,20 @@ namespace SimpleMUD
 
 Room::Room()
 {
-    m_type = PLAINROOM;
-    m_data = 0;
-    
-    m_description = "UNDEFINED";
+	m_name = "Default Room Name";
+    m_description = "Default Room Desc";
+	m_coords = BasicLib::vector2();
+	// Should always set this correctly for each room.
+	m_baseType = RoomBaseType::DEFAULT;
+	m_owner = "";
+}
 
-    for( int d = 0; d < NUMDIRECTIONS; d++ )
-        m_rooms[d] = 0;
-
+Room::Room(string p_name, string p_desc, RoomBaseType p_baseType, BasicLib::vector2 p_coords) :
+	m_name(p_name),
+	m_description(p_desc),
+	m_baseType(p_baseType),
+	m_coords(p_coords)
+{
 }
 
 void Room::AddPlayer( player p_player )
@@ -48,16 +54,12 @@ void Room::RemovePlayer( player p_player )
 
 void Room::LoadTemplate( istream& p_stream )
 {
+	/*
     string temp;
 
     p_stream >> temp >> std::ws;    std::getline( p_stream, m_name );
-    p_stream >> temp >> std::ws;    std::getline( p_stream, m_description );
-    p_stream >> temp >> temp;       m_type = GetRoomType( temp );
-    p_stream >> temp >> m_data;
-
-    for( int d = 0; d < NUMDIRECTIONS; d++ )
-        p_stream >> temp >> m_rooms[d];
-
+	p_stream >> temp >> std::ws;    std::getline(p_stream, m_description);
+	*/
 }
 
 void Room::LoadData( istream& p_stream )

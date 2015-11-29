@@ -81,8 +81,8 @@ public:
     // ------------------------------------------------------------------------
     //  Map Functions Added in Chapter 9
     // ------------------------------------------------------------------------
-    static string PrintRoom( room p_room );
-    static void SendRoom( string p_text, room p_room );
+    static string PrintRoom( Room p_room );
+    static void SendRoom( string p_text, Room p_room );
     void Move( int p_direction );
 
 

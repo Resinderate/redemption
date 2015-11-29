@@ -67,8 +67,8 @@ void GameLoop::LoadDatabases()
 {
     Load();
     PlayerDatabase::Load();
-    RoomDatabase::LoadTemplates();
-    RoomDatabase::LoadData();
+    //RoomDatabase::LoadTemplates();
+    //RoomDatabase::LoadData();
 }
 
 
@@ -76,7 +76,7 @@ void GameLoop::SaveDatabases()
 {
     Save();
     PlayerDatabase::Save();
-    RoomDatabase::SaveData();
+    //RoomDatabase::SaveData();
 }
 }   // end namespace SimpleMUD
 

@@ -21,64 +21,87 @@ using std::ofstream;
 namespace SimpleMUD
 {
 
-// declare the static vector of the room database.
-std::vector<Room> EntityDatabaseVector<Room>::m_vector;
+	// declare the static vector of the room database.
+	//std::vector<Room> EntityDatabaseVector<Room>::m_vector;
+	std::unordered_map<BasicLib::vector2, Room> RoomDatabase::m_rooms;
 
+	void RoomDatabase::AddRoom(vector2 p_coords, Room p_room)
+	{
+		m_rooms.insert(std::pair<vector2, Room>( p_coords, p_room ));
+	}
 
-void RoomDatabase::LoadTemplates()
-{
-    std::ifstream file( "maps/default.map" );
-    entityid id;
-    std::string temp;
+	bool RoomDatabase::RoomExists(vector2 p_coords)
+	{
+		if (m_rooms.count(p_coords) > 0)
+			return true;
+		else
+			return false;
+	}
 
-    while( file.good() )
-    {
-        // read the ID from disk
-        file >> temp >> id;
+	Room & SimpleMUD::RoomDatabase::GetRoom(BasicLib::vector2 p_coords)
+	{
+		// Could throw an exception if the item doesn't exist.
+		try
+		{
+			return m_rooms.at(p_coords);
+		}
+		catch (std::exception)
+		{
+			ERRORLOG.Log("Error finding room in map.");
+		}
 
-        // make sure there's enough room for the room
-        if( m_vector.size() <= id )
-            m_vector.resize( id + 1 );
+		
+	}
 
-        m_vector[id].ID() = id;
-        m_vector[id].LoadTemplate( file );     
-        file >> std::ws;
-    }
-}
+	void RoomDatabase::LoadTemplates()
+	{
+		// Load Tempaltes.
+		/*
+		std::ifstream file( "maps/default.map" );
+		entityid id;
+		std::string temp;
 
-void RoomDatabase::LoadData()
-{
-    std::ifstream file( "maps/default.data" );
+		while( file.good() )
+		{
+			// read the ID from disk
+			file >> temp >> id;
 
-    string temp;
-    entityid roomid;
+			// make sure there's enough room for the room
+			if( m_vector.size() <= id )
+				m_vector.resize( id + 1 );
 
-    while( file.good() )
-    {
-        // load in the room id
-        file >> temp >> roomid;
+			m_vector[id].ID() = id;
+			m_vector[id].LoadTemplate( file );     
+			file >> std::ws;
+		}
+		*/
+	}
 
-        // load the entry
-        m_vector[roomid].LoadData( file );
-        file >> std::ws;
-    }
-}
+	void RoomDatabase::LoadData()
+	{
+		// Load Data.
+		/*
+		std::ifstream file( "maps/default.data" );
 
-void RoomDatabase::SaveData()
-{
-    std::ofstream file( "maps/default.data" );
+		string temp;
+		entityid roomid;
 
-    iterator itr = begin();
-    
-    while( itr != end() )
-    {
-        file << "[ROOMID] " << itr->ID() << "\n";
-        m_vector[itr->ID()].SaveData( file );
-        file << "\n";
+		while( file.good() )
+		{
+			// load in the room id
+			file >> temp >> roomid;
 
-        ++itr;
-    }
-}
+			// load the entry
+			m_vector[roomid].LoadData( file );
+			file >> std::ws;
+		}
+		*/
+	}
+
+	void RoomDatabase::SaveData()
+	{
+		// Save Data.
+	}
 
 
 }   // end namespace SimpleMUD

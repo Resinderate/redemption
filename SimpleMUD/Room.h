@@ -33,11 +33,9 @@ class Room : public Entity
 {
 public:
     Room();
-
-    inline RoomType& Type()         { return m_type; }
-    inline int& Data()              { return m_data; }
+	Room(string p_name, string p_desc, RoomBaseType p_baseType, BasicLib::vector2 p_coords);
+	inline string& Name()			{ return m_name; }
     inline string& Description()    { return m_description; }
-    inline entityid& Adjacent( int p_dir ) { return m_rooms[p_dir]; }
 
     inline list<player>& Players()  { return m_players; }
 
@@ -53,13 +51,15 @@ protected:
     // -----------------------------------------
     //  template information
     // -----------------------------------------
-    RoomType m_type;
-    int m_data;         // auxilliary data defined by room type
+	
+	// Might be some other symantic for this.
+	string m_name;
     string m_description;
-    entityid m_rooms[NUMDIRECTIONS];
+	BasicLib::vector2 m_coords;
+	RoomBaseType m_baseType;
 
-    int m_maxenemies;
-
+	// probably changed to a player later when it's figured out.
+	string m_owner;
 
     // -----------------------------------------
     //  volatile data (save to disk)
@@ -73,11 +73,6 @@ protected:
 
 
 };  // end class Room
-
-
-
-
-
 
 }   // end namespace SimpleMUD
 

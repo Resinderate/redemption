@@ -17,6 +17,8 @@
 #include "Entity.h"
 #include "Attributes.h"
 #include "DatabasePointer.h"
+#include "Room.h"
+#include "World.h"
 
 using SocketLib::Connection;
 using SocketLib::Telnet;
@@ -61,7 +63,8 @@ public:
 
     inline int& StatPoints()                { return m_statpoints; }
     inline int& Experience()                { return m_experience; }
-    inline room& CurrentRoom()              { return m_room; }
+	inline Room& CurrentRoom() { return World::GetRoom(m_coords); }
+	inline vector2& Coords() { return m_coords; }
 
     inline sint64& NextAttackTime()         { return m_nextattacktime; }
 
@@ -107,8 +110,10 @@ protected:
     int m_statpoints;
     int m_experience;
     int m_level;
-    room m_room;
     int m_hitpoints;
+	// No longer has a room. Just Coords.
+	vector2 m_coords;
+
 
 	PlayerTitle m_title;
 	int m_noOfTitles;
