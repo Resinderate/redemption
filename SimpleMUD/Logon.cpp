@@ -9,6 +9,7 @@
 #include "Game.h"
 #include "PlayerDatabase.h"
 #include "../BasicLib/BasicLib.h"
+#include "../SocketLib/ConnectionManager.h"
 
 using namespace SocketLib;
 
@@ -21,7 +22,7 @@ namespace SimpleMUD
 // ------------------------------------------------------------------------
 void Logon::Handle( string p_data )
 {
-
+	
     if( m_errors == 5 )
     {
         m_connection->Protocol().SendString( *m_connection, red + bold + 

@@ -95,6 +95,25 @@ public:
         }
     }
 
+
+	// ------------------------------------------------------------------------
+	//  This tells a connection that there is already an user at that IpAddress
+	//	@author Kevin Duffy
+	// ------------------------------------------------------------------------
+	static void IpConflict(Connection<Telnet>& p_connection)
+	{
+		static string msg = "Sorry, there is already a user at that IP address.\r\n";
+		try
+		{
+			p_connection.Send(msg.c_str(), (int)msg.size());
+		}
+		catch (SocketLib::Exception)
+		{
+			// do nothing here; probably an exploiter if sending that data
+			// causes an exception.
+		}
+	}
+
     // ------------------------------------------------------------------------
     //  This checks if a user name is acceptible.
     // ------------------------------------------------------------------------
@@ -108,7 +127,6 @@ protected:
 
     string m_name;              // name
     string m_pass;              // password
-
 
 };  // end class Logon
 

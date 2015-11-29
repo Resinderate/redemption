@@ -28,6 +28,7 @@ namespace SimpleMUD
 			ResourceType p_reType, ResourceSize p_reSize);
 
 
+
 	protected:
 		// What sort of resource it is.
 		ResourceType m_resourceType;

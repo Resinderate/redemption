@@ -85,6 +85,7 @@ public:
     static void SendRoom( string p_text, Room p_room );
     void Move( int p_direction );
 
+
 protected:
 
     player m_player;
@@ -92,6 +93,7 @@ protected:
 
     static BasicLib::Timer s_timer;
     static bool s_running;
+
 
 
 };  // end class Game
