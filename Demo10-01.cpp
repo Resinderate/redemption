@@ -6,6 +6,8 @@
 // 
 
 #include <sstream>
+#include <stdlib.h>
+#include <time.h>
 
 #include "SocketLib/SocketLib.h"
 
@@ -24,6 +26,10 @@ int main()
 {
     try
     {
+
+		// Want to seed the rand for the rest of the program.
+		srand(time(NULL));
+
         GameLoop gameloop;
 
         ListeningManager<Telnet, Logon> lm;

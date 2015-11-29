@@ -16,7 +16,7 @@ namespace SimpleMUD
 
 	World::World()
 	{
-		
+
 	}
 
 	Room& World::GetRoom(BasicLib::vector2 p_coords)
@@ -33,7 +33,7 @@ namespace SimpleMUD
 	BasicLib::vector2 World::ChangeRoom(BasicLib::vector2 p_coords, BasicLib::vector2 p_move)
 	{
 		BasicLib::vector2 newLocation = BasicLib::vector2(p_coords.x + p_move.x, p_coords.y + p_move.y);
-		
+
 		if (!m_rooms.RoomExists(newLocation))
 		{
 			GenerateNewRoom(newLocation);
@@ -44,11 +44,67 @@ namespace SimpleMUD
 
 	void World::GenerateNewRoom(BasicLib::vector2 p_coords)
 	{
+		float distanceFromOrigin = p_coords.length();
+
+		// Based on the distance away from the middle, create a room.
+			// Add it to the database.
+		RoomBaseType roomType = RoomBaseType::COLLECTING;
+
+		// Is it collecting or special.
+		// Proabably a list of the existing rooms.
+			// Might only be able to get a certain amount of them.
+
+		// Need weights for the generation of the collecting rooms.
+
+
+		// Random Room Type.
+		int typeIndex = -1;
+
+		// Random between 0.0f and 1.0f
+		float random = static_cast<float> (rand()) / static_cast<float> (RAND_MAX);
+
+		// Pick an index based on the weights.
+		int size = sizeof(TYPEWEIGHTS) / sizeof(TYPEWEIGHTS[0]);
+		for (int i = 0; i < size; i++)
+		{
+			random -= TYPEWEIGHTS[i];
+			if (random <= 0.0f)
+			{
+				typeIndex = i;
+				break;
+			}
+		}
+
+		// Assigning Type for the room.
+		ResourceType resourceType = static_cast<ResourceType>(typeIndex);
+
+		// Random Room Size.
+		int sizeIndex = -1;
+		float random = static_cast<float> (rand()) / static_cast<float> (RAND_MAX);
+
+		size = sizeof(SIZEWEIGHTS) / sizeof(SIZEWEIGHTS[0]);
+		for (int i = 0; i < size; i++)
+		{
+			random -= SIZEWEIGHTS[i];
+			if (random <= 0.0f)
+			{
+				sizeIndex = i;
+				break;
+			}
+		}
 		
-		// Based on some params such as how far away from the centre the coords are:
-			// Generate a new room, and add it to the database.
+		// Size
+		ResourceSize resourceSize = static_cast<ResourceSize>(sizeIndex);
+
+		// Description? -- Could be the type of room. Build up based on the type.
+		string desc = "Room Desc: " + ResourceTypeStrings[typeIndex] + " :: " = ResourceSizeStrings[sizeIndex] 
+			+ " - (Temp coords: " + std::to_string(p_coords.x) + ", " + std::to_string(p_coords.y);
+
+		// Name? -- Could be a randomly generated name. Do later on.
+		string name = "Default Name -- TODO Generate random place name.";
+
 		//m_rooms.AddRoom(p_coords, SpecialRoom());
-		m_rooms.AddRoom(p_coords, CollectingRoom());
+		m_rooms.AddRoom(p_coords, CollectingRoom(name, desc, roomType, p_coords, resourceType, resourceSize));
 
 	}
 

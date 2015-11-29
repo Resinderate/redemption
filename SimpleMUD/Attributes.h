@@ -277,6 +277,27 @@ inline string GetRoomTypeString( RoomType p_enum )
 }
 */
 
+// Room Type and Size Weights
+// Ronan
+
+// Type
+const float WOODWEIGHT = 0.4f;
+const float STONEWEIGHT = 0.3f;
+const float IRONWEIGHT = 0.2f;
+const float GOLDWEIGHT= 0.1f;
+
+const float TYPEWEIGHTS[4] = {WOODWEIGHT, STONEWEIGHT, IRONWEIGHT, GOLDWEIGHT};
+// Size
+const float SMALLWEIGHT = 0.5f;
+const float MEDIUMWEIGHT = 0.3f;
+const float LARGEWEIGHT = 0.2f;
+
+float SIZEWEIGHTS[4] = { SMALLWEIGHT, MEDIUMWEIGHT, LARGEWEIGHT };
+
+// All weights should add up to 1.0f
+const float TOTALWEIGHT = 1.0f;
+
+
 
 
 // ======================================
@@ -331,12 +352,29 @@ enum ResourceType
 	IRON,
 	GOLD
 };
+const int NumResourceType = 4;
+
+const string ResourceTypeStrings[NumResourceType] =
+{
+	"WOOD",
+	"STONE",
+	"IRON",
+	"GOLD"
+};
 
 enum ResourceSize
 {
 	SMALL,
 	MEDIUM,
 	LARGE
+};
+const int NumResourceSize = 3;
+
+const string ResourceSizeStrings[NumResourceSize] =
+{
+	"SMALL",
+	"MEDIUM",
+	"LARGE"
 };
 
 }   // end namespace SimpleMUD

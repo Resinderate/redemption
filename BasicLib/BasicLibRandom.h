@@ -8,6 +8,7 @@
 #define BASICLIBRANDOM_H
 
 #include <stdlib.h>
+#include <math.h>
 
 #include "BasicLibTypes.h"
 
@@ -359,6 +360,11 @@ public:
 	bool operator==(const vector2 &other) const
 	{
 		return (x == other.x && y == other.y);
+	}
+
+	float length()
+	{
+		return (float)sqrt(pow(x, 2) + pow(y, 2));
 	}
 
 
