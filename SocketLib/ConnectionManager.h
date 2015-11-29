@@ -175,23 +175,23 @@ NewConnection( DataSocket& p_socket )
     Connection<protocol> conn( p_socket );
 
 
-	ipaddress addr = conn.GetLocalAddress();
+	//ipaddress addr = conn.GetLocalAddress();
 
-	clistitr itr = m_connections.begin();
-	while (itr != m_connections.end())
-	{
-		Connection<protocol>& temp = *itr;
-		if (GetIPString(temp.GetLocalAddress()) == GetIPString(addr))
-		{
-			// tell the default protocol handler that there is no more room
-			// for the connection within this manager.
-			defaulthandler::IpConflict(conn);
+	//clistitr itr = m_connections.begin();
+	//while (itr != m_connections.end())
+	//{
+	//	Connection<protocol>& temp = *itr;
+	//	if (GetIPString(temp.GetLocalAddress()) == GetIPString(addr))
+	//	{
+	//		// tell the default protocol handler that there is no more room
+	//		// for the connection within this manager.
+	//		defaulthandler::IpConflict(conn);
 
-			// It is assumed that the protocol handler has told the connection the 
-			// appropriate message, so close the connection.
-			conn.CloseSocket();
-		}
-	}
+	//		// It is assumed that the protocol handler has told the connection the 
+	//		// appropriate message, so close the connection.
+	//		conn.CloseSocket();
+	//	}
+	//}
     if( AvailableConnections() == 0 )
     {
         // tell the default protocol handler that there is no more room

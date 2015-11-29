@@ -44,6 +44,7 @@ public:
     // ------------------------------------------------------------------------
     //  Attribute Functions
     // ------------------------------------------------------------------------
+	std::list<vector2> AdjacentRooms();
 	inline std::shared_ptr<Room>& CurrentRoom() { return World::GetRoom(m_coords); }
 	inline vector2& Coords() { return m_coords; }
 

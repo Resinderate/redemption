@@ -55,7 +55,8 @@ void Game::Handle( string p_data )
 	if (firstword == "say")
     {
 		string text = RemoveWord(p_data, 0);
-		SendGame(magenta + bold + titledName + " -> Local: " + white + text);
+		SendRoom(magenta + bold + titledName + " -> Room: " + dim + text, p.CurrentRoom());
+		//SendGame(magenta + bold + titledName + " -> Room: " + white + text);
         return;
     }
 
@@ -63,15 +64,23 @@ void Game::Handle( string p_data )
 	if (firstword == "shout")
     {
 		string text = RemoveWord(p_data, 0);
-		SendGame(magenta + bold + titledName + " -> Neighbour:  " + white + text);
+		list<vector2>& rlist = p.AdjacentRooms();
+		list<vector2>::iterator ritr = rlist.begin();
+		while (ritr != rlist.end())
+		{
+			vector2& v = *ritr;
+			SendRoom(cyan + bold + titledName + " -> Local:  " + dim + text , World::GetRoom(v));
+			++ritr;
+		}
         return;
     }
 
 	// message sent to all corporation members
 	if (firstword == "corp")
     {
+		//Need to have a pointer to the list of members of a players corporations
 		string text = RemoveWord(p_data, 0);
-		SendGame(magenta + bold + titledName + " -> Corporation: " + white + text);
+		SendGame(yellow + bold + titledName + " -> Corporation: " + white + text);
         return;
     }
 
@@ -79,7 +88,7 @@ void Game::Handle( string p_data )
 	if (firstword == "global")
 	{
 		string text = RemoveWord(p_data, 0);
-		SendGame(magenta + bold + titledName + " -> Global: " + white + text);
+		SendGame(blue + bold + titledName + " -> Global: " + white + text);
 		return;
 	}
 
@@ -148,27 +157,27 @@ void Game::Handle( string p_data )
 		if (secondword == "north")
 		{
 			Move(NORTH);
-			return;
-		}
-			if (secondword == "east")
-		{
-				Move(EAST);
-			return;
-		}
-			if (secondword == "south")
-		{
-				Move(SOUTH);
-			return;
-		}
-			if (secondword == "west")
-		{
-				Move(WEST);
-			return;
-		}
-			else
-		{
-			return;
-		}
+        return;
+    }
+		if (secondword == "east")
+    {
+			Move(EAST);
+        return;
+    }
+		if (secondword == "south")
+    {
+			Move(SOUTH);
+        return;
+    }
+		if (secondword == "west")
+    {
+			Move(WEST);
+        return;
+    }
+		else
+    {
+        return;
+    }
 	}
 
 	//Display players titles
@@ -386,8 +395,9 @@ void Game::Handle( string p_data )
     // ------------------------------------------------------------------------
 	// If command is not in dictionary Say unrecognised.
 	// If command is a commonly used shortcut inform player of rebind ability.
-	SendRoom( bold + titledName + " says: " + dim + p_data, *p.CurrentRoom() );
+	//SendRoom( bold + titledName + " says: " + dim + p_data, p.CurrentRoom() );
 
+	p.SendString(bold + red + "Invalid Command");
 }
 
 
@@ -708,7 +718,7 @@ void Game::SendRoom( string p_text, Room p_room )
 void Game::Move( int p_direction )
 {
     Player& p = *m_player;
-
+    Room previous = p.CurrentRoom();
 
 	// Right
 	vector2 dir;
@@ -731,7 +741,9 @@ void Game::Move( int p_direction )
 	prev->RemovePlayer(p.ID());
 	World::GetRoom(p.Coords())->AddPlayer(p.ID());
 	
-	
+
+	previous.RemovePlayer(p.ID());
+	World::GetRoom(p.Coords()).AddPlayer(p.ID());
 
     SendRoom( green + p.Name() + " leaves to the " + 
               DIRECTIONSTRINGS[p_direction] + ".",
