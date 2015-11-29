@@ -11,6 +11,7 @@
 
 #include <math.h>
 #include <string>
+#include <array>
 #include "../SocketLib/SocketLib.h"
 #include "../BasicLib/BasicLib.h"
 
@@ -29,9 +30,8 @@ using std::string;
 
 namespace SimpleMUD
 {
-
-const int PLAYERITEMS = 16;
-
+	// A measurement of a resource.
+	typedef unsigned long long resource;
 
 class Player : public Entity
 {
@@ -42,37 +42,21 @@ public:
     // ------------------------------------------------------------------------
     //  Level Functions
     // ------------------------------------------------------------------------
-    inline static int NeedForLevel( int p_level );
-    int NeedForNextLevel();
-    bool Train();
-    inline int Level()                      { return m_level; }
 
     // ------------------------------------------------------------------------
     //  Attribute Functions
     // ------------------------------------------------------------------------
-    void RecalculateStats();
-
-    void AddHitpoints( int p_hitpoints );
-    void SetHitpoints( int p_hitpoints );
-    inline int HitPoints()                  { return m_hitpoints; }
-
-    inline int GetAttr( int p_attr );
-    inline int GetBaseAttr( int p_attr );
-    void SetBaseAttr( int p_attr, int p_val );
-    void AddToBaseAttr( int p_attr, int p_val ); 
-
-    inline int& StatPoints()                { return m_statpoints; }
-    inline int& Experience()                { return m_experience; }
 	inline Room& CurrentRoom() { return World::GetRoom(m_coords); }
 	std::list<vector2> AdjacentRooms();
 	inline vector2& Coords() { return m_coords; }
-
-    inline sint64& NextAttackTime()         { return m_nextattacktime; }
 
 	inline PlayerTitle& GetPlayerTitle() { return m_title; }
 	inline std::list<PlayerTitle>& Titles() { return m_availableTitles; }
 	void SetTitle(string p_str);
 	void AddTitle(PlayerTitle p_val);
+
+	inline std::array<resource, NumResourceType>& GetResources() { return m_resourceAmounts; }
+	inline std::array<int, NumResourceType>& GetItemLevels() { return m_itemLevels; }
 
     // ------------------------------------------------------------------------
     //  non-savable accessors
@@ -83,7 +67,6 @@ public:
     inline bool& LoggedIn()                 { return m_loggedin; }
     inline bool& Active()                   { return m_active; }
     inline bool& Newbie()                   { return m_newbie; }
-
 
     // ------------------------------------------------------------------------
     //  Communications Functions
@@ -108,21 +91,18 @@ protected:
     // -----------------------------------------
     //  Player attributes
     // -----------------------------------------
-    int m_statpoints;
-    int m_experience;
-    int m_level;
-    int m_hitpoints;
 	// No longer has a room. Just Coords.
 	vector2 m_coords;
+
+	// All an array of length 4, to correspond to the different resources.
+	std::array<resource, NumResourceType> m_resourceAmounts;
+	std::array<int, NumResourceType> m_itemLevels;
 
 	PlayerTitle m_title;
 	int m_noOfTitles;
 	std::list<PlayerTitle> m_availableTitles;
 
-    AttributeSet m_baseattributes;
-    AttributeSet m_attributes;
-
-    BasicLib::sint64 m_nextattacktime;
+	string m_corp;
 
     // -----------------------------------------
     //  Non-savable info
@@ -138,38 +118,6 @@ protected:
 
 ostream& operator<<( ostream& p_stream, const Player& p );
 istream& operator>>( istream& p_stream, Player& p );
-
-
-
-inline int Player::NeedForLevel( int p_level )
-{
-    // see Chapter 7 for explanation of formula
-    return (int)(100 * ( pow( 1.4, p_level - 1 ) - 1 ));
-}
-
-
-inline int Player::GetAttr( int p_attr )
-{
-    // calculate the base value plus the temporary calculated value:
-    int val = m_attributes[p_attr] + m_baseattributes[p_attr];
-
-    if( p_attr == STRENGTH || p_attr == AGILITY || p_attr == HEALTH )
-    {
-        // return 1 if the value is less than 1
-        if( val < 1 )
-            return 1;
-    }
-    
-    return val;
-}
-
-
-inline int Player::GetBaseAttr( int p_attr )
-{
-    // return just the base value
-    return m_baseattributes[p_attr];
-}
-
 
 // --------------------------------------------------------------------
 //  functor that determines if a player is active

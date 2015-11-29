@@ -53,7 +53,6 @@ public:
     void Leave();
     void Hungup();
     void Flooded();
-    void GotoTrain();
 
     // ------------------------------------------------------------------------
     //  sending functions
@@ -70,7 +69,6 @@ public:
     static string WhoList( const string& p_who );
     static string PrintHelp( PlayerRank p_rank = REGULAR );
     string PrintStats();
-    string PrintExperience();
     // ------------------------------------------------------------------------
     //  Accessors
     // ------------------------------------------------------------------------
@@ -93,8 +91,6 @@ protected:
 
     static BasicLib::Timer s_timer;
     static bool s_running;
-
-
 
 };  // end class Game
 

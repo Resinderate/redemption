@@ -7,7 +7,6 @@
 
 #include "Logon.h"
 #include "Game.h"
-#include "Train.h"
 #include "PlayerDatabase.h"
 #include "../BasicLib/BasicLib.h"
 
@@ -417,8 +416,10 @@ void Game::Enter()
     p.LoggedIn() = true;
 
     SendGame( bold + green + titledName + " has entered the realm." );
+
 	p.CurrentRoom().AddPlayer(p.ID());
-    p.SendString( PrintRoom( p.CurrentRoom() ) );
+
+        p.SendString( PrintRoom( p.CurrentRoom() ) );
 }
 
 void Game::Leave()
@@ -522,7 +523,7 @@ void Game::Whisper( std::string p_str, std::string p_player )
     {
         m_player->SendString( red + bold + "Error, cannot find user." );
     }
-    else 
+    else
     {
         itr->SendString( yellow + m_player->Name() + " whispers to you: " + 
                          reset + p_str );
@@ -542,8 +543,6 @@ struct wholist
     void operator() ( Player& p )
     {
         str += " " + tostring( p.Name(), 17 ) + "| ";
-        str += tostring( p.Level(), 10 ) + "| ";
-        
         
         if( p.Active() )
             str += green + "Online  " + white;
@@ -665,36 +664,8 @@ string Game::PrintStats()
         "---------------------------------- Your Stats ----------------------------------\r\n" + 
         " Name:          " + p.Name() + "\r\n" +
         " Rank:          " + GetRankString( p.Rank() ) + "\r\n" + 
-        " HP/Max:        " + tostring( p.HitPoints() ) + "/" + tostring( p.GetAttr( MAXHITPOINTS ) ) +
-        "  (" + tostring( percent( p.HitPoints(), p.GetAttr( MAXHITPOINTS )) ) + "%)\r\n" +
-        PrintExperience() + "\r\n" + 
-        " Strength:      " + tostring( p.GetAttr( STRENGTH ), 16 ) + 
-        " Accuracy:      " + tostring( p.GetAttr( ACCURACY ) ) + "\r\n" +
-        " Health:        " + tostring( p.GetAttr( HEALTH ), 16 ) + 
-        " Dodging:       " + tostring( p.GetAttr( DODGING ) ) + "\r\n" +
-        " Agility:       " + tostring( p.GetAttr( AGILITY ), 16 ) + 
-        " Strike Damage: " + tostring( p.GetAttr( STRIKEDAMAGE ) ) + "\r\n" +
-        " StatPoints:    " + tostring( p.StatPoints(), 16 ) + 
-        " Damage Absorb: " + tostring( p.GetAttr( DAMAGEABSORB ) ) + "\r\n" +
         "--------------------------------------------------------------------------------";
 }
-
-// ------------------------------------------------------------------------
-//  This prints up the experience of the player
-// ------------------------------------------------------------------------
-string Game::PrintExperience()
-{
-    using namespace BasicLib;
-    Player& p = *m_player;
-
-    return white + bold +
-        " Level:         " + tostring( p.Level() ) + "\r\n" + 
-        " Experience:    " + tostring( p.Experience() ) + "/" +
-        tostring( p.NeedForLevel( p.Level() + 1 ) ) + " (" + 
-        tostring( percent( p.Experience(), p.NeedForLevel( p.Level() + 1 ) ) ) + 
-        "%)";
-}
-
 
 string Game::PrintRoom( Room p_room )
 {
@@ -743,6 +714,7 @@ void Game::Move( int p_direction )
 
 	// Right
 	p.Coords() = World::ChangeRoom(p.Coords(), vector2(1, 0));
+
 	previous.RemovePlayer(p.ID());
 	World::GetRoom(p.Coords()).AddPlayer(p.ID());
 
@@ -757,14 +729,6 @@ void Game::Move( int p_direction )
 	p.SendString(yellow + out);
 }
 
-
-void Game::GotoTrain()
-{
-            Player& p = *m_player;
-            p.Active() = false;
-            p.Conn()->AddHandler( new Train( *m_connection, p.ID() ) );
-            LogoutMessage( p.Name() + " leaves to edit stats" );
-}
 //
 //
 //string Game::StoreList( entityid p_store )

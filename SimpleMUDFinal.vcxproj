@@ -104,7 +104,6 @@
     <ClCompile Include="SimpleMUD\RoomDatabase.cpp" />
     <ClCompile Include="SimpleMUD\SimpleMUDLogs.cpp" />
     <ClCompile Include="SimpleMUD\SpecialRoom.cpp" />
-    <ClCompile Include="SimpleMUD\Train.cpp" />
     <ClCompile Include="SimpleMUD\World.cpp" />
     <ClCompile Include="SocketLib\SocketLibErrors.cpp" />
     <ClCompile Include="SocketLib\SocketLibSocket.cpp" />
@@ -134,7 +133,6 @@
     <ClInclude Include="SimpleMUD\RoomDatabase.h" />
     <ClInclude Include="SimpleMUD\SimpleMUDLogs.h" />
     <ClInclude Include="SimpleMUD\SpecialRoom.h" />
-    <ClInclude Include="SimpleMUD\Train.h" />
     <ClInclude Include="SimpleMUD\World.h" />
     <ClInclude Include="SocketLib\Connection.h" />
     <ClInclude Include="SocketLib\ConnectionHandler.h" />

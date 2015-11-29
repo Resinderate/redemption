@@ -66,9 +66,6 @@
     <ClCompile Include="SocketLib\Telnet.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="SimpleMUD\Train.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="SimpleMUD\Logon.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -79,9 +76,6 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="SimpleMUD\World.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="vmath\vmath.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -176,9 +170,6 @@
     <ClInclude Include="SocketLib\Telnet.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="SimpleMUD\Train.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="SimpleMUD\CollectingRoom.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -186,9 +177,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="SimpleMUD\World.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="vmath\vmath.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
