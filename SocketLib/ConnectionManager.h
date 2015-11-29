@@ -99,7 +99,6 @@ public:
         Send();
         CloseConnections();
     }
-
 protected:
     // ------------------------------------------------------------------------
     //  This closes a connection within the connection manager; it is assumed
@@ -175,6 +174,24 @@ NewConnection( DataSocket& p_socket )
     // turn the socket into a connection
     Connection<protocol> conn( p_socket );
 
+
+	ipaddress addr = conn.GetLocalAddress();
+
+	clistitr itr = m_connections.begin();
+	while (itr != m_connections.end())
+	{
+		Connection<protocol>& temp = *itr;
+		if (GetIPString(temp.GetLocalAddress()) == GetIPString(addr))
+		{
+			// tell the default protocol handler that there is no more room
+			// for the connection within this manager.
+			defaulthandler::IpConflict(conn);
+
+			// It is assumed that the protocol handler has told the connection the 
+			// appropriate message, so close the connection.
+			conn.CloseSocket();
+		}
+	}
     if( AvailableConnections() == 0 )
     {
         // tell the default protocol handler that there is no more room
@@ -351,14 +368,16 @@ void ConnectionManager<protocol, defaulthandler>::CloseConnections()
     clistitr itr = m_connections.begin();
     clistitr c;
 
-    while( itr != m_connections.end() )
-    {
-        // retain the value of the iterator in "c" while moving "itr" forward
-        c = itr++;
+	while (itr != m_connections.end())
+	{
+		// retain the value of the iterator in "c" while moving "itr" forward
+		c = itr++;
 
-        if( c->Closed() )
-            Close( c );
-    }
+		if (c->Closed())
+		{
+			Close(c);
+		}
+	}
 }
 
 
