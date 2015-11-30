@@ -46,66 +46,76 @@ namespace SimpleMUD
 	{
 		float distanceFromOrigin = p_coords.length();
 
-		// Based on the distance away from the middle, create a room.
+		if (p_coords.x == 1 && p_coords.y == 1)
+		{
+			string name = "TempName";
+			string desc = "TempDesc Special Room";
+			RoomBaseType roomBaseType = RoomBaseType::SPECIAL;
+			RoomType roomType = RoomType::TRADING;
+			m_rooms.AddRoom(p_coords, std::unique_ptr<Room>(new SpecialRoom(name, desc, roomBaseType, p_coords, roomType)));
+		}
+		else
+		{
+			// Based on the distance away from the middle, create a room.
 			// Add it to the database.
-		RoomBaseType roomType = RoomBaseType::COLLECTING;
+			RoomBaseType roomType = RoomBaseType::COLLECTING;
 
-		// Is it collecting or special.
-		// Proabably a list of the existing rooms.
+			// Is it collecting or special.
+			// Proabably a list of the existing rooms.
 			// Might only be able to get a certain amount of them.
 
-		// Need weights for the generation of the collecting rooms.
+			// Need weights for the generation of the collecting rooms.
 
 
-		// Random Room Type.
-		int typeIndex = -1;
+			// Random Room Type.
+			int typeIndex = -1;
 
-		// Random between 0.0f and 1.0f
-		float random = static_cast<float> (rand()) / static_cast<float> (RAND_MAX);
+			// Random between 0.0f and 1.0f
+			float random = static_cast<float> (rand()) / static_cast<float> (RAND_MAX);
 
-		// Pick an index based on the weights.
-		int size = sizeof(TYPEWEIGHTS) / sizeof(TYPEWEIGHTS[0]);
-		for (int i = 0; i < size; i++)
-		{
-			random -= TYPEWEIGHTS[i];
-			if (random <= 0.0f)
+			// Pick an index based on the weights.
+			int size = sizeof(TYPEWEIGHTS) / sizeof(TYPEWEIGHTS[0]);
+			for (int i = 0; i < size; i++)
 			{
-				typeIndex = i;
-				break;
+				random -= TYPEWEIGHTS[i];
+				if (random <= 0.0f)
+				{
+					typeIndex = i;
+					break;
+				}
 			}
-		}
 
-		// Assigning Type for the room.
-		ResourceType resourceType = static_cast<ResourceType>(typeIndex);
+			// Assigning Type for the room.
+			ResourceType resourceType = static_cast<ResourceType>(typeIndex);
 
-		// Random Room Size.
-		int sizeIndex = -1;
-		random = static_cast<float> (rand()) / static_cast<float> (RAND_MAX);
+			// Random Room Size.
+			int sizeIndex = -1;
+			random = static_cast<float> (rand()) / static_cast<float> (RAND_MAX);
 
-		size = sizeof(SIZEWEIGHTS) / sizeof(SIZEWEIGHTS[0]);
-		for (int i = 0; i < size; i++)
-		{
-			random -= SIZEWEIGHTS[i];
-			if (random <= 0.0f)
+			size = sizeof(SIZEWEIGHTS) / sizeof(SIZEWEIGHTS[0]);
+			for (int i = 0; i < size; i++)
 			{
-				sizeIndex = i;
-				break;
+				random -= SIZEWEIGHTS[i];
+				if (random <= 0.0f)
+				{
+					sizeIndex = i;
+					break;
+				}
 			}
+
+			// Size
+			ResourceSize resourceSize = static_cast<ResourceSize>(sizeIndex);
+
+			// Name? -- Could be a randomly generated name. Do later on.
+
+			string name = "Default Name -- TODO Generate random place name.";
+			// Description? -- Could be the type of room. Build up based on the type.
+			string desc = "Room Desc: " + ResourceTypeStrings[typeIndex] + " :: " + ResourceSizeStrings[sizeIndex]
+				+ " - (Temp coords: " + std::to_string(p_coords.x) + ", " + std::to_string(p_coords.y) + ")";
+
+			//m_rooms.AddRoom(p_coords, SpecialRoom());
+			m_rooms.AddRoom(p_coords, std::unique_ptr<Room>(new CollectingRoom(name, desc, roomType, p_coords, resourceType, resourceSize)));
 		}
-		
-		// Size
-		ResourceSize resourceSize = static_cast<ResourceSize>(sizeIndex);
-
-		// Name? -- Could be a randomly generated name. Do later on.
-
-		string name = "Default Name -- TODO Generate random place name.";
-		// Description? -- Could be the type of room. Build up based on the type.
-		string desc = "Room Desc: " + ResourceTypeStrings[typeIndex] + " :: " + ResourceSizeStrings[sizeIndex]
-			+ " - (Temp coords: " + std::to_string(p_coords.x) + ", " + std::to_string(p_coords.y) + ")";
-
-		//m_rooms.AddRoom(p_coords, SpecialRoom());
-		m_rooms.AddRoom(p_coords, std::unique_ptr<Room>(new CollectingRoom(name, desc, roomType, p_coords, resourceType, resourceSize)));
-
 	}
 
 }   // end namespace SimpleMUD
