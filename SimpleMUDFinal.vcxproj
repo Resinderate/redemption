@@ -98,6 +98,7 @@
     <ClCompile Include="SimpleMUD\ExampleHandler.cpp" />
     <ClCompile Include="SimpleMUD\Game.cpp" />
     <ClCompile Include="SimpleMUD\GameLoop.cpp" />
+    <ClCompile Include="SimpleMUD\HandlerFactory.cpp" />
     <ClCompile Include="SimpleMUD\Logon.cpp" />
     <ClCompile Include="SimpleMUD\Player.cpp" />
     <ClCompile Include="SimpleMUD\PlayerDatabase.cpp" />
@@ -128,6 +129,7 @@
     <ClInclude Include="SimpleMUD\ExampleHandler.h" />
     <ClInclude Include="SimpleMUD\Game.h" />
     <ClInclude Include="SimpleMUD\GameLoop.h" />
+    <ClInclude Include="SimpleMUD\HandlerFactory.h" />
     <ClInclude Include="SimpleMUD\Logon.h" />
     <ClInclude Include="SimpleMUD\Player.h" />
     <ClInclude Include="SimpleMUD\PlayerDatabase.h" />

@@ -81,6 +81,9 @@
     <ClCompile Include="SimpleMUD\ExampleHandler.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="SimpleMUD\HandlerFactory.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="SimpleMUD\Attributes.h">
@@ -183,6 +186,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="SimpleMUD\ExampleHandler.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="SimpleMUD\HandlerFactory.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
