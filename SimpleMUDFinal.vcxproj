@@ -95,6 +95,7 @@
     <ClCompile Include="Demo10-01.cpp" />
     <ClCompile Include="SimpleMUD\CollectingRoom.cpp" />
     <ClCompile Include="SimpleMUD\DatabasePointer.cpp" />
+    <ClCompile Include="SimpleMUD\ExampleHandler.cpp" />
     <ClCompile Include="SimpleMUD\Game.cpp" />
     <ClCompile Include="SimpleMUD\GameLoop.cpp" />
     <ClCompile Include="SimpleMUD\Logon.cpp" />
@@ -124,6 +125,7 @@
     <ClInclude Include="SimpleMUD\DatabasePointer.h" />
     <ClInclude Include="SimpleMUD\Entity.h" />
     <ClInclude Include="SimpleMUD\EntityDatabase.h" />
+    <ClInclude Include="SimpleMUD\ExampleHandler.h" />
     <ClInclude Include="SimpleMUD\Game.h" />
     <ClInclude Include="SimpleMUD\GameLoop.h" />
     <ClInclude Include="SimpleMUD\Logon.h" />
