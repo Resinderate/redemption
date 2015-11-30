@@ -233,7 +233,21 @@ void Game::Handle( string p_data )
 	//complex Special room command Prompts a dialogue for the player to engage with (Devil Room, Corp Room, Assasin Room)
 	if (firstword == "interact")
 	{
+		// Ronan
 
+		// If the room is of the correct type.
+		if (p.CurrentRoom()->GetBaseType() == RoomBaseType::SPECIAL)
+		{
+			SpecialRoom* sRoom = dynamic_cast<SpecialRoom*>(p.CurrentRoom().get());
+
+			RoomType type = sRoom->GetRoomType();
+
+			// Might not work, the object might have been sliced.
+			auto handler = HandlerFactory::GetHandler(type, *p.Conn(), m_player);
+
+			p.Conn()->AddHandler(handler.get());
+		}
+		
 	}
 
 	//Invite a player to your corporation as long as you are the leader/ have permissions

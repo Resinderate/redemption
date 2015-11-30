@@ -14,6 +14,8 @@
 #include "PlayerDatabase.h"
 #include "DatabasePointer.h"
 #include "SimpleMUDLogs.h"
+#include "HandlerFactory.h"
+
 #include <string>
 
 using SocketLib::Telnet;

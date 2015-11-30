@@ -6,13 +6,13 @@
 #define SPECIALROOM_H
 
 #include <string>
+#include <memory>
 
 #include "Room.h"
+#include "../SocketLib/SocketLib.h"
 
 namespace SimpleMUD
 {
-
-
 	// --------------------------------------------------------------------
 	//  Class for rooms used for collecting resources.
 	// --------------------------------------------------------------------
@@ -22,6 +22,10 @@ namespace SimpleMUD
 		SpecialRoom();
 		SpecialRoom(string p_name, string p_desc, RoomBaseType p_baseType, BasicLib::vector2 p_coords, RoomType p_roomType);
 
+		inline RoomType GetRoomType() { return m_roomType; }
+
+		// Could be a better name? GetHandler? Isn't too descriptive either.
+		//std::shared_ptr<SocketLib::Telnet::handler> Interact(player p_player);
 
 	protected:
 		// Probably some sort of enum for the type.
