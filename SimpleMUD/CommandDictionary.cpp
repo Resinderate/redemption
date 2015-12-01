@@ -18,6 +18,7 @@ std::string SimpleMUD::CommandDictionary::Translate(std::string p_command)
 
 void SimpleMUD::CommandDictionary::AddCommandPair(std::string p_command, std::string p_alias)
 {
+	// If the key is already present it doesn't add it to the dictionary.
 	m_map.insert(std::pair<std::string, std::string>(p_alias, p_command));
 }
 

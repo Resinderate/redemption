@@ -23,6 +23,9 @@ namespace SimpleMUD
 BasicLib::Timer Game::s_timer;
 bool Game::s_running = false;
 
+CommandDictionary Game::m_dictionary;
+bool Game::m_dictInitialized = false;
+
 // ------------------------------------------------------------------------
 //  This handles incomming commands. Anything passed into this function
 //  is assumed to be a complete command from a client.
@@ -790,6 +793,15 @@ void SimpleMUD::Game::Collect()
 	{
 		// Cant collect in this type of room.
 		// Some sort of message to the player.
+	}
+}
+
+void Game::InitDict()
+{
+	if (!m_dictInitialized)
+	{
+		// Add any stuff to the dictionary for the game.
+		m_dictionary.AddCommandPair("go", "g");
 	}
 }
 
