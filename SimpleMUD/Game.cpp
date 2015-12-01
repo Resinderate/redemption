@@ -614,36 +614,46 @@ string Game::WhoList( const string& p_who )
 string Game::PrintHelp( PlayerRank p_rank )
 {
 	static string help = white + bold +
-		"--------------------------------- Command List ---------------------------------\r\n" +
+		"--------------------------------- Command List ------------------------------------\r\n" +
 		" /                          - Repeats your last command exactly.\r\n" +
-		" chat <mesg>                - Sends message to everyone in the game\r\n" +
-		" experience                 - Shows your experience statistics\r\n" +
-		" help                       - Shows this menu\r\n" +
-		" quit                       - Allows you to leave the realm.\r\n" +
-		" stats                      - Shows all of your statistics\r\n" +
-		" time                       - shows the current system time.\r\n" +
+		" say <mesg>                 - Sends message to everyone in the room\r\n" +
+		" shout <mesg>               - Sends message to everyone in the adjacent rooms\r\n" +
+		" corp <mesg>                - Sends message to everyone in your corporation\r\n" +
+		" global <mesg>              - Sends message to everyone in the game\r\n" +
 		" whisper <who> <msg>        - Sends message to one person\r\n" +
+		" help                       - Shows this menu\r\n" +
+		" rebind <command><shortcut> - Create a shortcut for a command" +
+		" exit                       - Allows you to leave the realm.\r\n" +
+		" stats                      - Shows all of your statistics\r\n" +
+		" titles                     - Shows all of your titles\r\n" +
+		" change <title>             - Change your current title to one from your list\r\n" +
+		" time                       - shows the current system time.\r\n" +
 		" who                        - Shows a list of everyone online\r\n" +
 		" who all                    - Shows a list of everyone\r\n" +
 		" look                       - Shows you the contents of a room\r\n" +
-		" north/east/south/west      - Moves in a direction\r\n" +
-		" train                      - Train to the next level (TR)\r\n" +
-		" editstats                  - Edit your statistics (TR)\r\n";
+		" trade <player><amount><res>- Send an amount of a resource to another player\r\n" +
+		" interact                   - Complex interactions for Special Rooms\r\n" +
+		" invite                     - Invite a player to a corporation you are a leader of\r\n" +
+		" leave                      - Leave your current corporations\r\n" +
+		" go <direction>             - Moves in a direction(north, south, east, west)\r\n" +
+		" collect	                 - Collect any resources available (CR)\r\n";
 
 
-    static string god = yellow + bold +
-        "--------------------------------- God Commands ---------------------------------\r\n" + 
-        " kick <who>                 - kicks a user from the realm\r\n";
-
+	static string god = yellow + bold +
+		"--------------------------------- God Commands ------------------------------------\r\n" +
+		" kick <who>                 - Kicks a user from the realm\r\n" +
+		" mute <who> <duration>		 - Prevent a player from using chat for a length of time\r\n";
+	
     static string admin = green + bold +
-        "-------------------------------- Admin Commands --------------------------------\r\n" + 
-        " announce <msg>             - Makes a global system announcement\r\n" + 
-        " changerank <who> <rank>    - Changes the rank of a player\r\n" + 
-        " reload <db>                - Reloads the requested database\r\n" + 
+        "-------------------------------- Admin Commands -----------------------------------\r\n" + 
+        " announce <msg>             - Makes a global system announcement\r\n" +
+		" promote <who> <rank>       - Changes a player to GOD rank\r\n" +
+		" demote <who>			     - Changes a player to REGULAR rank\r\n" +
+		" reload <db>                - Reloads the requested database\r\n" +
         " shutdown                   - Shuts the server down\r\n";
 
     static string end = white + bold + 
-        "--------------------------------------------------------------------------------";
+        "-----------------------------------------------------------------------------------";
 
 
     if( p_rank == REGULAR )
