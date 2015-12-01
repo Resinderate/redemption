@@ -467,7 +467,7 @@ void Game::Leave()
 
     // remove the player from his room
 	// Rooms broken right now. Will probably not be a pointer either.
-	//m_player->CurrentRoom()->RemovePlayer( m_player );
+	m_player->CurrentRoom()->RemovePlayer( m_player );
     m_player->Active() = false;
 
     // log out the player from the database if the connection has been closed

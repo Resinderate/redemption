@@ -87,6 +87,9 @@
     <ClCompile Include="SimpleMUD\CommandDictionary.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="SimpleMUD\PlayerDictHandler.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="SimpleMUD\Attributes.h">
@@ -197,5 +200,11 @@
     <ClInclude Include="SimpleMUD\CommandDictionary.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="SimpleMUD\PlayerDictHandler.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="ClassDiagram.cd" />
   </ItemGroup>
 </Project>

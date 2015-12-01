@@ -103,6 +103,7 @@
     <ClCompile Include="SimpleMUD\Logon.cpp" />
     <ClCompile Include="SimpleMUD\Player.cpp" />
     <ClCompile Include="SimpleMUD\PlayerDatabase.cpp" />
+    <ClCompile Include="SimpleMUD\PlayerDictHandler.cpp" />
     <ClCompile Include="SimpleMUD\Room.cpp" />
     <ClCompile Include="SimpleMUD\RoomDatabase.cpp" />
     <ClCompile Include="SimpleMUD\SimpleMUDLogs.cpp" />
@@ -135,6 +136,7 @@
     <ClInclude Include="SimpleMUD\Logon.h" />
     <ClInclude Include="SimpleMUD\Player.h" />
     <ClInclude Include="SimpleMUD\PlayerDatabase.h" />
+    <ClInclude Include="SimpleMUD\PlayerDictHandler.h" />
     <ClInclude Include="SimpleMUD\Room.h" />
     <ClInclude Include="SimpleMUD\RoomDatabase.h" />
     <ClInclude Include="SimpleMUD\SimpleMUDLogs.h" />
@@ -151,6 +153,9 @@
     <ClInclude Include="SocketLib\SocketLibTypes.h" />
     <ClInclude Include="SocketLib\SocketSet.h" />
     <ClInclude Include="SocketLib\Telnet.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="ClassDiagram.cd" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
