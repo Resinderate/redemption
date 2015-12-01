@@ -6,10 +6,13 @@ SimpleMUD::CommandDictionary::CommandDictionary()
 
 std::string SimpleMUD::CommandDictionary::Translate(std::string p_command)
 {
+	USERLOG.Log("Entered Translate Call");
+	USERLOG.Log("Size of map: " + m_map.size());
 	// Only matches the first match.
 	// Possible solution would include some forward checking to see if the out command makes any sense.
 	for (auto const &kv : m_map)
 	{
+		USERLOG.Log("Key Val Pair: " + kv.first + "::" + kv.second);
 		if (replace(p_command, kv.first, kv.second))
 			return p_command;
 	}

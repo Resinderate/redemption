@@ -30,62 +30,62 @@ bool Game::m_dictInitialized = false;
 //  This handles incomming commands. Anything passed into this function
 //  is assumed to be a complete command from a client.
 // ------------------------------------------------------------------------
-void Game::Handle( string p_data )
+void Game::Handle(string p_data)
 {
-    Player& p = *m_player;
+	Player& p = *m_player;
 
-    // check if the player wants to repeat a command
-    if( p_data == "/" )
-    {
-        p_data = m_lastcommand;
-    }
-    else
-    {
-        // if not, record the command.
-        m_lastcommand = p_data;
-    }
+	// check if the player wants to repeat a command
+	if (p_data == "/")
+	{
+		p_data = m_lastcommand;
+	}
+	else
+	{
+		// if not, record the command.
+		m_lastcommand = p_data;
+	}
 
-    // get the first word and lowercase it.
-    string firstword = BasicLib::LowerCase( ParseWord( p_data, 0 ) );
+	// get the first word and lowercase it.
+	string firstword = BasicLib::LowerCase(ParseWord(p_data, 0));
 
 
 
-    // ------------------------------------------------------------------------
-    //  REGULAR access commands
+	// ------------------------------------------------------------------------
+	//  REGULAR access commands
 	//	@author: Kevin Duffy
-    // ------------------------------------------------------------------------
+	// ------------------------------------------------------------------------
 	// message sent to current Tile
 	if (firstword == "say")
-    {
+	{
 		string text = RemoveWord(p_data, 0);
 		SendRoom(magenta + bold + titledName + " -> Room: " + dim + text, *p.CurrentRoom());
 		//SendGame(magenta + bold + titledName + " -> Room: " + white + text);
-        return;
-    }
+		return;
+	}
 
 	// message sent to current and adjacent Tiles
 	if (firstword == "shout")
-    {
+	{
 		string text = RemoveWord(p_data, 0);
 		list<vector2>& rlist = p.AdjacentRooms();
 		list<vector2>::iterator ritr = rlist.begin();
 		while (ritr != rlist.end())
 		{
 			vector2& v = *ritr;
-			SendRoom(cyan + bold + titledName + " -> Local:  " + dim + text , *World::GetRoom(v));
+			SendRoom(cyan + bold + titledName + " -> Local:  " + dim + text, *World::GetRoom(v));
 			++ritr;
 		}
-        return;
-    }
+		return;
+	}
 
 	// message sent to all corporation members
 	if (firstword == "corp")
-    {
+	{
 		//Need to have a pointer to the list of members of a players corporations
 		string text = RemoveWord(p_data, 0);
 		SendGame(yellow + bold + titledName + " -> Corporation: " + white + text);
-        return;
-    }
+		return;
+	}
 
 	// message sent to whole server
 	if (firstword == "global")
@@ -97,7 +97,7 @@ void Game::Handle( string p_data )
 
 	//Private message
 	if (firstword == "whisper")
-    {
+	{
 		// get the players name
 		string name = ParseWord(p_data, 1);
 		string message = RemoveWord(RemoveWord(p_data, 0), 0);
@@ -116,71 +116,62 @@ void Game::Handle( string p_data )
 	//leave the game
 	if (firstword == "exit")
 	{
-        m_connection->Close();
+		m_connection->Close();
 		LogoutMessage(titledName + " has left the realm.");
-        return;
-    }
+		return;
+	}
 
 	//Check Player stats Tool levels resources etc.
 	if (firstword == "stats")
-    {
+	{
 		p.SendString(PrintStats());
-        return;
-    }
+		return;
+	}
 
 	//Check current time and Server Lifetime
 	if (firstword == "time")
-    {
+	{
 		p.SendString(bold + cyan +
-                      "The current system time is: " + BasicLib::TimeStamp() + 
-                      " on " + BasicLib::DateStamp() + 
-                      "\r\nThe system has been up for: " 
+			"The current system time is: " + BasicLib::TimeStamp() +
+			" on " + BasicLib::DateStamp() +
+			"\r\nThe system has been up for: "
 			+ s_timer.GetString() + ".");
-        return;
-    }
+		return;
+	}
 
 	//display online players/ All players if followed by "all"
 	if (firstword == "who")
-    {
+	{
 		p.SendString(WhoList(BasicLib::LowerCase(ParseWord(p_data, 1))));
-        return;
-    }
+		return;
+	}
 
 	//Description of the current tile
 	if (firstword == "look")
-    {
+	{
 		p.SendString(PrintRoom(*p.CurrentRoom()));
-        return;
-    }
+		return;
+	}
 
-	//movement 
-	if (firstword == "go")
-    {
-		string secondword = ParseWord(p_data, 1);
-		if (secondword == "north")
-		{
-			Move(NORTH);
-        return;
-    }
-		if (secondword == "east")
-    {
-			Move(EAST);
-        return;
-    }
-		if (secondword == "south")
-    {
-			Move(SOUTH);
-        return;
-    }
-		if (secondword == "west")
-    {
-			Move(WEST);
-        return;
-    }
-		else
-    {
-        return;
-    }
+	if (firstword == "north")
+	{
+		Move(NORTH);
+		return;
+	}
+	if (firstword == "east")
+	{
+		Move(EAST);
+		return;
+	}
+	if (firstword == "south")
+	{
+		Move(SOUTH);
+		return;
+	}
+	if (firstword == "west")
+	{
+		Move(WEST);
+		return;
 	}
 
 	//Display players titles
@@ -405,6 +396,19 @@ void Game::Handle( string p_data )
         return;
     }
 
+	// Attempt to translate the command into something meaningful.
+	// Only proceed if there is a difference.
+	string prev = p_data;
+	string translated = m_dictionary.Translate(p_data);
+	USERLOG.Log("Tried to translate: " + prev + " -> " + translated);
+	if (prev != translated)
+	{
+		Handle(translated);
+		return;
+	}
+
+	// Do the same for the users dictionary.
+
 
     // ------------------------------------------------------------------------
     //  Command not recognized, send to room
@@ -426,6 +430,8 @@ void Game::Enter()
         GetIPString( m_connection->GetRemoteAddress() ) + 
         " - User " + "[" + GetTitleString((m_player)->GetPlayerTitle()) + "] " + (m_player)->Name() +
         " entering Game state." );
+
+	InitDict();
 
     m_lastcommand = "";
 
@@ -798,10 +804,13 @@ void SimpleMUD::Game::Collect()
 
 void Game::InitDict()
 {
-	if (!m_dictInitialized)
+	if (m_dictInitialized == false)
 	{
 		// Add any stuff to the dictionary for the game.
-		m_dictionary.AddCommandPair("go", "g");
+		m_dictionary.AddCommandPair("look", "l");
+		m_dictionary.AddCommandPair("north", "n");
+
+		m_dictInitialized = true;
 	}
 }
 

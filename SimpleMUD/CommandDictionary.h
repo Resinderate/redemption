@@ -10,6 +10,8 @@
 #include <string>
 #include <map>
 
+#include "SimpleMUDLogs.h"
+
 namespace SimpleMUD
 {
 	// --------------------------------------------------------------------
