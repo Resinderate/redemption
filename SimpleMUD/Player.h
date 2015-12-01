@@ -19,6 +19,7 @@
 #include "Attributes.h"
 #include "DatabasePointer.h"
 #include "World.h"
+#include "CommandDictionary.h"
 class Room;
 
 using SocketLib::Connection;
@@ -65,6 +66,7 @@ public:
     inline bool& LoggedIn()                 { return m_loggedin; }
     inline bool& Active()                   { return m_active; }
     inline bool& Newbie()                   { return m_newbie; }
+	inline CommandDictionary& GetDict()		{ return m_dictionary; }
 
     // ------------------------------------------------------------------------
     //  Communications Functions
@@ -101,6 +103,8 @@ protected:
 	std::list<PlayerTitle> m_availableTitles;
 
 	string m_corp;
+
+	CommandDictionary m_dictionary;
 
     // -----------------------------------------
     //  Non-savable info

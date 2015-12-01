@@ -6,15 +6,28 @@ SimpleMUD::CommandDictionary::CommandDictionary()
 
 std::string SimpleMUD::CommandDictionary::Translate(std::string p_command)
 {
-	USERLOG.Log("Entered Translate Call");
-	USERLOG.Log("Size of map: " + m_map.size());
+	std::string initial = p_command;
+
+	// Amount of times you can replace the current word with itself before a timeout.
+	int tolerance = 5;
+	
+
 	// Only matches the first match.
 	// Possible solution would include some forward checking to see if the out command makes any sense.
 	for (auto const &kv : m_map)
 	{
 		USERLOG.Log("Key Val Pair: " + kv.first + "::" + kv.second);
 		if (replace(p_command, kv.first, kv.second))
-			return p_command;
+		{
+			size_t nPos = kv.second.find(kv.first);
+			std::string val = kv.second;
+			std::string target = val.replace(nPos, kv.first.length(), "");
+
+			if (occurances(p_command, target) < tolerance)
+				return p_command;
+			else
+				return initial;
+		}
 	}
 	return p_command;
 }
@@ -37,4 +50,17 @@ bool SimpleMUD::CommandDictionary::replace(std::string & p_str, const std::strin
 		return false;
 	p_str.replace(start_pos, p_from.length(), p_to);
 	return true;
+}
+
+int SimpleMUD::CommandDictionary::occurances(const std::string & p_string, const std::string & p_substr)
+{
+	int count = 0;
+	size_t nPos = p_string.find(p_substr, 0);
+	while (nPos != std::string::npos)
+	{
+		count++;
+		nPos = p_string.find(p_substr, nPos + 1);
+	}
+
+	return count;
 }

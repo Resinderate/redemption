@@ -29,6 +29,7 @@ namespace SimpleMUD
 		std::map<std::string, std::string> m_map;
 
 		bool replace(std::string& p_str, const std::string& p_from, const std::string& p_to);
+		int occurances(const std::string& p_string, const std::string& p_substr);
 
 	};  // end class CommandDictionary.
 

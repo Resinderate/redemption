@@ -396,19 +396,29 @@ void Game::Handle(string p_data)
         return;
     }
 
-	// Attempt to translate the command into something meaningful.
-	// Only proceed if there is a difference.
 	string prev = p_data;
+	// Attempt to translate the command into something meaningful.
+	// Only proceed if there is a difference
 	string translated = m_dictionary.Translate(p_data);
-	USERLOG.Log("Tried to translate: " + prev + " -> " + translated);
-	if (prev != translated)
+	USERLOG.Log("Game Translate: " + prev + " -> " + translated);
+	if (translated != prev)
 	{
 		Handle(translated);
 		return;
 	}
 
 	// Do the same for the users dictionary.
+	translated = p.GetDict().Translate(p_data);
+	USERLOG.Log("Player Translate: " + prev + " -> " + translated);
+	if (translated != prev)
+	{
+		Handle(translated);
+		return;
+	}
 
+	// Possibly check all the other players dictionaries.
+	// for p in players..
+		// if translated != prev -> Someone has a map for this.
 
     // ------------------------------------------------------------------------
     //  Command not recognized, send to room
