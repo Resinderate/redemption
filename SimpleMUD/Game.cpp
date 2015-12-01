@@ -410,7 +410,7 @@ void Game::Handle( string p_data )
 	// If command is a commonly used shortcut inform player of rebind ability.
 	//SendRoom( bold + titledName + " says: " + dim + p_data, p.CurrentRoom() );
 
-	p.SendString(bold + red + "Invalid Command");
+	p.SendString(bold + red + "Invalid Command: '" + p_data + "'");
 }
 
 

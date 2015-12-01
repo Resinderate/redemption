@@ -94,6 +94,7 @@
     <ClCompile Include="BasicLib\BasicLibTime.cpp" />
     <ClCompile Include="Demo10-01.cpp" />
     <ClCompile Include="SimpleMUD\CollectingRoom.cpp" />
+    <ClCompile Include="SimpleMUD\CommandDictionary.cpp" />
     <ClCompile Include="SimpleMUD\DatabasePointer.cpp" />
     <ClCompile Include="SimpleMUD\ExampleHandler.cpp" />
     <ClCompile Include="SimpleMUD\Game.cpp" />
@@ -123,6 +124,7 @@
     <ClInclude Include="BasicLib\BasicLibTypes.h" />
     <ClInclude Include="SimpleMUD\Attributes.h" />
     <ClInclude Include="SimpleMUD\CollectingRoom.h" />
+    <ClInclude Include="SimpleMUD\CommandDictionary.h" />
     <ClInclude Include="SimpleMUD\DatabasePointer.h" />
     <ClInclude Include="SimpleMUD\Entity.h" />
     <ClInclude Include="SimpleMUD\EntityDatabase.h" />
