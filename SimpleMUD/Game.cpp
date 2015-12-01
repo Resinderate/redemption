@@ -258,7 +258,7 @@ void Game::Handle(string p_data)
 	//check position certain leaderboard (Player's Corporation/World Rank, Resources Gathered, Corporation Souls Redeemed, Corporation's Resource Rank)
 	if (firstword == "leaderboard")
 	{
-		//Syntax (invite <leaderboard_type>)
+		//Syntax (leaderboard <leaderboard_type>)
 	}
 
     // ------------------------------------------------------------------------
@@ -657,6 +657,7 @@ string Game::PrintHelp( PlayerRank p_rank )
 		" interact                   - Complex interactions for Special Rooms\r\n" +
 		" invite                     - Invite a player to a corporation you are a leader of\r\n" +
 		" leave                      - Leave your current corporations\r\n" +
+		" leaderboard <type>         - Display a certain leaderboard\r\n" +
 		" go <direction>             - Moves in a direction(north, south, east, west)\r\n" +
 		" collect	                 - Collect any resources available (CR)\r\n";
 
