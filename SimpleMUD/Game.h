@@ -14,6 +14,9 @@
 #include "PlayerDatabase.h"
 #include "DatabasePointer.h"
 #include "SimpleMUDLogs.h"
+#include "HandlerFactory.h"
+#include "CommandDictionary.h"
+
 #include <string>
 
 using SocketLib::Telnet;
@@ -92,11 +95,14 @@ protected:
     player m_player;
     string m_lastcommand;
 
+	static CommandDictionary m_dictionary;
+	static bool m_dictInitialized;
+	static void InitDict();
+
     static BasicLib::Timer s_timer;
     static bool s_running;
 
 	
-
 
 };  // end class Game
 
