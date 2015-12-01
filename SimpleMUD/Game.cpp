@@ -400,6 +400,7 @@ void Game::Handle(string p_data)
 	// Attempt to translate the command into something meaningful.
 	// Only proceed if there is a difference
 	string translated = m_dictionary.Translate(p_data);
+	USERLOG.Log("Game Translate: " + prev + " -> " + translated);
 	if (translated != prev)
 	{
 		Handle(translated);
@@ -408,6 +409,7 @@ void Game::Handle(string p_data)
 
 	// Do the same for the users dictionary.
 	translated = p.GetDict().Translate(p_data);
+	USERLOG.Log("Player Translate: " + prev + " -> " + translated);
 	if (translated != prev)
 	{
 		Handle(translated);
