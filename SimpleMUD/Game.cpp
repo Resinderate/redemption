@@ -207,7 +207,8 @@ void Game::Handle(string p_data)
 	//Rebind a command to a shortcut key
 	if (firstword == "rebind")
 	{
-		//Syntax (rebind <command> <shortcut>)
+		p.Conn()->AddHandler(new PlayerDictHandler(*p.Conn(), p.ID()));
+		return;
 	}
 
 	//If in a resource room collect whatever resource is there
@@ -654,7 +655,7 @@ string Game::PrintHelp( PlayerRank p_rank )
 		" global <mesg>              - Sends message to everyone in the game\r\n" +
 		" whisper <who> <msg>        - Sends message to one person\r\n" +
 		" help                       - Shows this menu\r\n" +
-		" rebind <command><shortcut> - Create a shortcut for a command" +
+		" rebind					 - Prompts you to create a shortcut for a command\r\n" +
 		" exit                       - Allows you to leave the realm.\r\n" +
 		" stats                      - Shows all of your statistics\r\n" +
 		" titles                     - Shows all of your titles\r\n" +

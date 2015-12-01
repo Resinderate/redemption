@@ -41,8 +41,7 @@ Player::Player()
 	m_coords = vector2(0, 0);
 
 	// Adding some default values
-	m_dictionary.AddCommandPair("shout", "sh");
-	m_dictionary.AddCommandPair("stats", "st");
+	//m_dictionary.AddCommandPair("shout", "sh");
 }
 
 //	@author Kevin Duffy

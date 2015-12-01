@@ -16,6 +16,7 @@
 #include "SimpleMUDLogs.h"
 #include "HandlerFactory.h"
 #include "CommandDictionary.h"
+#include "PlayerDictHandler.h"
 
 #include <string>
 
