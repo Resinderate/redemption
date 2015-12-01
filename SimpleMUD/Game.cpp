@@ -239,13 +239,12 @@ void Game::Handle( string p_data )
 		if (p.CurrentRoom()->GetBaseType() == RoomBaseType::SPECIAL)
 		{
 			SpecialRoom* sRoom = dynamic_cast<SpecialRoom*>(p.CurrentRoom().get());
-
 			RoomType type = sRoom->GetRoomType();
 
-			// Might not work, the object might have been sliced.
-			auto handler = HandlerFactory::GetHandler(type, *p.Conn(), m_player);
-
-			p.Conn()->AddHandler(handler.get());
+			// Abandoned the Handler Factory.
+			if (type == RoomType::TRADING)
+				p.Conn()->AddHandler(new ExampleHandler(*p.Conn(), p.ID()));
+			// Check any other types here.
 		}
 		
 	}
