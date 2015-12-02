@@ -36,7 +36,7 @@ Player::Player()
 		m_itemLevels[i] = 1;
 	}
 
-	m_corp = "";
+	m_corp = "None";
 
 	m_coords = vector2(0, 0);
 
@@ -159,8 +159,8 @@ ostream& operator<<( ostream& p_stream, const Player& p )
 	p_stream << "[IRON]           " << p.m_itemLevels[2] << "\n";
 	p_stream << "[GOLD]           " << p.m_itemLevels[3] << "\n";
 	p_stream << "[CORPORATION]    " << p.m_corp << "\n";
+
 	p_stream << "[HAS SOUL]       " << p.m_hasSoul << "\n";
-	
 	p_stream << "[TITLE]          " << GetTitleString(p.m_title) << "\n";
     p_stream << "\n";
 	p_stream << "[TITLES]         ";
@@ -195,36 +195,29 @@ ostream& operator<<( ostream& p_stream, const Player& p )
 // --------------------------------------------------------------------
 istream& operator>>( istream& p_stream, Player& p )
 {
-    std::string temp;
+	std::string temp;
+	std::string temp2;
     p_stream >> temp >> std::ws;
     std::getline( p_stream, p.m_name );
     p_stream >> temp >> p.m_pass;
     p_stream >> temp >> temp;
 	p.m_rank = GetRank(temp);
+	p_stream >> temp >> p.m_coords.x >> temp >> p.m_coords.y; 
+	p_stream >> temp;
+	p_stream >> temp >> p.m_resourceAmounts[0];
+	p_stream >> temp >> p.m_resourceAmounts[1];
+	p_stream >> temp >> p.m_resourceAmounts[2];
+	p_stream >> temp >> p.m_resourceAmounts[3];
+	p_stream >> temp;
+	p_stream >> temp >> p.m_itemLevels[0];
+	p_stream >> temp >> p.m_itemLevels[1];
+	p_stream >> temp >> p.m_itemLevels[2];
+	p_stream >> temp >> p.m_itemLevels[3];
+	p_stream >> temp >> p.m_corp;
+	p_stream >> temp >> p.m_hasSoul;
+	
 	p_stream >> temp >> temp;
 	p.m_title = GetTitle(temp);
-
-	/*p_stream << "[LOCATION]       " << p.m_coords.x << " , " << p.m_coords.y << "\n";
-	p_stream << "###[RESOURCES]###" << "\n";
-	p_stream << "[WOOD]           " << p.m_resourceAmounts[0] << "\n";
-	p_stream << "[STONE]          " << p.m_resourceAmounts[1] << "\n";
-	p_stream << "[IRON]           " << p.m_resourceAmounts[2] << "\n";
-	p_stream << "[GOLD]           " << p.m_resourceAmounts[3] << "\n";
-	p_stream << "#####[TOOLS]#####" << "\n";
-	p_stream << "[WOOD]           " << p.m_itemLevels[0] << "\n";
-	p_stream << "[STONE]          " << p.m_itemLevels[1] << "\n";
-	p_stream << "[IRON]           " << p.m_itemLevels[2] << "\n";
-	p_stream << "[GOLD]           " << p.m_itemLevels[3] << "\n";
-	p_stream << "[CORPORATION]    " << p.m_corp << "\n";
-	p_stream << "[HAS SOUL]       " << p.m_hasSoul << "\n";
-
-	p_stream << "[TITLE]          " << GetTitleString(p.m_title) << "\n";
-	p_stream << "\n";
-	p_stream << "[TITLES]         ";
-
-
-
-	*/
     p_stream >> temp;
 	for (int i = 0; i < 8; i++)
 	{
@@ -236,15 +229,17 @@ istream& operator>>( istream& p_stream, Player& p )
 
 		p.AddTitle(GetTitle(temp));
 	}
-	/*
-	p_stream << "[COMMANDS]       \n";
-	std::map<string, string> temp = p.m_dictionary.m_map;
-	std::map<string, string>::iterator mitr = temp.begin();
-	for (mitr; mitr != temp.end(); ++mitr)
+	p_stream >> temp;
+	//for (int i = 0; i < 8; i++)
+	do
 	{
-		p_stream << "Alias: " << mitr->first << " Command: " << mitr->second << "\n";
-	}*/
-
+		if (temp != "-1")
+		{
+			p_stream >> temp >> temp;
+			p_stream >> temp2 >> temp2;
+			p.m_dictionary.AddCommandPair(temp, temp2);
+		}
+	} while (temp != "-1");
     return p_stream;
 }
 
