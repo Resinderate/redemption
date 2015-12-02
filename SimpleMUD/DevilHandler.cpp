@@ -10,8 +10,9 @@ void SimpleMUD::DevilHandler::Handle(string p_data)
 			m_player->GetResources()[GOLD] -= m_soulPrice;
 			// Give them their soul back.
 			m_player->HasSoul() = true;
-
+			m_player->AddTitle(THEREDEEMED);
 			m_player->SendString(SocketLib::yellow + "You have been given back your soul!");
+			m_player->SendString(SocketLib::yellow + "Title Unlocked! " + GetTitleString(THEREDEEMED));
 			m_connection->RemoveHandler();
 		}
 		else

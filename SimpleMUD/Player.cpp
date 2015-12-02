@@ -162,7 +162,6 @@ ostream& operator<<( ostream& p_stream, const Player& p )
 
 	p_stream << "[HAS SOUL]       " << p.m_hasSoul << "\n";
 	p_stream << "[TITLE]          " << GetTitleString(p.m_title) << "\n";
-    p_stream << "\n";
 	p_stream << "[TITLES]         ";
 
 	Player q = p;
@@ -175,10 +174,11 @@ ostream& operator<<( ostream& p_stream, const Player& p )
 	p_stream << "-1";
 	p_stream << "\n";
 
-	p_stream << "[COMMANDS]       \n";
 	std::map<string, string> temp = q.m_dictionary.GetDictionary();
+	p_stream << "[BINDS]          \n" << temp.size();	
 	std::map<string, string>::iterator mitr = temp.begin();
-		for (mitr; mitr != temp.end(); ++mitr)
+	p_stream << "[COMMANDS]       \n";
+	for (mitr; mitr != temp.end(); ++mitr)
 	{
 		p_stream << "Alias: " << mitr->first << " Command: " << mitr->second << "\n";
 	}
@@ -229,17 +229,15 @@ istream& operator>>( istream& p_stream, Player& p )
 
 		p.AddTitle(GetTitle(temp));
 	}
+	int binds;
+	p_stream >> temp >> binds;
 	p_stream >> temp;
-	//for (int i = 0; i < 8; i++)
-	do
+	for (int i = 0; i <= binds; ++i)
 	{
-		if (temp != "-1")
-		{
-			p_stream >> temp >> temp;
-			p_stream >> temp2 >> temp2;
-			p.m_dictionary.AddCommandPair(temp, temp2);
-		}
-	} while (temp != "-1");
+		p_stream >> temp >> temp;
+		p_stream >> temp2 >> temp2;
+		p.m_dictionary.AddCommandPair(temp, temp2);
+	}
     return p_stream;
 }
 
