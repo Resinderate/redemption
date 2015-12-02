@@ -159,7 +159,6 @@ ostream& operator<<( ostream& p_stream, const Player& p )
 	p_stream << "[IRON]           " << p.m_itemLevels[2] << "\n";
 	p_stream << "[GOLD]           " << p.m_itemLevels[3] << "\n";
 	p_stream << "[CORPORATION]    " << p.m_corp << "\n";
-
 	p_stream << "[HAS SOUL]       " << p.m_hasSoul << "\n";
 	p_stream << "[TITLE]          " << GetTitleString(p.m_title) << "\n";
 	p_stream << "[TITLES]         ";
@@ -175,7 +174,7 @@ ostream& operator<<( ostream& p_stream, const Player& p )
 	p_stream << "\n";
 
 	std::map<string, string> temp = q.m_dictionary.GetDictionary();
-	p_stream << "[BINDS]          \n" << temp.size();	
+	p_stream << "[BINDS]          " << temp.size() << "\n";	
 	std::map<string, string>::iterator mitr = temp.begin();
 	p_stream << "[COMMANDS]       \n";
 	for (mitr; mitr != temp.end(); ++mitr)
