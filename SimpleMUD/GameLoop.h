@@ -35,9 +35,6 @@ public:
 
 protected:
     BasicLib::sint64 m_savedatabases;
-    BasicLib::sint64 m_nextround;
-    BasicLib::sint64 m_nextregen;
-    BasicLib::sint64 m_nextheal;
 
 };  // end class GameLoop
 
