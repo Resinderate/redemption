@@ -34,6 +34,7 @@ public:
     static inline string PlayerFileName( const string& p_name );
     static void LoadPlayer( string p_name );
     static void SavePlayer( entityid p_player );
+	static std::list<Player> GetAllPlayers();
 
 
     static entityid LastID()  

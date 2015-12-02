@@ -269,6 +269,13 @@ void Game::Handle(string p_data)
 	if (firstword == "leaderboard")
 	{
 		//Syntax (leaderboard <leaderboard_type>)
+		auto players = PlayerDatabase::GetAllPlayers();
+
+		for (auto p : players)
+		{
+			//
+			return;
+		}
 	}
 
     // ------------------------------------------------------------------------
