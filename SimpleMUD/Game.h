@@ -17,6 +17,7 @@
 #include "HandlerFactory.h"
 #include "CommandDictionary.h"
 #include "PlayerDictHandler.h"
+#include "DevilHandler.h"
 
 #include <string>
 

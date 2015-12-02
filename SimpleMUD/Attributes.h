@@ -249,9 +249,10 @@ enum RoomBaseType
 // --------------------------------------------------------------------
 enum RoomType
 {
-    ASSASSIN,
 	TRADING,
-	COPPORATION
+	WORKSHOP,
+	DEVIL
+	// ASSASSIN
 	// Add more types of rooms as needed.
 };
 

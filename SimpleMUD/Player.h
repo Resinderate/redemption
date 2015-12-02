@@ -67,6 +67,7 @@ public:
     inline bool& Active()                   { return m_active; }
     inline bool& Newbie()                   { return m_newbie; }
 	inline CommandDictionary& GetDict()		{ return m_dictionary; }
+	inline bool& HasSoul()					{ return m_hasSoul; }
 
     // ------------------------------------------------------------------------
     //  Communications Functions
@@ -105,6 +106,8 @@ protected:
 	string m_corp;
 
 	CommandDictionary m_dictionary;
+
+	bool m_hasSoul;
 
     // -----------------------------------------
     //  Non-savable info

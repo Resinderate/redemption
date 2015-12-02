@@ -239,7 +239,14 @@ void Game::Handle(string p_data)
 			// Abandoned the Handler Factory.
 			if (type == RoomType::TRADING)
 				p.Conn()->AddHandler(new ExampleHandler(*p.Conn(), p.ID()));
-			// Check any other types here.
+			else if (type == RoomType::DEVIL)
+				p.Conn()->AddHandler(new DevilHandler(*p.Conn(), p.ID()));
+			return;
+		}
+		else
+		{
+			p.SendString(yellow + "Nothing to interact with in this room!");
+			return;
 		}
 		
 	}
@@ -716,6 +723,7 @@ string Game::PrintStats()
 		" Stone          " + std::to_string(p.GetResources()[STONE]) + "\r\n" +
 		" Iron           " + std::to_string(p.GetResources()[IRON]) + "\r\n" +
 		" Gold           " + std::to_string(p.GetResources()[GOLD]) + "\r\n" +
+		" Soul           " + ((p.HasSoul()) ? "Yes" : "No") + "\r\n" +
         "--------------------------------------------------------------------------------";
 }
 
@@ -804,23 +812,38 @@ void SimpleMUD::Game::Collect()
 
 	if (p.CurrentRoom()->GetBaseType() == RoomBaseType::COLLECTING)
 	{
+		
 		// Get the value from the Room
 		CollectingRoom* cRoom = dynamic_cast<CollectingRoom*>(p.CurrentRoom().get());
-		resource reward = cRoom->Collect();
 
 		// Get the type from the room.
 		ResourceType type = cRoom->GetResourceType();
 
-		// Check if the player is the owner.
-		//room.GetOwner() == p;
+		// If you have an item of this type of at least level one, you can collect.
+		if (p.GetItemLevels()[type] > 0)
+		{
+			resource reward = cRoom->Collect();
 
-		// Add that to the players totals.
-		p.GetResources()[type] += reward;
+			// Bonus based on your item level, which must be at least 1.
+			int itemLevel = p.GetItemLevels()[type];
+			reward *= itemLevel;
+
+			// Add any bonuses due is the player is the owner of the room.
+
+			// Add that to the players totals.
+			p.GetResources()[type] += reward;
+
+			p.SendString(yellow + "Collected " + std::to_string(reward) + " " + ResourceTypeStrings[type] + "!\r\n");
+		}
+		else
+		{
+			p.SendString(yellow + "You need an item of at least level 1 for this resource type to collect it!\r\n");
+		}		
 	}
 	else
 	{
 		// Cant collect in this type of room.
-		// Some sort of message to the player.
+		p.SendString(yellow + "You can't collect in this room!\r\n");
 	}
 }
 
