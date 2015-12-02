@@ -36,6 +36,8 @@ namespace SimpleMUD
 			: thandler(p_conn)
 		{
 			m_player = p_player;
+			m_baseCost = 100;
+			m_multiplier = 1.5f;
 		}
 
 		// ------------------------------------------------------------------------
@@ -57,6 +59,9 @@ namespace SimpleMUD
 	protected:
 		player m_player;
 		resource m_baseCost;
+		float m_multiplier;
+
+		resource CalculateCost(int p_level);
 
 	};  // end class WorkshopHandler.
 

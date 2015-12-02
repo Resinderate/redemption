@@ -241,6 +241,8 @@ void Game::Handle(string p_data)
 				p.Conn()->AddHandler(new TradingHandler(*p.Conn(), p.ID()));
 			else if (type == RoomType::DEVIL)
 				p.Conn()->AddHandler(new DevilHandler(*p.Conn(), p.ID()));
+			else if (type == RoomType::WORKSHOP)
+				p.Conn()->AddHandler(new WorkshopHandler(*p.Conn(), p.ID()));
 			return;
 		}
 		else
