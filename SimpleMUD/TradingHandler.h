@@ -11,6 +11,7 @@
 #include "DatabasePointer.h"
 #include "SimpleMUDLogs.h"
 #include <string>
+#include "Attributes.h"
 
 using SocketLib::Telnet;
 using SocketLib::Connection;
@@ -56,6 +57,9 @@ namespace SimpleMUD
 
 	protected:
 		player m_player;
+
+		resource TradeDown(resource p_amount);
+		ResourceType EvalResouce(ResourceType p_origType, int p_indexChange);
 
 	};  // end class TradingHandler.
 

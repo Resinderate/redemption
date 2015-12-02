@@ -238,7 +238,7 @@ void Game::Handle(string p_data)
 
 			// Abandoned the Handler Factory.
 			if (type == RoomType::TRADING)
-				p.Conn()->AddHandler(new ExampleHandler(*p.Conn(), p.ID()));
+				p.Conn()->AddHandler(new TradingHandler(*p.Conn(), p.ID()));
 			else if (type == RoomType::DEVIL)
 				p.Conn()->AddHandler(new DevilHandler(*p.Conn(), p.ID()));
 			return;
@@ -662,7 +662,7 @@ string Game::PrintHelp( PlayerRank p_rank )
 		" global <mesg>              - Sends message to everyone in the game\r\n" +
 		" whisper <who> <msg>        - Sends message to one person\r\n" +
 		" help                       - Shows this menu\r\n" +
-		" rebind					 - Prompts you to create a shortcut for a command\r\n" +
+		" rebind                     - Prompts you to create a shortcut for a command\r\n" +
 		" exit                       - Allows you to leave the realm.\r\n" +
 		" stats                      - Shows all of your statistics\r\n" +
 		" titles                     - Shows all of your titles\r\n" +
@@ -677,7 +677,7 @@ string Game::PrintHelp( PlayerRank p_rank )
 		" leave                      - Leave your current corporations\r\n" +
 		" leaderboard <type>         - Display a certain leaderboard\r\n" +
 		" go <direction>             - Moves in a direction(north, south, east, west)\r\n" +
-		" collect	                 - Collect any resources available (CR)\r\n";
+		" collect                    - Collect any resources available (CR)\r\n";
 
 
 	static string god = yellow + bold +

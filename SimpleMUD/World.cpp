@@ -47,15 +47,15 @@ namespace SimpleMUD
 		float distanceFromOrigin = p_coords.length();
 
 		// Clean up dupped code if hard coding.
-		if (p_coords.x == 1 && p_coords.y == 1)
+		if (p_coords.x == 1 && p_coords.y == 0)
 		{
 			string name = "TempName";
-			string desc = "TempDesc Example Special Room";
+			string desc = "TempDesc Trading Post";
 			RoomBaseType roomBaseType = RoomBaseType::SPECIAL;
 			RoomType roomType = RoomType::TRADING;
 			m_rooms.AddRoom(p_coords, std::unique_ptr<Room>(new SpecialRoom(name, desc, roomBaseType, p_coords, roomType)));
 		}
-		else if (p_coords.x == -1 && p_coords.y == -1)
+		else if (p_coords.x == -1 && p_coords.y == 0)
 		{
 			string name = "TempName";
 			string desc = "Devil Room";
