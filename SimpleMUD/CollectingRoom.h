@@ -6,6 +6,7 @@
 #define COLLECTINGROOM_H
 
 #include <string>
+#include <chrono>
 
 #include "Room.h"
 
@@ -13,9 +14,9 @@ using std::ostream;
 using std::istream;
 using std::list;
 
+
 namespace SimpleMUD
 {
-
 
 	// --------------------------------------------------------------------
 	//  Class for rooms used for collecting resources.
@@ -40,7 +41,7 @@ namespace SimpleMUD
 		// Size of the resource.
 		ResourceSize m_resourceSize;
 		// Time since last collection.
-		BasicLib::sint64 m_lastCollection;
+		std::chrono::system_clock::time_point m_lastCollection;
 
 		// Owner of the land.
 		// Not sure how we want to store this just yet, will probably be the player..

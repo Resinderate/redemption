@@ -33,16 +33,14 @@ Player::Player()
 	for (int i = 0; i < NumResourceType; i++)
 	{
 		m_resourceAmounts[i] = 0;
-		m_itemLevels[i] = 0;
+		m_itemLevels[i] = 1;
 	}
 
 	m_corp = "";
 
 	m_coords = vector2(0, 0);
 
-	// Adding some default values
-	m_dictionary.AddCommandPair("shout", "sh");
-	m_dictionary.AddCommandPair("stats", "st");
+	m_hasSoul = false;
 }
 
 //	@author Kevin Duffy
@@ -133,9 +131,6 @@ void Player::PrintStatbar( bool p_update )
         return;
 
     string statbar = white + bold + ">";
-
-    // color code your hitpoints so that they are red if low,
-    // yellow if medium, and green if high.
 
     Conn()->Protocol().SendString( *Conn(), clearline + "\r" + statbar + reset );
 }

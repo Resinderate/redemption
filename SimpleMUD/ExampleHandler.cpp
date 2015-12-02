@@ -16,6 +16,4 @@ void SimpleMUD::ExampleHandler::Handle(string p_data)
 
 void SimpleMUD::ExampleHandler::Enter()
 {
-	// Called when you enter the handler for the first time.
-	USERLOG.Log("GOT TO THE SPECIAL ROOM ENTER().");
 }
