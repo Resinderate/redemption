@@ -24,9 +24,11 @@ namespace SimpleMUD
 		std::string Translate(std::string p_command);
 		void AddCommandPair(std::string p_command, std::string p_alias);
 		void RemoveAlias(std::string p_alias);
+		//inline std::map<string,string> GetDictionary() { return m_map; }
+		std::map<std::string, std::string> m_map;
 
 	protected:
-		std::map<std::string, std::string> m_map;
+		//std::map<std::string, std::string> m_map;
 
 		bool replace(std::string& p_str, const std::string& p_from, const std::string& p_to);
 		int occurances(const std::string& p_string, const std::string& p_substr);
