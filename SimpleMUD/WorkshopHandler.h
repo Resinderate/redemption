@@ -56,6 +56,7 @@ namespace SimpleMUD
 
 	protected:
 		player m_player;
+		resource m_baseCost;
 
 	};  // end class WorkshopHandler.
 
