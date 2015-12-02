@@ -33,8 +33,12 @@ Player::Player()
 	for (int i = 0; i < NumResourceType; i++)
 	{
 		m_resourceAmounts[i] = 0;
-		m_itemLevels[i] = 1;
 	}
+	m_itemLevels[WOOD] = 1;
+	m_itemLevels[STONE] = 0;
+	m_itemLevels[IRON] = 0;
+	m_itemLevels[GOLD] = 0;
+
 
 	m_corp = "None";
 

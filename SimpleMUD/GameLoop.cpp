@@ -54,7 +54,6 @@ void GameLoop::Save()
 
 void GameLoop::Loop()
 {
-    
     if( Game::GetTimer().GetMS() >= m_savedatabases )
     {
         SaveDatabases();

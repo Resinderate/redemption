@@ -180,7 +180,7 @@ void Logon::Enter()
         " - entered login state." );
 
     m_connection->Protocol().SendString( *m_connection,
-        red + bold + "Welcome To SimpleMUD v1.0\r\n" + 
+        red + bold + "Welcome To REDEMPTION\r\n" + 
         "Please enter your name, or \"new\" if you are new: " + reset );
 }
 

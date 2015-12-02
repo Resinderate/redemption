@@ -241,6 +241,8 @@ void Game::Handle(string p_data)
 				p.Conn()->AddHandler(new TradingHandler(*p.Conn(), p.ID()));
 			else if (type == RoomType::DEVIL)
 				p.Conn()->AddHandler(new DevilHandler(*p.Conn(), p.ID()));
+			else if (type == RoomType::WORKSHOP)
+				p.Conn()->AddHandler(new WorkshopHandler(*p.Conn(), p.ID()));
 			return;
 		}
 		else
@@ -267,6 +269,13 @@ void Game::Handle(string p_data)
 	if (firstword == "leaderboard")
 	{
 		//Syntax (leaderboard <leaderboard_type>)
+		auto players = PlayerDatabase::GetAllPlayers();
+
+		for (auto p : players)
+		{
+			//
+			return;
+		}
 	}
 
     // ------------------------------------------------------------------------
@@ -618,7 +627,7 @@ string Game::WhoList( const string& p_who )
 
     string str = white + bold +
         "--------------------------------------------------------------------------------\r\n" + 
-        " Name             | Level     | Activity | Rank\r\n" + 
+        " Name             | Activity | Rank\r\n" + 
         "--------------------------------------------------------------------------------\r\n";
 
     wholist who;
@@ -717,13 +726,14 @@ string Game::PrintStats()
 
     return white + bold +
         "---------------------------------- Your Stats ----------------------------------\r\n" + 
-        " Name:          " + p.Name() + "\r\n" +
-        " Rank:          " + GetRankString( p.Rank() ) + "\r\n" +
-		" Wood           " + std::to_string(p.GetResources()[WOOD]) + "\r\n" +
-		" Stone          " + std::to_string(p.GetResources()[STONE]) + "\r\n" +
-		" Iron           " + std::to_string(p.GetResources()[IRON]) + "\r\n" +
-		" Gold           " + std::to_string(p.GetResources()[GOLD]) + "\r\n" +
-		" Soul           " + ((p.HasSoul()) ? "Yes" : "No") + "\r\n" +
+        " Name:\t" + p.Name() + "\r\n" +
+        " Rank:\t" + GetRankString( p.Rank() ) + "\r\n" +
+		" Soul:\t" + ((p.HasSoul()) ? "Yes" : "No") + "\r\n" +
+		"\tAmount\tItemLvl" + "\r\n" +
+		" Wood:\t" + std::to_string(p.GetResources()[WOOD]) + "\t" + std::to_string(p.GetItemLevels()[WOOD]) + "\r\n" +
+		" Stone:\t" + std::to_string(p.GetResources()[STONE]) + "\t" + std::to_string(p.GetItemLevels()[STONE]) + "\r\n" +
+		" Iron:\t" + std::to_string(p.GetResources()[IRON]) + "\t" + std::to_string(p.GetItemLevels()[IRON]) + "\r\n" +
+		" Gold:\t" + std::to_string(p.GetResources()[GOLD]) + "\t" + std::to_string(p.GetItemLevels()[GOLD]) + "\r\n" +
         "--------------------------------------------------------------------------------";
 }
 

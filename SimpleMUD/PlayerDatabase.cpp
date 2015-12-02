@@ -49,6 +49,16 @@ void PlayerDatabase::SavePlayer( entityid p_player )
     file << itr->second;
 }
 
+std::list<Player> PlayerDatabase::GetAllPlayers()
+{
+	std::list<Player> players;
+	for (auto kv : m_map)
+	{
+		players.push_back(kv.second);
+	}
+	return players;
+}
+
 
 bool PlayerDatabase::Load() 
 {
