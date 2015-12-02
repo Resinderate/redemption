@@ -176,7 +176,7 @@ ostream& operator<<( ostream& p_stream, const Player& p )
 	p_stream << "\n";
 
 	p_stream << "[COMMANDS]       \n";
-	std::map<string, string> temp = p.m_dictionary.m_map;
+	std::map<string, string> temp = q.m_dictionary.GetDictionary();
 	std::map<string, string>::iterator mitr = temp.begin();
 		for (mitr; mitr != temp.end(); ++mitr)
 	{
