@@ -24,7 +24,7 @@ void SimpleMUD::PlayerDictHandler::Handle(string p_data)
 		m_player->GetDict().AddCommandPair(m_command, m_alias);
 		
 		// Confirm alias with player.
-		m_connection->Protocol().SendString(*m_connection, SocketLib::yellow + SocketLib::bold +
+		m_connection->Protocol().SendString(*m_connection, SocketLib::green + SocketLib::bold +
 			"Alias added!\r\n" + ">" +
 			SocketLib::reset);
 		

@@ -15,7 +15,7 @@ void SimpleMUD::WorkshopHandler::Handle(string p_data)
 
 		if (second == "")
 		{
-			m_player->SendString(SocketLib::green + "Could not detect valid <resource> type!");
+			m_player->SendString(SocketLib::red + "Could not detect valid <resource> type!");
 			return;
 		}
 
@@ -33,7 +33,7 @@ void SimpleMUD::WorkshopHandler::Handle(string p_data)
 		}
 		if (!valid)
 		{
-			m_player->SendString(SocketLib::green + "Did not detect valid <resource> type.");
+			m_player->SendString(SocketLib::red + "Did not detect valid <resource> type.");
 			return;
 		}
 
@@ -43,7 +43,7 @@ void SimpleMUD::WorkshopHandler::Handle(string p_data)
 		// Check if they have enough money
 		if (m_player->GetResources()[type] < price)
 		{
-			m_player->SendString(SocketLib::green + "You don't have enough resources to complete this upgrade!");
+			m_player->SendString(SocketLib::red + "You don't have enough resources to complete this upgrade!");
 			return;
 		}
 
@@ -56,7 +56,7 @@ void SimpleMUD::WorkshopHandler::Handle(string p_data)
 	}
 	else
 	{
-		m_player->SendString(SocketLib::green + "Invalid Command!");
+		m_player->SendString(SocketLib::red + "Invalid Command!");
 		return;
 	}
 }
@@ -73,7 +73,7 @@ void SimpleMUD::WorkshopHandler::Enter()
 	int ironLvl = m_player->GetItemLevels()[ResourceType::IRON];
 	int goldLvl = m_player->GetItemLevels()[ResourceType::GOLD];
 
-	m_player->SendString(SocketLib::green + "Welcome to the Workshop!\r\n" +
+	m_player->SendString(SocketLib::white + "Welcome to the Workshop!\r\n" +
 		"Here you can upgrade your items for collecting resources.\r\n" +
 		"This will increase the number of resources you receive while collecting.\r\n" +
 		"Current Item Levels and upgrade costs:\r\n" +
@@ -89,8 +89,8 @@ void SimpleMUD::WorkshopHandler::Enter()
 		"Gold lvl:\t" + std::to_string(goldLvl) +
 		" -- Upgrade Cost: " + std::to_string(CalculateCost(goldLvl + 1)) + " gold" +
 		"\r\n" +
-		"To upgrade use the format: upgrade <type> -- Eg. 'upgrade gold', 'upgrade wood'\r\n" 
-		"Enter 'done' to stop upgrading.");
+		"To upgrade use the format: " + SocketLib::yellow + "upgrade <type>" + SocketLib::white + " -- Eg. 'upgrade gold', 'upgrade wood'\r\n" 
+		"Enter '" + SocketLib::yellow + "done" + SocketLib::white + "' to stop upgrading.");
 
 	// Gonna need a function to figure out the price of the upgrade for a particular level.
 }

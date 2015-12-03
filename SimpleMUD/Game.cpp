@@ -188,7 +188,7 @@ void Game::Handle(string p_data)
 			temp.erase(temp.size() - 2, 2);
 			temp += "\r\n";
 
-			p.SendString(green + bold + temp);
+			p.SendString(white + bold + temp);
             return;
         }
 
@@ -198,9 +198,11 @@ void Game::Handle(string p_data)
 		//Syntax (change <title_name>)
 
 		string secondword = ParseWord(p_data, 1);
-		p.SetTitle(secondword);
-
-		p.SendString(green + bold + "Title changed to [" + secondword + "]");
+		bool changed = p.SetTitle(secondword);
+		if (changed)
+			p.SendString(green + bold + "Title changed to [" + secondword + "]");
+		else
+			p.SendString(red + bold + "The title '" + secondword + "' is not abailable" + reset);
 		return;
 	}
 
@@ -247,7 +249,7 @@ void Game::Handle(string p_data)
 		}
 		else
 		{
-			p.SendString(yellow + "Nothing to interact with in this room!");
+			p.SendString(red + "Nothing to interact with in this room!");
 			return;
 		}
 		
@@ -578,10 +580,10 @@ void Game::Whisper( std::string p_str, std::string p_player )
     }
     else
     {
-        itr->SendString( yellow + m_player->Name() + " whispers to you: " + 
+        itr->SendString( magenta + m_player->Name() + " whispers to you: " + 
                          reset + p_str );
 
-        m_player->SendString( yellow + "You whisper to " + itr->Name() + 
+        m_player->SendString( magenta + "You whisper to " + itr->Name() + 
                               ": " + reset + p_str );
     }
 }
@@ -690,12 +692,12 @@ string Game::PrintHelp( PlayerRank p_rank )
 		" exit, quit                 - Leave the game.\r\n";
 
 
-	static string god = yellow + bold +
+	static string god = cyan + bold +
 		"--------------------------------- God Commands ------------------------------------\r\n" +
 		" kick <who>                 - Kick user from the game\r\n" +
 		" mute <who> <duration>		 - Mute chat from player for <duration>\r\n";
 	
-    static string admin = green + bold +
+    static string admin = blue + bold +
         "-------------------------------- Admin Commands -----------------------------------\r\n" + 
         " announce <msg>             - Makes a global system announcement\r\n" +
 		" promote <who> <rank>       - Changes a player to GOD rank\r\n" +
@@ -741,17 +743,16 @@ string Game::PrintStats()
 string Game::PrintRoom( Room p_room )
 {
 
-    string desc = "\r\n" + bold + white + p_room.Name() + "\r\n";
+    string desc = "\r\n" + bold + yellow + p_room.Name() + "\r\n";
     string temp;
     int count;
 
-    desc += bold + magenta + p_room.Description() + "\r\n";
+    desc += bold + yellow + p_room.Description() + "\r\n";
 
-    desc += "\r\n";
     // ---------------------------------
     // PEOPLE
     // ---------------------------------
-    temp = bold + cyan + "People: ";
+    temp = bold + cyan + "People: " + white;
     count = 0;
     std::list<player>::iterator playeritr = p_room.Players().begin();
     while( playeritr != p_room.Players().end() )
@@ -804,7 +805,7 @@ void Game::Move( int p_direction )
 	World::GetRoom(p.Coords())->AddPlayer(p.ID());
 	
 
-    SendRoom( green + p.Name() + " leaves to the " + 
+    SendRoom( yellow + p.Name() + " leaves to the " + 
               DIRECTIONSTRINGS[p_direction] + ".",
               *prev);
 
@@ -839,17 +840,17 @@ void SimpleMUD::Game::Collect()
 			// Add that to the players totals.
 			p.GetResources()[type] += reward;
 
-			p.SendString(yellow + "Collected " + std::to_string(reward) + " " + ResourceTypeStrings[type] + "!\r\n");
+			p.SendString(green + "Collected " + std::to_string(reward) + " " + ResourceTypeStrings[type] + "!\r\n");
 		}
 		else
 		{
-			p.SendString(yellow + "You need an item of at least level 1 for this resource type to collect it!\r\n");
+			p.SendString(red + "You need an item of at least level 1 for this resource type to collect it!\r\n");
 		}		
 	}
 	else
 	{
 		// Cant collect in this type of room.
-		p.SendString(yellow + "You can't collect in this room!\r\n");
+		p.SendString(red + "You can't collect in this room!\r\n");
 	}
 }
 

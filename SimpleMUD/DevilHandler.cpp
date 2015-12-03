@@ -24,13 +24,18 @@ void SimpleMUD::DevilHandler::Handle(string p_data)
 		// Exit the handler.
 		m_connection->RemoveHandler();
 	}
+	else
+	{
+		m_player->SendString(SocketLib::red + "Invalid Command!" + SocketLib::reset);
+		return;
+	}
 }
 
 void SimpleMUD::DevilHandler::Enter()
 {
-	m_player->SendString(SocketLib::yellow + "Hello from the devil!\r\n" +
+	m_player->SendString(SocketLib::white + "Hello from the devil!\r\n" +
 		"You have " + std::to_string(m_player->GetResources()[GOLD]) + " gold. You can trade me back for your soul for " + std::to_string(m_soulPrice) + " gold.\r\n" +
-		"Enter 'exchange soul' to trade me!\r\n" +
-		"Enter 'run away' to stop talking to me!\r\n" 
+		"Enter '" + SocketLib::yellow + "exchange soul" + SocketLib::white + "' to trade me!\r\n" +
+		"Enter '" + SocketLib::yellow + "run away" + SocketLib::white + "' to stop talking to me!\r\n" 
 		+ SocketLib::white + ">");
 }

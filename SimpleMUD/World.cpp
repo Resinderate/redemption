@@ -52,7 +52,7 @@ namespace SimpleMUD
 		{
 			string name = defaultName;
 			string desc = string("Trading Post") + 
-				" - Coords: " + std::to_string(p_coords.x) + ", " + std::to_string(p_coords.y);
+				"\r\nCoords: " + std::to_string(p_coords.x) + ", " + std::to_string(p_coords.y);
 			RoomBaseType roomBaseType = RoomBaseType::SPECIAL;
 			RoomType roomType = RoomType::TRADING;
 			m_rooms.AddRoom(p_coords, std::unique_ptr<Room>(new SpecialRoom(name, desc, roomBaseType, p_coords, roomType)));
@@ -61,7 +61,7 @@ namespace SimpleMUD
 		{
 			string name = defaultName;
 			string desc = string("Devil Room") +
-				" - Coords: " + std::to_string(p_coords.x) + ", " + std::to_string(p_coords.y);
+				"\r\nCoords: " + std::to_string(p_coords.x) + ", " + std::to_string(p_coords.y);
 			RoomBaseType roomBaseType = RoomBaseType::SPECIAL;
 			RoomType roomType = RoomType::DEVIL;
 			m_rooms.AddRoom(p_coords, std::unique_ptr<Room>(new SpecialRoom(name, desc, roomBaseType, p_coords, roomType)));
@@ -70,7 +70,7 @@ namespace SimpleMUD
 		{
 			string name = defaultName;
 			string desc = string("Workshop") +
-				" - Coords: " + std::to_string(p_coords.x) + ", " + std::to_string(p_coords.y);
+				"\r\nCoords: " + std::to_string(p_coords.x) + ", " + std::to_string(p_coords.y);
 			RoomBaseType roomBaseType = RoomBaseType::SPECIAL;
 			RoomType roomType = RoomType::WORKSHOP;
 			m_rooms.AddRoom(p_coords, std::unique_ptr<Room>(new SpecialRoom(name, desc, roomBaseType, p_coords, roomType)));
@@ -132,7 +132,7 @@ namespace SimpleMUD
 			string name = defaultName;
 			// Description? -- Could be the type of room. Build up based on the type.
 			string desc = ResourceTypeStrings[typeIndex] + " :: " + ResourceSizeStrings[sizeIndex] +
-				" - Coords: " + std::to_string(p_coords.x) + ", " + std::to_string(p_coords.y);
+				"\r\nCoords: " + std::to_string(p_coords.x) + ", " + std::to_string(p_coords.y);
 
 			//m_rooms.AddRoom(p_coords, SpecialRoom());
 			m_rooms.AddRoom(p_coords, std::unique_ptr<Room>(new CollectingRoom(name, desc, roomType, p_coords, resourceType, resourceSize)));

@@ -181,7 +181,10 @@ void Logon::Enter()
 
     m_connection->Protocol().SendString( *m_connection,
         bold + "Welcome To REDEMPTION!\r\n" + 
-		"This is an intro to the game...\r\n" +
+		"Redemption is a game of resource collecting. A long time ago the devil traded your ancestors for\r\n" +
+		"their souls. This in turn lead you to be born without a soul! You must collect enough resources to\r\n" +
+		"trade the devil back for your soul. You can trade between resources in the Tradepost, and upgrade\r\n" +
+		"your resource collecting abilities in the Workshop.\r\n\r\n" +
         yellow + "Please enter your name, or \"new\" if you are new: " + reset );
 }
 

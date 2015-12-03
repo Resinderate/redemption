@@ -19,7 +19,7 @@ void SimpleMUD::TradingHandler::Handle(string p_data)
 	// Can kinda guess we have 3 somewhat valid commands.
 	if (first == "" || second == "" || third == "")
 	{
-		m_player->SendString(SocketLib::green + "Invalid Command! Did not detect 3 values.");
+		m_player->SendString(SocketLib::red + "Invalid Command! Did not detect 3 values.");
 		return;
 	}
 
@@ -31,7 +31,7 @@ void SimpleMUD::TradingHandler::Handle(string p_data)
 	}
 	catch (...)
 	{
-		m_player->SendString(SocketLib::green + "Did not detect valid <amount> type.");
+		m_player->SendString(SocketLib::red + "Did not detect valid <amount> type.");
 		return;
 	}
 
@@ -49,13 +49,13 @@ void SimpleMUD::TradingHandler::Handle(string p_data)
 
 	if (!valid)
 	{
-		m_player->SendString(SocketLib::green + "Did not detect valid <resource> type.");
+		m_player->SendString(SocketLib::red + "Did not detect valid <resource> type.");
 		return;
 	}
 	// If the type is Wood, won't work.
 	if (type == ResourceType::WOOD)
 	{
-		m_player->SendString(SocketLib::green + "You cannot buy or sell Wood as a resource, as it is the lowest common denominator.");
+		m_player->SendString(SocketLib::red + "You cannot buy or sell Wood as a resource, as it is the lowest common denominator.");
 	}
 	ResourceType newType = EvalResouce(type, -1);
 
@@ -79,7 +79,7 @@ void SimpleMUD::TradingHandler::Handle(string p_data)
 		else
 		{
 			// You do not have enough to complete this trade.
-			m_player->SendString(SocketLib::green + "You do not have enough resources to complete this trade.");
+			m_player->SendString(SocketLib::red + "You do not have enough resources to complete this trade.");
 			return;
 		}
 	}
@@ -103,7 +103,7 @@ void SimpleMUD::TradingHandler::Handle(string p_data)
 		else
 		{
 			// Not enough money to complete the trade.
-			m_player->SendString(SocketLib::green + "You do not have enough resources to complete this trade.");
+			m_player->SendString(SocketLib::red + "You do not have enough resources to complete this trade.");
 			return;
 		}
 
@@ -111,7 +111,7 @@ void SimpleMUD::TradingHandler::Handle(string p_data)
 	}
 	else
 	{
-		m_player->SendString(SocketLib::green + "Invalid Command!");
+		m_player->SendString(SocketLib::red + "Invalid Command!");
 		return;
 	}
 }
@@ -119,13 +119,13 @@ void SimpleMUD::TradingHandler::Handle(string p_data)
 void SimpleMUD::TradingHandler::Enter()
 {
 	// Welcome to the trading centre.
-	m_player->SendString(SocketLib::green + "Welcome to the Tradepost!\r\n" +
+	m_player->SendString(SocketLib::white + "Welcome to the Tradepost!\r\n" +
 		"Here you can exchange your resources for others. Each resource can be bought or sold for the resource next in value. Ie. Stone -> Iron\r\n" +
 		"Each resource is worth 10 of the previous resource.\r\n"
 		"Enter your request in the format:\r\n" +
-		"buy <amount> <resource> -- To upgrade a resource. Eg. 'buy 10 iron'. 100 Stone into 10 Iron.\r\n" +
-		"sell <amount> <resource> -- To downgrade a resource. Eg 'sell 50 stone'. 50 Stone into 500 Wood.\r\n" +
-		"Enter 'done' to stop trading.");
+		SocketLib::yellow + "buy <amount> <resource>" + SocketLib::white + " -- To upgrade a resource. Eg. 'buy 10 iron'. 100 Stone into 10 Iron.\r\n" +
+		SocketLib::yellow + "sell <amount> <resource>" + SocketLib::white + " -- To downgrade a resource. Eg 'sell 50 stone'. 50 Stone into 500 Wood.\r\n" +
+		"Enter '" + SocketLib::yellow + "done" + SocketLib::white + "' to stop trading.");
 }
 
 resource SimpleMUD::TradingHandler::TradeDown(resource p_amount)
