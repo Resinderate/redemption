@@ -114,10 +114,10 @@ void Game::Handle(string p_data)
 	}
 
 	//leave the game
-	if (firstword == "exit")
+	if (firstword == "exit" || firstword == "quit")
 	{
 		m_connection->Close();
-		LogoutMessage(titledName + " has left the realm.");
+		LogoutMessage(titledName + " has left the game.");
 		return;
 	}
 
@@ -188,7 +188,7 @@ void Game::Handle(string p_data)
 			temp.erase(temp.size() - 2, 2);
 			temp += "\r\n";
 
-			p.SendString(green + bold + temp);
+			p.SendString(white + bold + temp);
             return;
         }
 
@@ -198,9 +198,11 @@ void Game::Handle(string p_data)
 		//Syntax (change <title_name>)
 
 		string secondword = ParseWord(p_data, 1);
-		p.SetTitle(secondword);
-
-		p.SendString(green + bold + "Title changed to [" + secondword + "]");
+		bool changed = p.SetTitle(secondword);
+		if (changed)
+			p.SendString(green + bold + "Title changed to [" + secondword + "]");
+		else
+			p.SendString(red + bold + "The title '" + secondword + "' is not abailable" + reset);
 		return;
 	}
 
@@ -247,7 +249,7 @@ void Game::Handle(string p_data)
 		}
 		else
 		{
-			p.SendString(yellow + "Nothing to interact with in this room!");
+			p.SendString(red + "Nothing to interact with in this room!");
 			return;
 		}
 		
@@ -444,7 +446,7 @@ void Game::Handle(string p_data)
 	// If command is a commonly used shortcut inform player of rebind ability.
 	//SendRoom( bold + titledName + " says: " + dim + p_data, p.CurrentRoom() );
 
-	p.SendString(bold + red + "Invalid Command: '" + p_data + "'");
+	p.SendString(bold + red + "Invalid Command!");
 }
 
 
@@ -468,7 +470,7 @@ void Game::Enter()
     p.Active() = true;
     p.LoggedIn() = true;
 
-    SendGame( bold + green + titledName + " has entered the realm." );
+    SendGame( bold + green + titledName + " has re-entered the game." );
 
 	p.CurrentRoom()->AddPlayer(p.ID());
 
@@ -506,7 +508,7 @@ void Game::Hungup()
         " hung up." );
 
     Player& p = *m_player;
-    LogoutMessage( p.Name() + " has suddenly disappeared from the realm." );
+    LogoutMessage( p.Name() + " has suddenly disappeared from the game." );
 }
 
 // ------------------------------------------------------------------------
@@ -578,10 +580,10 @@ void Game::Whisper( std::string p_str, std::string p_player )
     }
     else
     {
-        itr->SendString( yellow + m_player->Name() + " whispers to you: " + 
+        itr->SendString( magenta + m_player->Name() + " whispers to you: " + 
                          reset + p_str );
 
-        m_player->SendString( yellow + "You whisper to " + itr->Name() + 
+        m_player->SendString( magenta + "You whisper to " + itr->Name() + 
                               ": " + reset + p_str );
     }
 }
@@ -619,7 +621,7 @@ struct wholist
 };
 
 // ------------------------------------------------------------------------
-//  This prints up the who-list for the realm.
+//  This prints up the who-list for the game.
 // ------------------------------------------------------------------------
 string Game::WhoList( const string& p_who )
 {
@@ -662,39 +664,40 @@ string Game::WhoList( const string& p_who )
 // ------------------------------------------------------------------------
 string Game::PrintHelp( PlayerRank p_rank )
 {
+	// Commented out stuff that isn't implemented yet to reduce confusion.
 	static string help = white + bold +
 		"--------------------------------- Command List ------------------------------------\r\n" +
-		" /                          - Repeats your last command exactly.\r\n" +
-		" say <mesg>                 - Sends message to everyone in the room\r\n" +
-		" shout <mesg>               - Sends message to everyone in the adjacent rooms\r\n" +
-		" corp <mesg>                - Sends message to everyone in your corporation\r\n" +
-		" global <mesg>              - Sends message to everyone in the game\r\n" +
-		" whisper <who> <msg>        - Sends message to one person\r\n" +
+		" /                          - Repeat last command\r\n" +
+		" <direction>                - Move in a direction (north, n, south, e, west etc.)\r\n" +
+		" collect, c                 - Collect resources from room.\r\n" +
+		" interact, i                - Interact with a Special Room\r\n" +
+		" stats                      - Shows stats\r\n" +
+		" look, l                    - Show description of room\r\n" +
+		" rebind                     - Create new shortcuts for a command\r\n" +
+		" titles                     - Show all available titles\r\n" +
+		" change <title>             - Change current title to <title>\r\n" +
+		" say <mesg>                 - Send message to current room\r\n" +
+		" shout <mesg>               - Send message to adjacent rooms\r\n" +
+//		" corp <mesg>                - Send message to corporation\r\n" +
+		" global <mesg>              - Send message to everyone\r\n" +
+		" whisper <who> <msg>        - Send private message\r\n" +
+		" time                       - Show current system time\r\n" +
+		" who                        - Show list of everyone online\r\n" +
+		" who all                    - Show list of everyone\r\n" +
+//		" trade <player><amount><res>- Send an amount of a resource to another player\r\n" +
+//		" invite                     - Invite a player to a corporation you are a leader of\r\n" +
+//		" leave                      - Leave your current corporations\r\n" +
+//		" leaderboard <type>         - Display a certain leaderboard\r\n" +
 		" help                       - Shows this menu\r\n" +
-		" rebind                     - Prompts you to create a shortcut for a command\r\n" +
-		" exit                       - Allows you to leave the realm.\r\n" +
-		" stats                      - Shows all of your statistics\r\n" +
-		" titles                     - Shows all of your titles\r\n" +
-		" change <title>             - Change your current title to one from your list\r\n" +
-		" time                       - shows the current system time.\r\n" +
-		" who                        - Shows a list of everyone online\r\n" +
-		" who all                    - Shows a list of everyone\r\n" +
-		" look                       - Shows you the contents of a room\r\n" +
-		" trade <player><amount><res>- Send an amount of a resource to another player\r\n" +
-		" interact                   - Complex interactions for Special Rooms\r\n" +
-		" invite                     - Invite a player to a corporation you are a leader of\r\n" +
-		" leave                      - Leave your current corporations\r\n" +
-		" leaderboard <type>         - Display a certain leaderboard\r\n" +
-		" go <direction>             - Moves in a direction(north, south, east, west)\r\n" +
-		" collect                    - Collect any resources available (CR)\r\n";
+		" exit, quit                 - Leave the game.\r\n";
 
 
-	static string god = yellow + bold +
+	static string god = cyan + bold +
 		"--------------------------------- God Commands ------------------------------------\r\n" +
-		" kick <who>                 - Kicks a user from the realm\r\n" +
-		" mute <who> <duration>		 - Prevent a player from using chat for a length of time\r\n";
+		" kick <who>                 - Kick user from the game\r\n" +
+		" mute <who> <duration>		 - Mute chat from player for <duration>\r\n";
 	
-    static string admin = green + bold +
+    static string admin = blue + bold +
         "-------------------------------- Admin Commands -----------------------------------\r\n" + 
         " announce <msg>             - Makes a global system announcement\r\n" +
 		" promote <who> <rank>       - Changes a player to GOD rank\r\n" +
@@ -740,17 +743,16 @@ string Game::PrintStats()
 string Game::PrintRoom( Room p_room )
 {
 
-    string desc = "\r\n" + bold + white + p_room.Name() + "\r\n";
+    string desc = "\r\n" + bold + yellow + p_room.Name() + "\r\n";
     string temp;
     int count;
 
-    desc += bold + magenta + p_room.Description() + "\r\n";
+    desc += bold + yellow + p_room.Description() + "\r\n";
 
-    desc += "\r\n";
     // ---------------------------------
     // PEOPLE
     // ---------------------------------
-    temp = bold + cyan + "People: ";
+    temp = bold + cyan + "People: " + white;
     count = 0;
     std::list<player>::iterator playeritr = p_room.Players().begin();
     while( playeritr != p_room.Players().end() )
@@ -803,16 +805,11 @@ void Game::Move( int p_direction )
 	World::GetRoom(p.Coords())->AddPlayer(p.ID());
 	
 
-    SendRoom( green + p.Name() + " leaves to the " + 
+    SendRoom( yellow + p.Name() + " leaves to the " + 
               DIRECTIONSTRINGS[p_direction] + ".",
               *prev);
 
 	p.SendString( yellow + "You walk " + DIRECTIONSTRINGS[p_direction] + "." );
-
-	vector2 coords = p.Coords();
-	string out = "New Coods: " + std::to_string(coords.x) + ", " + std::to_string(coords.y);
-	p.SendString(yellow + out);
-
 	p.SendString(PrintRoom(*p.CurrentRoom()));
 }
 
@@ -843,17 +840,17 @@ void SimpleMUD::Game::Collect()
 			// Add that to the players totals.
 			p.GetResources()[type] += reward;
 
-			p.SendString(yellow + "Collected " + std::to_string(reward) + " " + ResourceTypeStrings[type] + "!\r\n");
+			p.SendString(green + "Collected " + std::to_string(reward) + " " + ResourceTypeStrings[type] + "!\r\n");
 		}
 		else
 		{
-			p.SendString(yellow + "You need an item of at least level 1 for this resource type to collect it!\r\n");
+			p.SendString(red + "You need an item of at least level 1 for this resource type to collect it!\r\n");
 		}		
 	}
 	else
 	{
 		// Cant collect in this type of room.
-		p.SendString(yellow + "You can't collect in this room!\r\n");
+		p.SendString(red + "You can't collect in this room!\r\n");
 	}
 }
 
@@ -862,8 +859,13 @@ void Game::InitDict()
 	if (m_dictInitialized == false)
 	{
 		// Add any stuff to the dictionary for the game.
-		m_dictionary.AddCommandPair("look", "l");
 		m_dictionary.AddCommandPair("north", "n");
+		m_dictionary.AddCommandPair("south", "s");
+		m_dictionary.AddCommandPair("east", "e");
+		m_dictionary.AddCommandPair("west", "w");
+		m_dictionary.AddCommandPair("collect", "c");
+		m_dictionary.AddCommandPair("interact", "i");
+		m_dictionary.AddCommandPair("look", "l");
 
 		m_dictInitialized = true;
 	}

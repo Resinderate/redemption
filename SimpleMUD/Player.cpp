@@ -62,7 +62,7 @@ std::list<vector2> Player::AdjacentRooms()
 
 //	@author Kevin Duffy
 //  Choose a players Title
-void Player::SetTitle(string p_str)
+bool Player::SetTitle(string p_str)
 {
 	//iterate through the list of player's titles and see if the title exists 
 	std::list<PlayerTitle>::iterator itr = m_availableTitles.begin();
@@ -73,10 +73,11 @@ void Player::SetTitle(string p_str)
 		if (temp == p_str)
 		{
 			m_title = t;
-			return;
+			return true;
 		}
 		++itr;
 	}
+	return false;
 }
 //	@author Kevin Duffy
 //	Function to add a title to a players collection

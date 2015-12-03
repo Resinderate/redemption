@@ -49,7 +49,7 @@ void Logon::Handle( string p_data )
                 // name does not exist
                 m_errors++;
                 m_connection->Protocol().SendString( *m_connection,
-                    red + bold + "Sorry, the user \"" + white + p_data + red +
+					bold + red +  "Sorry, the user \"" + white + p_data + red +
                     "\" does not exist.\r\n" + 
                     "Please enter your name, or \"new\" if you are new: " + 
                     reset );
@@ -62,8 +62,8 @@ void Logon::Handle( string p_data )
                 m_pass = itr->Password();
                 
                 m_connection->Protocol().SendString( *m_connection,
-                    green + bold + "Welcome, " + white + p_data + red +
-                    newline + green + "Please enter your password: " + 
+                    white + bold + "Welcome, " + p_data + "!" + 
+                    newline + yellow + "Please enter your password: " + 
                     reset );
             }
         }
@@ -97,7 +97,7 @@ void Logon::Handle( string p_data )
                 m_state = ENTERNEWPASS;
                 m_name = p_data;
                 m_connection->Protocol().SendString( *m_connection,
-                        green + "Please enter your desired password: " + 
+                        yellow + "Please enter your desired password: " + 
                         reset );
             }
         }
@@ -112,13 +112,13 @@ void Logon::Handle( string p_data )
             m_errors++;
             m_connection->Protocol().SendString( *m_connection,
                     red + bold + "INVALID PASSWORD!" + 
-                    green + "Please enter your desired password: " + 
+                    yellow + "Please enter your desired password: " + 
                     reset );
             return;
         }
 
         m_connection->Protocol().SendString( *m_connection,
-                green + "Thank you! You are now entering the realm..." + 
+                white + "Thank you! You are now entering the game..." + 
                 newline );
 
         Player p;
@@ -150,7 +150,7 @@ void Logon::Handle( string p_data )
         if( m_pass == p_data )
         {
             m_connection->Protocol().SendString( *m_connection,
-                    green + "Thank you! You are now entering the realm..." + 
+                    white + "Thank you! You are now entering the game..." + 
                     newline );
             
             // enter the game
@@ -180,8 +180,12 @@ void Logon::Enter()
         " - entered login state." );
 
     m_connection->Protocol().SendString( *m_connection,
-        red + bold + "Welcome To REDEMPTION\r\n" + 
-        "Please enter your name, or \"new\" if you are new: " + reset );
+        bold + "Welcome To REDEMPTION!\r\n" + 
+		"Redemption is a game of resource collecting. A long time ago the devil traded your ancestors for\r\n" +
+		"their souls. This in turn lead you to be born without a soul! You must collect enough resources to\r\n" +
+		"trade the devil back for your soul. You can trade between resources in the Tradepost, and upgrade\r\n" +
+		"your resource collecting abilities in the Workshop.\r\n\r\n" +
+        yellow + "Please enter your name, or \"new\" if you are new: " + reset );
 }
 
 // ------------------------------------------------------------------------
