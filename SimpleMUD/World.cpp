@@ -45,28 +45,32 @@ namespace SimpleMUD
 	void World::GenerateNewRoom(BasicLib::vector2 p_coords)
 	{
 		float distanceFromOrigin = p_coords.length();
+		string defaultName = "Undescriptive Place Name";
 
 		// Clean up dupped code if hard coding.
 		if (p_coords.x == 1 && p_coords.y == 0)
 		{
-			string name = "TempName";
-			string desc = "Trading Post";
+			string name = defaultName;
+			string desc = string("Trading Post") + 
+				" - Coords: " + std::to_string(p_coords.x) + ", " + std::to_string(p_coords.y);
 			RoomBaseType roomBaseType = RoomBaseType::SPECIAL;
 			RoomType roomType = RoomType::TRADING;
 			m_rooms.AddRoom(p_coords, std::unique_ptr<Room>(new SpecialRoom(name, desc, roomBaseType, p_coords, roomType)));
 		}
 		else if (p_coords.x == -1 && p_coords.y == 0)
 		{
-			string name = "TempName";
-			string desc = "Devil Room";
+			string name = defaultName;
+			string desc = string("Devil Room") +
+				" - Coords: " + std::to_string(p_coords.x) + ", " + std::to_string(p_coords.y);
 			RoomBaseType roomBaseType = RoomBaseType::SPECIAL;
 			RoomType roomType = RoomType::DEVIL;
 			m_rooms.AddRoom(p_coords, std::unique_ptr<Room>(new SpecialRoom(name, desc, roomBaseType, p_coords, roomType)));
 		}
 		else if (p_coords.x == 0 && p_coords.y == 1)
 		{
-			string name = "TempName";
-			string desc = "Workshop";
+			string name = defaultName;
+			string desc = string("Workshop") +
+				" - Coords: " + std::to_string(p_coords.x) + ", " + std::to_string(p_coords.y);
 			RoomBaseType roomBaseType = RoomBaseType::SPECIAL;
 			RoomType roomType = RoomType::WORKSHOP;
 			m_rooms.AddRoom(p_coords, std::unique_ptr<Room>(new SpecialRoom(name, desc, roomBaseType, p_coords, roomType)));
@@ -125,10 +129,10 @@ namespace SimpleMUD
 
 			// Name? -- Could be a randomly generated name. Do later on.
 
-			string name = "Default Name -- TODO Generate random place name.";
+			string name = defaultName;
 			// Description? -- Could be the type of room. Build up based on the type.
-			string desc = "Room Desc: " + ResourceTypeStrings[typeIndex] + " :: " + ResourceSizeStrings[sizeIndex]
-				+ " - (Temp coords: " + std::to_string(p_coords.x) + ", " + std::to_string(p_coords.y) + ")";
+			string desc = ResourceTypeStrings[typeIndex] + " :: " + ResourceSizeStrings[sizeIndex] +
+				" - Coords: " + std::to_string(p_coords.x) + ", " + std::to_string(p_coords.y);
 
 			//m_rooms.AddRoom(p_coords, SpecialRoom());
 			m_rooms.AddRoom(p_coords, std::unique_ptr<Room>(new CollectingRoom(name, desc, roomType, p_coords, resourceType, resourceSize)));
