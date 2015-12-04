@@ -42,7 +42,7 @@ Player::Player()
 	m_firstOfType[WOOD] = true;
 	m_firstOfType[STONE] = true;
 	m_firstOfType[IRON] = true;
-	m_itemLevels[GOLD] = true;
+	m_firstOfType[GOLD] = true;
 
 	m_corp = "None";
 
