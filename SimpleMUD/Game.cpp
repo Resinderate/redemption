@@ -839,8 +839,32 @@ void SimpleMUD::Game::Collect()
 
 			// Add that to the players totals.
 			p.GetResources()[type] += reward;
-
+			
 			p.SendString(green + "Collected " + std::to_string(reward) + " " + ResourceTypeStrings[type] + "!\r\n");
+			if (p.FirstOfType()[type])
+			{
+				p.FirstOfType()[type] = false;
+				if (type == WOOD)
+				{
+					p.SendString(green + "Achievement Unlocked! " + GetTitleString(GOTWOOD) + "\r\n");
+					p.AddTitle(GOTWOOD);
+				}
+				else if (type == STONE)
+				{
+					p.SendString(green + "Achievement Unlocked! " + GetTitleString(STONECOLD) + "\r\n");
+					p.AddTitle(STONECOLD);
+				}
+				else if (type == IRON)
+				{
+					p.SendString(green + "Achievement Unlocked! " + GetTitleString(IRONMAIDEN) + "\r\n");
+					p.AddTitle(IRONMAIDEN);
+				}
+				else if (type == GOLD)
+				{
+					p.SendString(green + "Achievement Unlocked! " + GetTitleString(GOLDDIGGER) + "\r\n");
+					p.AddTitle(GOLDDIGGER);
+				}
+			}
 		}
 		else
 		{

@@ -167,10 +167,14 @@ inline istream& operator>>( istream& p_stream, AttributeSet& a )
 		STONELEADER,
 		WOODLEADER,
 		CEO,
-		PEASANT
+		PEASANT,
+		GOTWOOD,
+		STONECOLD,
+		IRONMAIDEN,
+		GOLDDIGGER
 	};
 
-	const int NUMPLAYERTITLETYPES = 7;
+	const int NUMPLAYERTITLETYPES = 11;
 
 	const string PLAYERTITLESTRINGS[NUMPLAYERTITLETYPES] =
 	{
@@ -180,7 +184,11 @@ inline istream& operator>>( istream& p_stream, AttributeSet& a )
 		"StoneLeader",
 		"WoodLeader",
 		"CEO",
-		"Peasant"
+		"Peasant",
+		"GotWood",
+		"StoneCold",
+		"IronMaiden",
+		"GoldDigger"
 	};
 
 

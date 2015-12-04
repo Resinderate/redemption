@@ -39,6 +39,10 @@ Player::Player()
 	m_itemLevels[IRON] = 0;
 	m_itemLevels[GOLD] = 0;
 
+	m_firstOfType[WOOD] = true;
+	m_firstOfType[STONE] = true;
+	m_firstOfType[IRON] = true;
+	m_firstOfType[GOLD] = true;
 
 	m_corp = "None";
 
@@ -236,7 +240,7 @@ istream& operator>>( istream& p_stream, Player& p )
 	int binds;
 	p_stream >> temp >> binds;
 	p_stream >> temp;
-	for (int i = 0; i <= binds; ++i)
+	for (int i = 0; i < binds; ++i)
 	{
 		p_stream >> temp >> temp;
 		p_stream >> temp2 >> temp2;

@@ -56,6 +56,7 @@ public:
 
 	inline std::array<resource, NumResourceType>& GetResources() { return m_resourceAmounts; }
 	inline std::array<int, NumResourceType>& GetItemLevels() { return m_itemLevels; }
+	inline std::array<bool, NumResourceType>& FirstOfType() { return m_firstOfType; }
 
     // ------------------------------------------------------------------------
     //  non-savable accessors
@@ -98,6 +99,7 @@ protected:
 	// All an array of length 4, to correspond to the different resources.
 	std::array<resource, NumResourceType> m_resourceAmounts;
 	std::array<int, NumResourceType> m_itemLevels;
+	std::array<bool, NumResourceType> m_firstOfType;
 
 	PlayerTitle m_title;
 	int m_noOfTitles;
