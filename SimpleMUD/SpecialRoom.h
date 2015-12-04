@@ -24,16 +24,9 @@ namespace SimpleMUD
 
 		inline RoomType GetRoomType() { return m_roomType; }
 
-		// Could be a better name? GetHandler? Isn't too descriptive either.
-		//std::shared_ptr<SocketLib::Telnet::handler> Interact(player p_player);
-
 	protected:
 		// Probably some sort of enum for the type.
 		RoomType m_roomType;
-
-		// Need some way to pick the handler that would be used for each special room.
-		// Based on the RoomType, but not sure who wants it / where to create it...
-
 
 	};  // end class SpecialRoom.
 
