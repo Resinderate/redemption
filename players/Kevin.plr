@@ -2,21 +2,21 @@
 [NAME]           Kevin
 [PASS]           k
 [RANK]           ADMIN
-[LOCATION]       0 , 1
+[LOCATION]       0 , 0
 ###[RESOURCES]###
 [WOOD]           0
-[STONE]          20
+[STONE]          0
 [IRON]           0
 [GOLD]           0
 #####[TOOLS]#####
 [WOOD]           1
-[STONE]          1
-[IRON]           1
+[STONE]          0
+[IRON]           0
 [GOLD]           1
 #####[TITLE]#####
-[WOOD]           205
-[STONE]          205
-[IRON]           205
+[WOOD]           1
+[STONE]          1
+[IRON]           1
 [GOLD]           205
 [CORPORATION]    None
 [HAS SOUL]       0

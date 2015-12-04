@@ -12,7 +12,7 @@
 #include "SocketLibErrors.h"
 #include "SocketSet.h"
 #include "Connection.h"
-
+#include "../BasicLib/BasicLibLogger.h"
 
 
 namespace SocketLib
@@ -175,13 +175,15 @@ NewConnection( DataSocket& p_socket )
     Connection<protocol> conn( p_socket );
 
 
-	ipaddress addr = conn.GetLocalAddress();
+	ipaddress addr = conn.GetRemoteAddress();
 
 	clistitr itr = m_connections.begin();
 	while (itr != m_connections.end())
 	{
-		Connection<protocol>& temp = *itr;
-		if (GetIPString(temp.GetLocalAddress()) == GetIPString(addr))
+
+		USERLOG.Log("The existing connection: " + GetIPString(itr->GetRemoteAddress()));
+		USERLOG.Log("The new connection: " + GetIPString(addr));
+		if (GetIPString(itr->GetRemoteAddress()) == GetIPString(addr))
 		{
 			// tell the default protocol handler that there is no more room
 			// for the connection within this manager.
@@ -189,8 +191,10 @@ NewConnection( DataSocket& p_socket )
 
 			// It is assumed that the protocol handler has told the connection the 
 			// appropriate message, so close the connection.
-			conn.CloseSocket();
+			//conn.CloseSocket();
+			return;
 		}
+		itr++;
 	}
     if( AvailableConnections() == 0 )
     {

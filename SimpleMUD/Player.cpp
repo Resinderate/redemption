@@ -39,6 +39,10 @@ Player::Player()
 	m_itemLevels[IRON] = 0;
 	m_itemLevels[GOLD] = 0;
 
+	m_firstOfType[WOOD] = true;
+	m_firstOfType[STONE] = true;
+	m_firstOfType[IRON] = true;
+	m_itemLevels[GOLD] = true;
 
 	m_corp = "None";
 
