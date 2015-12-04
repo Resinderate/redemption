@@ -13,6 +13,11 @@
 [STONE]          1
 [IRON]           1
 [GOLD]           1
+#####[TITLE]#####
+[WOOD]           205
+[STONE]          205
+[IRON]           205
+[GOLD]           205
 [CORPORATION]    None
 [HAS SOUL]       0
 [TITLE]          TheRedeemed

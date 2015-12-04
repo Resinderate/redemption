@@ -39,10 +39,6 @@ Player::Player()
 	m_itemLevels[IRON] = 0;
 	m_itemLevels[GOLD] = 0;
 
-	m_firstOfType[WOOD] = true;
-	m_firstOfType[STONE] = true;
-	m_firstOfType[IRON] = true;
-	m_firstOfType[GOLD] = true;
 
 	m_corp = "None";
 
@@ -167,6 +163,11 @@ ostream& operator<<( ostream& p_stream, const Player& p )
 	p_stream << "[STONE]          " << p.m_itemLevels[1] << "\n";
 	p_stream << "[IRON]           " << p.m_itemLevels[2] << "\n";
 	p_stream << "[GOLD]           " << p.m_itemLevels[3] << "\n";
+	p_stream << "#####[TITLE]#####" << "\n";
+	p_stream << "[WOOD]           " << p.m_firstOfType[0] << "\n";
+	p_stream << "[STONE]          " << p.m_firstOfType[1] << "\n";
+	p_stream << "[IRON]           " << p.m_firstOfType[2] << "\n";
+	p_stream << "[GOLD]           " << p.m_firstOfType[3] << "\n";
 	p_stream << "[CORPORATION]    " << p.m_corp << "\n";
 	p_stream << "[HAS SOUL]       " << p.m_hasSoul << "\n";
 	p_stream << "[TITLE]          " << GetTitleString(p.m_title) << "\n";
@@ -221,6 +222,11 @@ istream& operator>>( istream& p_stream, Player& p )
 	p_stream >> temp >> p.m_itemLevels[1];
 	p_stream >> temp >> p.m_itemLevels[2];
 	p_stream >> temp >> p.m_itemLevels[3];
+	p_stream >> temp;
+	p_stream >> temp >> p.m_firstOfType[0];
+	p_stream >> temp >> p.m_firstOfType[1];
+	p_stream >> temp >> p.m_firstOfType[2];
+	p_stream >> temp >> p.m_firstOfType[3];
 	p_stream >> temp >> p.m_corp;
 	p_stream >> temp >> p.m_hasSoul;
 	
@@ -240,7 +246,7 @@ istream& operator>>( istream& p_stream, Player& p )
 	int binds;
 	p_stream >> temp >> binds;
 	p_stream >> temp;
-	for (int i = 0; i < binds; ++i)
+	for (int i = 0; i <= binds; ++i)
 	{
 		p_stream >> temp >> temp;
 		p_stream >> temp2 >> temp2;
