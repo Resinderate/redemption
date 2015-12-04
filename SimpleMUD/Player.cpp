@@ -69,17 +69,15 @@ std::list<vector2> Player::AdjacentRooms()
 bool Player::SetTitle(string p_str)
 {
 	//iterate through the list of player's titles and see if the title exists 
-	std::list<PlayerTitle>::iterator itr = m_availableTitles.begin();
-	while (itr != m_availableTitles.end())
+	//C++ 11
+	for (auto title : m_availableTitles)
 	{
-		PlayerTitle& t = *itr;
-		string temp = GetTitleString(t);
+		string temp = GetTitleString(title);
 		if (temp == p_str)
 		{
-			m_title = t;
+			m_title = title;
 			return true;
 		}
-		++itr;
 	}
 	return false;
 }
@@ -89,15 +87,13 @@ bool Player::SetTitle(string p_str)
 void Player::AddTitle(PlayerTitle p_val)
 {
 	bool exists = false;
-	std::list<PlayerTitle>::iterator itr = m_availableTitles.begin();
-	while (itr != m_availableTitles.end())
+	//C++ 11
+	for (auto title : m_availableTitles)
 	{
-		PlayerTitle& t = *itr;
-		if (t == p_val)
+		if (title == p_val)
 		{
 			exists = true;
 		}
-		++itr;
 	}
 	if(!exists)
 	m_availableTitles.push_back(p_val);

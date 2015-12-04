@@ -189,7 +189,7 @@ NewConnection( DataSocket& p_socket )
 			// for the connection within this manager.
 			defaulthandler::IpConflict(conn);
 
-			// It is assumed that the protocol handler has told the connection the 
+			// It is assumed that the protocol handler has told the connection the
 			// appropriate message, so close the connection.
 			//conn.CloseSocket();
 			return;
@@ -202,7 +202,7 @@ NewConnection( DataSocket& p_socket )
         // for the connection within this manager.
         defaulthandler::NoRoom( conn );
 
-        // It is assumed that the protocol handler has told the connection the 
+        // It is assumed that the protocol handler has told the connection the
         // appropriate message, so close the connection.
         conn.CloseSocket();
     }
