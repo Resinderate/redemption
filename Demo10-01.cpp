@@ -38,7 +38,8 @@ int main()
         ConnectionManager<Telnet, Logon> cm( 128, 60, 65536 );
 
         lm.SetConnectionManager( &cm );
-        lm.AddPort( 5100 );
+		for (int i = 1; i <= 10; i++)
+			lm.AddPort( 5100 + i);
 
         while( Game::Running() )
         {
