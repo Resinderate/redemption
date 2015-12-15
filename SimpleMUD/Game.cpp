@@ -246,7 +246,7 @@ void Game::Handle(string p_data)
 			else if (type == RoomType::WORKSHOP)
 				p.Conn()->AddHandler(new WorkshopHandler(*p.Conn(), p.ID()));
 			else if (type == RoomType::CORP)
-				p.SendString(red + "Need to add in a CorpHandler!");
+				p.Conn()->AddHandler(new CorpHandler(*p.Conn(), p.ID()));
 			return;
 		}
 		else
@@ -261,12 +261,62 @@ void Game::Handle(string p_data)
 	if (firstword == "invite" /*&& check permissions / is part of corp */)
     {
 		//Syntax (invite <player_name>)
+
+		// Check if the player is in a corporation and is the leader.
+		if (p.CorpName() != CORPNONE && p.CorpLeader())
+		{
+			// Can invite someone by adding a corp to that player.
+			string second = ParseWord(p_data, 1);
+			if (second == "")
+			{
+				p.SendString(red + "Could not detect a player to invite.");
+				return;
+			}
+
+			// Find the player.
+			// See if they are online.
+			auto target = PlayerDatabase::findloggedin(second);
+			if (target == PlayerDatabase::end())
+			{
+				p.SendString(red + "Could not detect a player of that name online!");
+				return;
+			}
+			// Check if they already have a corporation.
+			if (target->CorpName() != CORPNONE)
+			{
+				p.SendString(red + "That player is already in a corporation!");
+				return;
+			}
+			// Change their corporation to yours.
+			target->CorpName() = p.CorpName();
+
+			p.SendString(green + second + " added to your corporation!");
+		}
+		else
+		{
+			p.SendString(red + "You cannot invite a player to your coporation!");
+		}
+		return;
 	}
 
 	//leave current corporation
 	if (firstword == "leave")
 	{
-		/*check is part of corp */
+		if (p.CorpName() == CORPNONE)
+		{
+			p.SendString(red + "You are not in a corporation to leave!");
+			return;
+		}
+		else
+		{
+			p.CorpName() = CORPNONE;
+			// If they were the leader then give it to someone else.
+
+			p.CorpLeader() = false;
+
+			p.SendString(green + "Left corporation!");
+			return;
+		}
 	}
 
 	//check position certain leaderboard (Player's Corporation/World Rank, Resources Gathered, Corporation Souls Redeemed, Corporation's Resource Rank)
@@ -754,6 +804,7 @@ string Game::PrintStats()
         "---------------------------------- Your Stats ----------------------------------\r\n" + 
         " Name:\t" + p.Name() + "\r\n" +
         " Rank:\t" + GetRankString( p.Rank() ) + "\r\n" +
+		" Corp:\t" + p.CorpName() + "\r\n" +
 		" Soul:\t" + ((p.HasSoul()) ? "Yes" : "No") + "\r\n" +
 		"\tAmount\tItemLvl" + "\r\n" +
 		" Wood:\t" + std::to_string(p.GetResources()[WOOD]) + "\t" + std::to_string(p.GetItemLevels()[WOOD]) + "\r\n" +

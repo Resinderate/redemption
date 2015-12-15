@@ -48,6 +48,8 @@ public:
 	std::list<vector2> AdjacentRooms();
 	inline std::shared_ptr<Room>& CurrentRoom() { return World::GetRoom(m_coords); }
 	inline vector2& Coords() { return m_coords; }
+	inline std::string& CorpName() { return m_corp; }
+	inline bool& CorpLeader() { return m_corpLeader; }
 
 	inline PlayerTitle& GetPlayerTitle() { return m_title; }
 	inline std::list<PlayerTitle>& Titles() { return m_availableTitles; }
@@ -106,6 +108,7 @@ protected:
 	std::list<PlayerTitle> m_availableTitles;
 
 	string m_corp;
+	bool m_corpLeader;
 
 	CommandDictionary m_dictionary;
 
