@@ -102,6 +102,7 @@
     <ClCompile Include="SimpleMUD\GameLoop.cpp" />
     <ClCompile Include="SimpleMUD\HandlerFactory.cpp" />
     <ClCompile Include="SimpleMUD\Logon.cpp" />
+    <ClCompile Include="SimpleMUD\PlaceNameGenerator.cpp" />
     <ClCompile Include="SimpleMUD\Player.cpp" />
     <ClCompile Include="SimpleMUD\PlayerDatabase.cpp" />
     <ClCompile Include="SimpleMUD\PlayerDictHandler.cpp" />
@@ -138,6 +139,7 @@
     <ClInclude Include="SimpleMUD\GameLoop.h" />
     <ClInclude Include="SimpleMUD\HandlerFactory.h" />
     <ClInclude Include="SimpleMUD\Logon.h" />
+    <ClInclude Include="SimpleMUD\PlaceNameGenerator.h" />
     <ClInclude Include="SimpleMUD\Player.h" />
     <ClInclude Include="SimpleMUD\PlayerDatabase.h" />
     <ClInclude Include="SimpleMUD\PlayerDictHandler.h" />
