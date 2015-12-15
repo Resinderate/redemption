@@ -3,11 +3,6 @@
 std::vector<std::string> SimpleMUD::PlaceNameGenerator::m_prenames;
 std::vector<std::string> SimpleMUD::PlaceNameGenerator::m_postnames;
 
-
-SimpleMUD::PlaceNameGenerator::PlaceNameGenerator()
-{
-}
-
 void SimpleMUD::PlaceNameGenerator::Load()
 {
 	// Load in the two files to the two vectors of strings.

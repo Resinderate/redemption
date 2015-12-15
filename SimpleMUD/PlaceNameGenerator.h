@@ -18,7 +18,6 @@ namespace SimpleMUD
 	class PlaceNameGenerator
 	{
 	public:
-		PlaceNameGenerator();
 		static void Load();
 		static std::string GetRandomPlaceName();
 

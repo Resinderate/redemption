@@ -14,6 +14,7 @@
 #include "SimpleMUD/Logon.h"
 #include "SimpleMUD/Game.h"
 #include "SimpleMUD/GameLoop.h"
+#include "SimpleMUD/PlaceNameGenerator.h"
 
 #include "SimpleMUD/SimpleMUDLogs.h"
 
@@ -31,6 +32,7 @@ int main()
 		srand(time(NULL));
 
         GameLoop gameloop;
+		PlaceNameGenerator::Load();
 
         ListeningManager<Telnet, Logon> lm;
         ConnectionManager<Telnet, Logon> cm( 128, 60, 65536 );

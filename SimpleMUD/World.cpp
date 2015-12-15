@@ -45,12 +45,12 @@ namespace SimpleMUD
 	void World::GenerateNewRoom(BasicLib::vector2 p_coords)
 	{
 		float distanceFromOrigin = p_coords.length();
-		string defaultName = "Undescriptive Place Name";
+		string randomName = PlaceNameGenerator::GetRandomPlaceName();
 
 		// Clean up dupped code if hard coding.
 		if (p_coords.x == 1 && p_coords.y == 0)
 		{
-			string name = defaultName;
+			string name = randomName;
 			string desc = string("Trading Post") + 
 				"\r\nCoords: " + std::to_string(p_coords.x) + ", " + std::to_string(p_coords.y);
 			RoomBaseType roomBaseType = RoomBaseType::SPECIAL;
@@ -59,7 +59,7 @@ namespace SimpleMUD
 		}
 		else if (p_coords.x == -1 && p_coords.y == 0)
 		{
-			string name = defaultName;
+			string name = randomName;
 			string desc = string("Devil Room") +
 				"\r\nCoords: " + std::to_string(p_coords.x) + ", " + std::to_string(p_coords.y);
 			RoomBaseType roomBaseType = RoomBaseType::SPECIAL;
@@ -68,7 +68,7 @@ namespace SimpleMUD
 		}
 		else if (p_coords.x == 0 && p_coords.y == 1)
 		{
-			string name = defaultName;
+			string name = randomName;
 			string desc = string("Workshop") +
 				"\r\nCoords: " + std::to_string(p_coords.x) + ", " + std::to_string(p_coords.y);
 			RoomBaseType roomBaseType = RoomBaseType::SPECIAL;
@@ -129,7 +129,7 @@ namespace SimpleMUD
 
 			// Name? -- Could be a randomly generated name. Do later on.
 
-			string name = defaultName;
+			string name = randomName;
 			// Description? -- Could be the type of room. Build up based on the type.
 			string desc = ResourceTypeStrings[typeIndex] + " :: " + ResourceSizeStrings[sizeIndex] +
 				"\r\nCoords: " + std::to_string(p_coords.x) + ", " + std::to_string(p_coords.y);

@@ -12,6 +12,7 @@
 #include "SpecialRoom.h"
 #include "CollectingRoom.h"
 #include "RoomDatabase.h"
+#include "PlaceNameGenerator.h"
 
 using std::ostream;
 using std::istream;
