@@ -51,155 +51,58 @@ inline string EnumToStr( enumeration p_enum, const string* strs )
     return strs[p_enum];
 }
 
-
-
-
+const std::string CORPNONE = "None";
 
 // ======================================
-//  PLAYER ATTRIBUTES
+//  PLAYER TITLES
 // ======================================
 
 // --------------------------------------------------------------------
-//  An enumeration defining the attributes of a player, and 
-//  accompanying functions.
+//  An enumeration defining the various player types and accompanying
+//  functions
+//	@author Kevin Duffy
 // --------------------------------------------------------------------
-enum Attribute
+enum PlayerTitle
 {
-    STRENGTH        = 0,
-    HEALTH          = 1,
-    AGILITY         = 2,
-    MAXHITPOINTS    = 3,
-    ACCURACY        = 4,
-    DODGING         = 5,
-    STRIKEDAMAGE    = 6,
-    DAMAGEABSORB    = 7,
-    HPREGEN         = 8
+	THEREDEEMED,
+	GOLDLEADER,
+	IRONLEADER,
+	STONELEADER,
+	WOODLEADER,
+	CEO,
+	PEASANT,
+	GOTWOOD,
+	STONECOLD,
+	IRONMAIDEN,
+	GOLDDIGGER
 };
 
-const int NUMATTRIBUTES = 9;
+const int NUMPLAYERTITLETYPES = 11;
 
-static const string ATTRIBUTESTRINGS[NUMATTRIBUTES] = 
+const string PLAYERTITLESTRINGS[NUMPLAYERTITLETYPES] =
 {
-    "STRENGTH",
-    "HEALTH",
-    "AGILITY",
-    "MAXHITPOINTS",
-    "ACCURACY",
-    "DODGING",
-    "STRIKEDAMAGE",
-    "DAMAGEABSORB",
-    "HPREGEN"
-};
-
-
-inline Attribute GetAttribute( string p_str )
-{
-    return StrToEnum<Attribute, NUMATTRIBUTES>( p_str, ATTRIBUTESTRINGS );
-}
-inline string GetAttributeString( Attribute p_enum )
-{
-    return EnumToStr<Attribute>( p_enum, ATTRIBUTESTRINGS );
-}
-
-
-class AttributeSet
-{
-public:
-    AttributeSet()
-    {
-        for( int i = 0; i < NUMATTRIBUTES; i++ )
-        {
-            m_attributes[i] = 0;
-        }
-    }
-
-    int& operator[]( int p_attr )
-    {
-        return m_attributes[p_attr];
-    }
-
-    friend ostream& operator<<( ostream& p_stream, const AttributeSet& a );
-    friend istream& operator>>( istream& p_stream, AttributeSet& a );
-
-
-protected:
-    int m_attributes[NUMATTRIBUTES];
+	"TheRedeemed",
+	"GoldLeader",
+	"IronLeader",
+	"StoneLeader",
+	"WoodLeader",
+	"CEO",
+	"Peasant",
+	"GotWood",
+	"StoneCold",
+	"IronMaiden",
+	"GoldDigger"
 };
 
 
-inline ostream& operator<<( ostream& p_stream, const AttributeSet& a )
+inline PlayerTitle GetTitle(string p_str)
 {
-    for( int i = 0; i < NUMATTRIBUTES; i++ )
-    {
-        p_stream << "[" << GetAttributeString( (Attribute)i ) << 
-                    "] " << a.m_attributes[i] << "\n";
-    }
-
-    return p_stream;
+	return StrToEnum<PlayerTitle, NUMPLAYERTITLETYPES>(p_str, PLAYERTITLESTRINGS);
 }
-
-inline istream& operator>>( istream& p_stream, AttributeSet& a )
+inline string GetTitleString(PlayerTitle p_enum)
 {
-    std::string temp;
-
-    for( int i = 0; i < NUMATTRIBUTES; i++ )
-    {
-        p_stream >> temp >> a.m_attributes[i];
-    }
-
-    return p_stream;
+	return EnumToStr<PlayerTitle>(p_enum, PLAYERTITLESTRINGS);
 }
-
-	// ======================================
-	//  PLAYER TITLES
-	// ======================================
-
-	// --------------------------------------------------------------------
-	//  An enumeration defining the various player types and accompanying
-	//  functions
-	//	@author Kevin Duffy
-	// --------------------------------------------------------------------
-	enum PlayerTitle
-	{
-		THEREDEEMED,
-		GOLDLEADER,
-		IRONLEADER,
-		STONELEADER,
-		WOODLEADER,
-		CEO,
-		PEASANT,
-		GOTWOOD,
-		STONECOLD,
-		IRONMAIDEN,
-		GOLDDIGGER
-	};
-
-	const int NUMPLAYERTITLETYPES = 11;
-
-	const string PLAYERTITLESTRINGS[NUMPLAYERTITLETYPES] =
-	{
-		"TheRedeemed",
-		"GoldLeader",
-		"IronLeader",
-		"StoneLeader",
-		"WoodLeader",
-		"CEO",
-		"Peasant",
-		"GotWood",
-		"StoneCold",
-		"IronMaiden",
-		"GoldDigger"
-	};
-
-
-	inline PlayerTitle GetTitle(string p_str)
-	{
-		return StrToEnum<PlayerTitle, NUMPLAYERTITLETYPES>(p_str, PLAYERTITLESTRINGS);
-	}
-	inline string GetTitleString(PlayerTitle p_enum)
-	{
-		return EnumToStr<PlayerTitle>(p_enum, PLAYERTITLESTRINGS);
-	}
 
 
 
