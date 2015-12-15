@@ -265,7 +265,7 @@ void Game::Handle(string p_data)
 	if (firstword == "leave")
 	{
 		/*check is part of corp */
-        }
+	}
 
 	//check position certain leaderboard (Player's Corporation/World Rank, Resources Gathered, Corporation Souls Redeemed, Corporation's Resource Rank)
 	if (firstword == "leaderboard")
@@ -279,6 +279,27 @@ void Game::Handle(string p_data)
 			return;
 		}
 	}
+
+	if (firstword == "report")
+	{
+		string player = ParseWord(p_data, 1);
+		if (player == "")
+		{
+			p.SendString(red + "Did not detect player to report!");
+			return;
+		}
+		string reason = RemoveWord(RemoveWord(p_data, 0), 0);
+		if (reason == "")
+		{
+			p.SendString(red + "Did not detect reason for report!");
+			return;
+		}
+		
+		REPORTLOG.Log(m_player->Name() + " reported " + player + ". Reason: " + reason);
+		p.SendString("Player, " + player + ", reported! Reason: " + reason);
+		return;
+	}
+	
 
     // ------------------------------------------------------------------------
     //  GOD access commands
