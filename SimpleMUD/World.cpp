@@ -75,6 +75,15 @@ namespace SimpleMUD
 			RoomType roomType = RoomType::WORKSHOP;
 			m_rooms.AddRoom(p_coords, std::unique_ptr<Room>(new SpecialRoom(name, desc, roomBaseType, p_coords, roomType)));
 		}
+		else if (p_coords.x == 0 && p_coords.y == -1)
+		{
+			string name = randomName;
+			string desc = string("Corporation House") +
+				"\r\nCoords: " + std::to_string(p_coords.x) + ", " + std::to_string(p_coords.y);
+			RoomBaseType roomBaseType = RoomBaseType::SPECIAL;
+			RoomType roomType = RoomType::CORP;
+			m_rooms.AddRoom(p_coords, std::unique_ptr<Room>(new SpecialRoom(name, desc, roomBaseType, p_coords, roomType)));
+		}
 		else
 		{
 			// Based on the distance away from the middle, create a room.

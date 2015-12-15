@@ -259,7 +259,8 @@ enum RoomType
 {
 	TRADING,
 	WORKSHOP,
-	DEVIL
+	DEVIL,
+	CORP
 	// ASSASSIN
 	// Add more types of rooms as needed.
 };
