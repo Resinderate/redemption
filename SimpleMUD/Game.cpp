@@ -799,18 +799,25 @@ void Game::Move( int p_direction )
 	else
 		dir = vector2();
 
-	p.Coords() = World::ChangeRoom(p.Coords(), dir);
+	vector2 temp = World::ChangeRoom(p.Coords(), dir);
+	if (temp.x <= WorldSize && temp.y <= WorldSize)
+	{
+		p.Coords() = temp;
 
-	prev->RemovePlayer(p.ID());
-	World::GetRoom(p.Coords())->AddPlayer(p.ID());
-	
+		prev->RemovePlayer(p.ID());
+		World::GetRoom(p.Coords())->AddPlayer(p.ID());
 
-    SendRoom( yellow + p.Name() + " leaves to the " + 
-              DIRECTIONSTRINGS[p_direction] + ".",
-              *prev);
+		SendRoom(yellow + p.Name() + " leaves to the " +
+			DIRECTIONSTRINGS[p_direction] + ".",
+			*prev);
 
-	p.SendString( yellow + "You walk " + DIRECTIONSTRINGS[p_direction] + "." );
-	p.SendString(PrintRoom(*p.CurrentRoom()));
+		p.SendString(yellow + "You walk " + DIRECTIONSTRINGS[p_direction] + ".");
+		p.SendString(PrintRoom(*p.CurrentRoom()));
+	}
+	else
+	{
+		p.SendString(yellow + "You have reached the end of the world. Careful Now!");
+	}
 }
 
 void SimpleMUD::Game::Collect()

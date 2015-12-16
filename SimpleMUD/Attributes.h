@@ -362,6 +362,7 @@ enum ResourceType
 	GOLD
 };
 const int NumResourceType = 4;
+const int WorldSize = 500;
 
 const string ResourceTypeStrings[NumResourceType] =
 {
