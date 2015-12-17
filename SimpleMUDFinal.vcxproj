@@ -95,6 +95,7 @@
     <ClCompile Include="Demo10-01.cpp" />
     <ClCompile Include="SimpleMUD\CollectingRoom.cpp" />
     <ClCompile Include="SimpleMUD\CommandDictionary.cpp" />
+    <ClCompile Include="SimpleMUD\CorpHandler.cpp" />
     <ClCompile Include="SimpleMUD\DatabasePointer.cpp" />
     <ClCompile Include="SimpleMUD\DevilHandler.cpp" />
     <ClCompile Include="SimpleMUD\ExampleHandler.cpp" />
@@ -131,6 +132,7 @@
     <ClInclude Include="SimpleMUD\Attributes.h" />
     <ClInclude Include="SimpleMUD\CollectingRoom.h" />
     <ClInclude Include="SimpleMUD\CommandDictionary.h" />
+    <ClInclude Include="SimpleMUD\CorpHandler.h" />
     <ClInclude Include="SimpleMUD\DatabasePointer.h" />
     <ClInclude Include="SimpleMUD\DevilHandler.h" />
     <ClInclude Include="SimpleMUD\Entity.h" />

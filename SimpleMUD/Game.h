@@ -20,6 +20,7 @@
 #include "DevilHandler.h"
 #include "TradingHandler.h"
 #include "WorkshopHandler.h"
+#include "CorpHandler.h"
 
 #include <string>
 

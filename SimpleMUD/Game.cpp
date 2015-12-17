@@ -82,10 +82,20 @@ void Game::Handle(string p_data)
 	// message sent to all corporation members
 	if (firstword == "corp")
 	{
-		//Need to have a pointer to the list of members of a players corporations
+		
+		if (p.CompName() == CORPNONE)
+		{
+			p.SendString(red + "You are not in a corporation!");
+			return;
+		}
 		string text = RemoveWord(p_data, 0);
-		SendGame(yellow + bold + titledName + " -> Corporation: " + white + text);
+		auto members = PlayerDatabase::CorpMembers(p.CorpName());
+		for (auto member : members)
+		{
+			member->SendString(yellow + bold + titledName + " -> Corporation: " + white + text);
+		}
 		return;
+		
 	}
 
 	// message sent to whole server
@@ -246,6 +256,8 @@ void Game::Handle(string p_data)
 				p.Conn()->AddHandler(new DevilHandler(*p.Conn(), p.ID()));
 			else if (type == RoomType::WORKSHOP)
 				p.Conn()->AddHandler(new WorkshopHandler(*p.Conn(), p.ID()));
+			else if (type == RoomType::CORP)
+				p.Conn()->AddHandler(new CorpHandler(*p.Conn(), p.ID()));
 			return;
 		}
 		else
@@ -260,19 +272,138 @@ void Game::Handle(string p_data)
 	if (firstword == "invite" /*&& check permissions / is part of corp */)
     {
 		//Syntax (invite <player_name>)
+
+		// Check if the player is in a corporation and is the leader.
+		if (p.CorpName() != CORPNONE && p.CorpLeader())
+		{
+			// Can invite someone by adding a corp to that player.
+			string second = ParseWord(p_data, 1);
+			if (second == "")
+			{
+				p.SendString(red + "Could not detect a player to invite.");
+				return;
+			}
+
+			// Find the player.
+			// See if they are online.
+			auto target = PlayerDatabase::findloggedin(second);
+			if (target == PlayerDatabase::end())
+			{
+				p.SendString(red + "Could not detect a player of that name online!");
+				return;
+			}
+			// Check if they already have a corporation.
+			if (target->CorpName() != CORPNONE)
+			{
+				p.SendString(red + "That player is already in a corporation!");
+				return;
+			}
+			// Change their corporation to yours.
+			target->CorpName() = p.CorpName();
+
+			p.SendString(green + second + " added to your corporation!");
+		}
+		else
+		{
+			p.SendString(red + "You cannot invite a player to your coporation!");
+		}
+		return;
 	}
 
 	//leave current corporation
 	if (firstword == "leave")
 	{
-		/*check is part of corp */
-        }
+		if (p.CorpName() == CORPNONE)
+		{
+			p.SendString(red + "You are not in a corporation to leave!");
+			return;
+		}
+		else
+		{
+			p.CorpName() = CORPNONE;
+			// If they were the leader then give it to someone else.
+			
+			if (p.CorpLeader())
+			{
+				auto members = PlayerDatabase::CorpMembers(p.CorpName());
+				for (auto& mem : members)
+				{
+					if (mem->Name() != p.Name())
+					{
+						mem->CorpLeader() = true;
+						break;
+					}
+				}
+				
+				p.CorpLeader() = false;
+			}
+			
+			
+			p.SendString(green + "Left corporation!");
+			return;
+		}
+	}
 
 	//check position certain leaderboard (Player's Corporation/World Rank, Resources Gathered, Corporation Souls Redeemed, Corporation's Resource Rank)
 	if (firstword == "leaderboard")
 	{
 		p.Conn()->AddHandler(new LeaderboardHandler(*p.Conn(), p.ID()));
 	}
+
+	if (firstword == "report")
+	{
+		string player = ParseWord(p_data, 1);
+		if (player == "")
+		{
+			p.SendString(red + "Did not detect player to report!");
+			return;
+		}
+		string reason = RemoveWord(RemoveWord(p_data, 0), 0);
+		if (reason == "")
+		{
+			p.SendString(red + "Did not detect reason for report!");
+			return;
+		}
+		
+		REPORTLOG.Log(m_player->Name() + " reported " + player + ". Reason: " + reason);
+		p.SendString("Player, " + player + ", reported! Reason: " + reason);
+		return;
+	}
+
+	if (firstword == "warp")
+	{
+		string sX = ParseWord(p_data, 1);
+		string sY = ParseWord(p_data, 2);
+
+		if (sX == "" || sY == "")
+		{
+			p.SendString(red + "Did not detect X and Y coords.");
+			return;
+		}
+		int x = std::stoi(sX);
+		int y = std::stoi(sY);
+
+		if (!World::RoomExists(vector2(x, y)))
+		{
+			p.SendString(red + "That place has not been explored yet!");
+			return;
+		}
+
+		std::shared_ptr<Room> prev = p.CurrentRoom();
+		// Interface not meant to be used this way..
+		p.Coords() = World::ChangeRoom(vector2(x, y), vector2(0, 0));
+
+		prev->RemovePlayer(p.ID());
+		World::GetRoom(p.Coords())->AddPlayer(p.ID());
+
+
+		SendRoom(yellow + p.Name() + " warps away!",
+			*prev);
+
+		p.SendString(yellow + "You warp to a new location!");
+		p.SendString(PrintRoom(*p.CurrentRoom()));
+	}
+	
 
     // ------------------------------------------------------------------------
     //  GOD access commands
@@ -725,6 +856,7 @@ string Game::PrintStats()
         "---------------------------------- Your Stats ----------------------------------\r\n" + 
         " Name:\t" + p.Name() + "\r\n" +
         " Rank:\t" + GetRankString( p.Rank() ) + "\r\n" +
+		" Corp:\t" + p.CorpName() + "\r\n" +
 		" Soul:\t" + ((p.HasSoul()) ? "Yes" : "No") + "\r\n" +
 		"\tAmount\tItemLvl" + "\r\n" +
 		" Wood:\t" + std::to_string(p.GetResources()[WOOD]) + "\t" + std::to_string(p.GetItemLevels()[WOOD]) + "\r\n" +
