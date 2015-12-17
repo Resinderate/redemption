@@ -9,6 +9,8 @@
 #ifndef ATTRIBUTES_H
 #define ATTRIBUTES_H
 
+#include <vector>
+
 
 using std::string;
 using std::ostream;
@@ -163,8 +165,8 @@ enum RoomType
 	TRADING,
 	WORKSHOP,
 	DEVIL,
-	CORP
-	// ASSASSIN
+	CORP,
+	ASSASSIN
 	// Add more types of rooms as needed.
 };
 
@@ -293,4 +295,44 @@ const string ResourceSizeStrings[NumResourceSize] =
 
 }   // end namespace SimpleMUD
 
+
+// Stuff needed for a better rebind system.
+
+const std::vector<string> BaseCommands = 
+{
+	"say",
+	"shout",
+	"corp",
+	"global",
+	"whisper",
+	"help",
+	"exit",
+	"quit",
+	"stats",
+	"time",
+	"who",
+	"look",
+	"north",
+	"south",
+	"west",
+	"east",
+	"titles",
+	"change",
+	"rebind",
+	"collect",
+	"trade",
+	"interact",
+	"invite",
+	"leavecorp",
+	"leaderboard",
+	"report",
+	"warp",
+	"kick",
+	"mute",
+	"announce",
+	"promote",
+	"demote",
+	"reload",
+	"shutdown"
+};
 #endif

@@ -11,6 +11,8 @@
 #include <map>
 
 #include "SimpleMUDLogs.h"
+#include "../BasicLib/BasicLib.h"
+#include "Attributes.h"
 
 namespace SimpleMUD
 {

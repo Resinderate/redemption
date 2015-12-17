@@ -10,7 +10,18 @@ void SimpleMUD::PlayerDictHandler::Handle(string p_data)
 	// Handle Commands.
 	if (m_state == RebindState::COMMAND)
 	{
-		m_command = BasicLib::LowerCase(p_data);
+		string command = BasicLib::LowerCase(p_data);
+
+		// Check to see if it's an actual base command.
+		if (std::find(BaseCommands.begin(), BaseCommands.end(), command) == BaseCommands.end())
+		{
+			m_connection->Protocol().SendString(*m_connection, SocketLib::red + SocketLib::bold +
+				"Could not find a command of that value to rebind to!\r\n" + SocketLib::reset +
+				+ ">");
+			return;
+		}
+		m_command = command;
+
 		m_connection->Protocol().SendString(*m_connection, SocketLib::yellow + SocketLib::bold + 
 			"Now enter an alias which will map to this command:\r\n" + ">" +
 			SocketLib::reset);

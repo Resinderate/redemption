@@ -310,7 +310,7 @@ void Game::Handle(string p_data)
 	}
 
 	//leave current corporation
-	if (firstword == "leave")
+	if (firstword == "leavecorp")
 	{
 		if (p.CorpName() == CORPNONE)
 		{
@@ -564,6 +564,17 @@ void Game::Handle(string p_data)
 	{
 		Handle(translated);
 		return;
+	}
+
+	for (auto player : PlayerDatabase::GetAllPlayers())
+	{
+		translated = player.GetDict().Translate(p_data);
+		if (translated != prev)
+		{
+			p.SendString(red + "This command is not recognised, but another player has set up a shortcut for this command.\r\n" +
+				"You can create your own shortcuts by pressing 'rebind'...");
+				return;
+		}
 	}
 
 	// Possibly check all the other players dictionaries.
