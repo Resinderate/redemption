@@ -7,8 +7,8 @@ void SimpleMUD::LeaderboardHandler::Handle(string p_data)
 	// Called for each message received.
 	if (p_data == "done")
 	{
+		m_player->SendString("Got Your Message: " + p_data);
 		m_connection->RemoveHandler();
-		m_player->SendString("Got Your Message: " + p_data + ". -- 'quit' to leave handler.");
 		return;
 	}
 	else if (p_data == "wood")
@@ -18,19 +18,23 @@ void SimpleMUD::LeaderboardHandler::Handle(string p_data)
 	}
 	else if (p_data == "stone")
 	{
-
+		Leaderboard(1);
+		return;
 	}
 	else if (p_data == "iron")
 	{
-
+		Leaderboard(2);
+		return;
 	}
 	else if (p_data == "gold")
 	{
-
+		Leaderboard(3);
+		return;
 	}
 	else if (p_data == "corpsoul")
 	{
-
+		Leaderboard(4);
+		return;
 	}
 	else
 		return;
@@ -52,37 +56,81 @@ void SimpleMUD::LeaderboardHandler::Leaderboard(int p_data)
 		}
 
 		m_player->SendString(SocketLib::white + "Wood Leaderboard:\r\n" +
-			"Position\tName\t\tGold\r\n");
+			"Position\tName\t\tWood\r\n");
 		//C++11
-		for(auto const &pr : ret)
+		auto &pr = ret.end();
+		while (pr != ret.begin())
 		{
-			Entity temp = pr.second;
-			m_player->SendString(SocketLib::white + "" + std::to_string(pos) + "\t" + temp.Name() + "\t" + std::to_string(pr.first));
+			pr--;
+			Entity temp = pr->second;
+			m_player->SendString(SocketLib::white + "" + std::to_string(pos) + "\t\t" + temp.Name() + "\t\t" + std::to_string(pr->first));
 			++pos;
 		}
 		break;
 	}
-	case 1:
+	case 1: 
+	{
 		for (SimpleMUD::Player p : pL)
 		{
 			resource res = p.GetResources()[1];
 			ret.insert(std::pair<resource, SimpleMUD::Player>(res, p));
 		}
+
+		m_player->SendString(SocketLib::white + "Stone Leaderboard:\r\n" +
+			"Position\tName\t\tStone\r\n");
+		//C++11
+		auto &pr = ret.end();
+		while (pr != ret.begin())
+		{
+			pr--;
+			Entity temp = pr->second;
+			m_player->SendString(SocketLib::white + "" + std::to_string(pos) + "\t" + temp.Name() + "\t" + std::to_string(pr->first));
+			++pos;
+		}
 		break;
+	}
 	case 2:
+	{
 		for (SimpleMUD::Player p : pL)
 		{
 			resource res = p.GetResources()[2];
 			ret.insert(std::pair<resource, SimpleMUD::Player>(res, p));
 		}
+
+		m_player->SendString(SocketLib::white + "Iron Leaderboard:\r\n" +
+			"Position\tName\t\tIron\r\n");
+		//C++11
+		auto &pr = ret.end();
+		while (pr != ret.begin())
+		{
+			pr--;
+			Entity temp = pr->second;
+			m_player->SendString(SocketLib::white + "" + std::to_string(pos) + "\t" + temp.Name() + "\t" + std::to_string(pr->first));
+			++pos;
+		}
 		break;
+	}
 	case 3:
+	{
 		for (SimpleMUD::Player p : pL)
 		{
 			resource res = p.GetResources()[3];
 			ret.insert(std::pair<resource, SimpleMUD::Player>(res, p));
 		}
+
+		m_player->SendString(SocketLib::white + "Gold Leaderboard:\r\n" +
+			"Position\tName\t\tGold\r\n");
+		//C++11
+		auto &pr = ret.end();
+		while (pr != ret.begin())
+		{
+			pr--;
+			Entity temp = pr->second;
+			m_player->SendString(SocketLib::white + "" + std::to_string(pos) + "\t" + temp.Name() + "\t" + std::to_string(pr->first));
+			++pos;
+		}
 		break;
+	}
 	case 4:
 		m_player->SendString(SocketLib::white + "Ronans a scrub so this does not work.\r\n");
 		break;
@@ -92,10 +140,10 @@ void SimpleMUD::LeaderboardHandler::Leaderboard(int p_data)
 void SimpleMUD::LeaderboardHandler::Enter()
 {
 	m_player->SendString(SocketLib::white + "Leaderboards.\r\n" +
-		"Enter '" + SocketLib::yellow + "gold" + SocketLib::white + "' for Gold Resource Leaderboard\r\n" +
-		"Enter '" + SocketLib::yellow + "iron" + SocketLib::white + "' for Iron Resource Leaderboard\r\n" +
-		"Enter '" + SocketLib::yellow + "stone" + SocketLib::white + "' for Stone Resource Leaderboard\r\n" +
 		"Enter '" + SocketLib::yellow + "wood" + SocketLib::white + "' for Wood Resource Leaderboard\r\n" +
+		"Enter '" + SocketLib::yellow + "stone" + SocketLib::white + "' for Stone Resource Leaderboard\r\n" +
+		"Enter '" + SocketLib::yellow + "iron" + SocketLib::white + "' for Iron Resource Leaderboard\r\n" +
+		"Enter '" + SocketLib::yellow + "gold" + SocketLib::white + "' for Gold Resource Leaderboard\r\n" +
 		"Enter '" + SocketLib::yellow + "corpsoul" + SocketLib::white + "' for Corporation Souls Redeemed Leaderboard\r\n" 
 		+ SocketLib::white + ">");
 }

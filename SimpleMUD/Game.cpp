@@ -348,6 +348,7 @@ void Game::Handle(string p_data)
 	if (firstword == "leaderboard")
 	{
 		p.Conn()->AddHandler(new LeaderboardHandler(*p.Conn(), p.ID()));
+		return;
 	}
 
 	if (firstword == "report")
