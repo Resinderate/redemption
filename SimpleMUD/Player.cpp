@@ -170,6 +170,7 @@ ostream& operator<<( ostream& p_stream, const Player& p )
 	p_stream << "[IRON]           " << p.m_firstOfType[2] << "\n";
 	p_stream << "[GOLD]           " << p.m_firstOfType[3] << "\n";
 	p_stream << "[CORPORATION]    " << p.m_corp << "\n";
+	p_stream << "[LEADER]		  " << p.m_corpLeader << "\n";
 	p_stream << "[HAS SOUL]       " << p.m_hasSoul << "\n";
 	p_stream << "[TITLE]          " << GetTitleString(p.m_title) << "\n";
 	p_stream << "[TITLES]         ";
@@ -229,6 +230,7 @@ istream& operator>>( istream& p_stream, Player& p )
 	p_stream >> temp >> p.m_firstOfType[2];
 	p_stream >> temp >> p.m_firstOfType[3];
 	p_stream >> temp >> p.m_corp;
+	p_stream >> temp >> p.m_corpLeader;
 	p_stream >> temp >> p.m_hasSoul;
 	
 	p_stream >> temp >> temp;

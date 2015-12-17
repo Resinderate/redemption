@@ -344,8 +344,8 @@ void Game::Handle(string p_data)
 		}
 	}
 
-	//check position certain leaderboard (Player's Corporation/World Rank, Resources Gathered, Corporation Souls Redeemed, Corporation's Resource Rank)
-	if (firstword == "leaderboard")
+	//check certain leaderboard (Player's Corporation/World Rank, Resources Gathered, Corporation Souls Redeemed)
+	if (firstword == "leaderboards")
 	{
 		p.Conn()->AddHandler(new LeaderboardHandler(*p.Conn(), p.ID()));
 		return;
