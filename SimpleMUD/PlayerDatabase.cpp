@@ -110,13 +110,13 @@ bool PlayerDatabase::AddPlayer( Player& p_player )
     return true;
 }
 
-std::list<Player&> PlayerDatabase::CorpMembers(std::string p_guildName)
+std::list<player> PlayerDatabase::CorpMembers(std::string p_guildName)
 {
-	std::list<Player&> players;
+	std::list<player> players;
 	for (auto &kv : m_map)
 	{
 		if(kv.second.CorpName() == p_guildName)
-			players.push_back(kv.second);
+			players.push_back(kv.second.ID());
 	}
 	return players;
 }

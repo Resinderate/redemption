@@ -81,10 +81,20 @@ void Game::Handle(string p_data)
 	// message sent to all corporation members
 	if (firstword == "corp")
 	{
-		//Need to have a pointer to the list of members of a players corporations
+		
+		if (p.CompName() == CORPNONE)
+		{
+			p.SendString(red + "You are not in a corporation!");
+			return;
+		}
 		string text = RemoveWord(p_data, 0);
-		SendGame(yellow + bold + titledName + " -> Corporation: " + white + text);
+		auto members = PlayerDatabase::CorpMembers(p.CorpName());
+		for (auto member : members)
+		{
+			member->SendString(yellow + bold + titledName + " -> Corporation: " + white + text);
+		}
 		return;
+		
 	}
 
 	// message sent to whole server
@@ -311,9 +321,23 @@ void Game::Handle(string p_data)
 		{
 			p.CorpName() = CORPNONE;
 			// If they were the leader then give it to someone else.
-
-			p.CorpLeader() = false;
-
+			
+			if (p.CorpLeader())
+			{
+				auto members = PlayerDatabase::CorpMembers(p.CorpName());
+				for (auto& mem : members)
+				{
+					if (mem->Name() != p.Name())
+					{
+						mem->CorpLeader() = true;
+						break;
+					}
+				}
+				
+				p.CorpLeader() = false;
+			}
+			
+			
 			p.SendString(green + "Left corporation!");
 			return;
 		}
@@ -350,6 +374,40 @@ void Game::Handle(string p_data)
 		REPORTLOG.Log(m_player->Name() + " reported " + player + ". Reason: " + reason);
 		p.SendString("Player, " + player + ", reported! Reason: " + reason);
 		return;
+	}
+
+	if (firstword == "warp")
+	{
+		string sX = ParseWord(p_data, 1);
+		string sY = ParseWord(p_data, 2);
+
+		if (sX == "" || sY == "")
+		{
+			p.SendString(red + "Did not detect X and Y coords.");
+			return;
+		}
+		int x = std::stoi(sX);
+		int y = std::stoi(sY);
+
+		if (!World::RoomExists(vector2(x, y)))
+		{
+			p.SendString(red + "That place has not been explored yet!");
+			return;
+		}
+
+		std::shared_ptr<Room> prev = p.CurrentRoom();
+		// Interface not meant to be used this way..
+		p.Coords() = World::ChangeRoom(vector2(x, y), vector2(0, 0));
+
+		prev->RemovePlayer(p.ID());
+		World::GetRoom(p.Coords())->AddPlayer(p.ID());
+
+
+		SendRoom(yellow + p.Name() + " warps away!",
+			*prev);
+
+		p.SendString(yellow + "You warp to a new location!");
+		p.SendString(PrintRoom(*p.CurrentRoom()));
 	}
 	
 

@@ -30,7 +30,7 @@ public:
     static bool AddPlayer( Player& p_player );
 
 	// These returning references might cause problems, keep in mind.
-	static std::list<Player&> CorpMembers(std::string p_guildName);
+	static std::list<player> CorpMembers(std::string p_guildName);
 	static std::set<std::string> AllCorpNames();
 
 

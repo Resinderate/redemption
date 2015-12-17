@@ -42,6 +42,11 @@ namespace SimpleMUD
 		return newLocation;
 	}
 
+	bool World::RoomExists(BasicLib::vector2 p_coords)
+	{
+		return m_rooms.RoomExists(p_coords);
+	}
+
 	void World::GenerateNewRoom(BasicLib::vector2 p_coords)
 	{
 		float distanceFromOrigin = p_coords.length();
