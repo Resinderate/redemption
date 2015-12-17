@@ -7,8 +7,8 @@ void SimpleMUD::LeaderboardHandler::Handle(string p_data)
 	// Called for each message received.
 	if (p_data == "done")
 	{
-		m_connection->RemoveHandler();
 		m_player->SendString("Got Your Message: " + p_data + ". -- 'quit' to leave handler.");
+		m_connection->RemoveHandler();
 		return;
 	}
 	else if (p_data == "wood")
