@@ -29,6 +29,10 @@ public:
     static bool Save();
     static bool AddPlayer( Player& p_player );
 
+	// These returning references might cause problems, keep in mind.
+	static std::list<Player&> CorpMembers(std::string p_guildName);
+	static std::set<std::string> AllCorpNames();
+
 
     // helpers
     static inline string PlayerFileName( const string& p_name );

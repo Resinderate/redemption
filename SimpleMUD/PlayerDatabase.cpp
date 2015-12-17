@@ -109,6 +109,29 @@ bool PlayerDatabase::AddPlayer( Player& p_player )
 
     return true;
 }
+
+std::list<Player&> PlayerDatabase::CorpMembers(std::string p_guildName)
+{
+	std::list<Player&> players;
+	for (auto &kv : m_map)
+	{
+		if(kv.second.CorpName() == p_guildName)
+			players.push_back(kv.second);
+	}
+	return players;
+}
+
+std::set<std::string> PlayerDatabase::AllCorpNames()
+{
+	std::set<std::string> corpNames;
+
+	for (auto &kv : m_map)
+	{
+		corpNames.insert(kv.second.CorpName());
+	}
+
+	return corpNames;
+}
     
 
 void PlayerDatabase::Logout( entityid p_player )
