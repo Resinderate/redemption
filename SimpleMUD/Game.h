@@ -14,13 +14,13 @@
 #include "PlayerDatabase.h"
 #include "DatabasePointer.h"
 #include "SimpleMUDLogs.h"
-#include "HandlerFactory.h"
 #include "CommandDictionary.h"
 #include "PlayerDictHandler.h"
 #include "DevilHandler.h"
 #include "TradingHandler.h"
 #include "WorkshopHandler.h"
 #include "CorpHandler.h"
+#include "AssassinHandler.h"
 
 #include <string>
 

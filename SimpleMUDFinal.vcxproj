@@ -93,6 +93,7 @@
     <ClCompile Include="BasicLib\BasicLibString.cpp" />
     <ClCompile Include="BasicLib\BasicLibTime.cpp" />
     <ClCompile Include="Demo10-01.cpp" />
+    <ClCompile Include="SimpleMUD\AssassinHandler.cpp" />
     <ClCompile Include="SimpleMUD\CollectingRoom.cpp" />
     <ClCompile Include="SimpleMUD\CommandDictionary.cpp" />
     <ClCompile Include="SimpleMUD\CorpHandler.cpp" />
@@ -128,6 +129,7 @@
     <ClInclude Include="BasicLib\BasicLibString.h" />
     <ClInclude Include="BasicLib\BasicLibTime.h" />
     <ClInclude Include="BasicLib\BasicLibTypes.h" />
+    <ClInclude Include="SimpleMUD\AssassinHandler.h" />
     <ClInclude Include="SimpleMUD\Attributes.h" />
     <ClInclude Include="SimpleMUD\CollectingRoom.h" />
     <ClInclude Include="SimpleMUD\CommandDictionary.h" />

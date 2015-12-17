@@ -257,6 +257,8 @@ void Game::Handle(string p_data)
 				p.Conn()->AddHandler(new WorkshopHandler(*p.Conn(), p.ID()));
 			else if (type == RoomType::CORP)
 				p.Conn()->AddHandler(new CorpHandler(*p.Conn(), p.ID()));
+			else if (type == RoomType::ASSASSIN)
+				p.Conn()->AddHandler(new AssassinHandler(*p.Conn(), p.ID()));
 			return;
 		}
 		else
