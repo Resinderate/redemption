@@ -44,7 +44,8 @@ Player::Player()
 	m_firstOfType[IRON] = true;
 	m_firstOfType[GOLD] = true;
 
-	m_corp = "None";
+	m_corp = CORPNONE;
+	m_corpLeader = false;
 
 	m_coords = vector2(0, 0);
 
