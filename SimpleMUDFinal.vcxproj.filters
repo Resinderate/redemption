@@ -105,9 +105,6 @@
     <ClCompile Include="SimpleMUD\CorpHandler.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="SimpleMUD\CorpUtility.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="SimpleMUD\Attributes.h">
@@ -234,9 +231,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="SimpleMUD\CorpHandler.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="SimpleMUD\CorpUtility.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
