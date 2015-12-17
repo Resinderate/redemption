@@ -124,12 +124,10 @@ std::list<player> PlayerDatabase::CorpMembers(std::string p_guildName)
 std::set<std::string> PlayerDatabase::AllCorpNames()
 {
 	std::set<std::string> corpNames;
-
-	for (auto &kv : m_map)
+	for (auto &p : GetAllPlayers())
 	{
-		corpNames.insert(kv.second.CorpName());
+		corpNames.insert(p.CorpName());
 	}
-
 	return corpNames;
 }
     
