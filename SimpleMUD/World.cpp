@@ -150,15 +150,11 @@ namespace SimpleMUD
 			// Size
 			ResourceSize resourceSize = static_cast<ResourceSize>(sizeIndex);
 
-			// Name? -- Could be a randomly generated name. Do later on.
-
 			string name = randomName;
-			// Description? -- Could be the type of room. Build up based on the type.
 			string desc = ResourceTypeStrings[typeIndex] + " :: " + ResourceSizeStrings[sizeIndex] +
 				"\r\nCoords: " + std::to_string(p_coords.x) + ", " + std::to_string(p_coords.y);
 
-			//m_rooms.AddRoom(p_coords, SpecialRoom());
-			m_rooms.AddRoom(p_coords, std::unique_ptr<Room>(new CollectingRoom(name, desc, roomType, p_coords, resourceType, resourceSize)));
+			m_rooms.AddRoom(p_coords, std::unique_ptr<Room>(new CollectingRoom(name, desc, roomType, p_coords, resourceType, resourceSize, OWNERNONE, 0)));
 		}
 	}
 

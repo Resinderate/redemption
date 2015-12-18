@@ -19,17 +19,18 @@ namespace SimpleMUD
 		m_resourceType = ResourceType::WOOD;
 		m_resourceSize = ResourceSize::SMALL;
 		m_lastCollection = std::chrono::system_clock::now() - std::chrono::duration<int>(120);
-		m_owner = NULL;
+		m_owner = "";
 	}
 
 	CollectingRoom::CollectingRoom(string p_name, string p_desc, RoomBaseType p_baseType, BasicLib::vector2 p_coords, 
-		ResourceType p_reType, ResourceSize p_reSize) : 
+		ResourceType p_reType, ResourceSize p_reSize, string p_owner, int p_boughtTimes) :
 		Room(p_name, p_desc, p_baseType, p_coords),
 		m_resourceType(p_reType),
-		m_resourceSize(p_reSize)
+		m_resourceSize(p_reSize),
+		m_owner(p_owner),
+		m_boughtTimes(p_boughtTimes)
 	{
 		m_lastCollection = std::chrono::system_clock::now() - std::chrono::duration<int>(120);
-		m_owner = NULL;
 	}
 
 	BasicLib::resource CollectingRoom::Collect()
@@ -66,6 +67,19 @@ namespace SimpleMUD
 		m_lastCollection = std::chrono::system_clock::now();
 
 		return reward;
+	}
+
+	BasicLib::resource CollectingRoom::CurrerntCost()
+	{
+		BasicLib::resource baseCost = 100;
+		BasicLib::resource cost = baseCost;
+
+		for (int i = 0; i < m_boughtTimes; i++)
+		{
+			cost *= 1.5f;
+		}
+
+		return BasicLib::resource(cost);
 	}
 
 

@@ -54,6 +54,7 @@ inline string EnumToStr( enumeration p_enum, const string* strs )
 }
 
 const std::string CORPNONE = "None";
+const std::string OWNERNONE = "None";
 
 // ======================================
 //  PLAYER TITLES
@@ -333,6 +334,7 @@ const std::vector<string> BaseCommands =
 	"promote",
 	"demote",
 	"reload",
-	"shutdown"
+	"shutdown",
+	"buyroom"
 };
 #endif

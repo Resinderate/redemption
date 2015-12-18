@@ -34,7 +34,7 @@ class Room : public Entity
 public:
     Room();
 	virtual ~Room();
-	Room(string p_name, string p_desc, RoomBaseType p_baseType, BasicLib::vector2 p_coords, string p_owner, int p_boughtTimes);
+	Room(string p_name, string p_desc, RoomBaseType p_baseType, BasicLib::vector2 p_coords);
 	inline string& Name()			{ return m_name; }
     inline string& Description()    { return m_description; }
 
@@ -50,11 +50,6 @@ public:
 	inline BasicLib::vector2 GetCoords() { return m_coords; }
 	inline RoomBaseType GetBaseType() { return m_baseType;  }
 
-	BasicLib::resource CurrerntCost();
-	inline string& Owner() { return m_owner; }
-	inline int& BoughtTimes() { return m_boughtTimes; }
-
-
 protected:
     // -----------------------------------------
     //  template information
@@ -64,11 +59,7 @@ protected:
 	string m_name;
     string m_description;
 	BasicLib::vector2 m_coords;
-	RoomBaseType m_baseType;
-
-	// probably changed to a player later when it's figured out.
-	string m_owner;
-	int m_boughtTimes;
+	RoomBaseType m_baseType;	
 
     // -----------------------------------------
     //  volatile data (save to disk)
