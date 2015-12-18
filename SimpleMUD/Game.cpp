@@ -1021,6 +1021,33 @@ void SimpleMUD::Game::Collect()
 			reward *= itemLevel;
 
 			// Add any bonuses due is the player is the owner of the room.
+			if (cRoom->Owner() != OWNERNONE)
+			{
+				if (cRoom->Owner() == p.Name())
+				{
+					// Just doubling the resources gotten from the room.
+					// Could do alternate benefits here.
+					reward = resource(reward * 2);
+				}
+				// If someone from the same corporation as the player owns the land.
+				// Get a smaller benefit.
+				else
+				{
+					auto owner = PlayerDatabase::findfull(cRoom->Owner());
+					auto guildMembers = PlayerDatabase::CorpMembers(owner->CorpName());
+					for (auto mem : guildMembers)
+					{
+						if (mem->Name() == p.Name())
+						{
+							// In the same guild. Add bonus.
+							reward = resource(reward * 1.5f);
+							break;
+						}
+					}
+					// Not in the same guild as the owner, no additional benefits.
+					// Could add reductions here.
+				}
+			}
 
 			// Add that to the players totals.
 			p.GetResources()[type] += reward;
