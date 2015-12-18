@@ -191,14 +191,16 @@ enum RoomType
 };
 
 // Might need this stuff.
-/*
-const int NUMROOMTYPES = 3;
+
+const int NUMROOMTYPES = 5;
 
 const string ROOMTYPESTRINGS[NUMROOMTYPES] =
 {
-    "PLAINROOM",
-    "TRAININGROOM",
-    "STORE"
+	"TRADING",
+	"WORKSHOP",
+	"DEVIL",
+	"CORP",
+	"ASSASSIN"
 };
 
 
@@ -210,7 +212,7 @@ inline string GetRoomTypeString( RoomType p_enum )
 {
     return EnumToStr<RoomType>( p_enum, ROOMTYPESTRINGS );
 }
-*/
+
 
 // Room Type and Size Weights
 // Ronan
@@ -298,7 +300,7 @@ const string ResourceTypeStrings[NumResourceType] =
 	"GOLD"
 };
 
-inline ResourceType GetResourceType(string p_str)
+inline ResourceType GetResourceTypeEnum(string p_str)
 {
 	return StrToEnum<ResourceType, NumResourceType>(p_str, ResourceTypeStrings);
 }
@@ -322,7 +324,7 @@ const string ResourceSizeStrings[NumResourceSize] =
 	"LARGE"
 };
 
-inline ResourceSize GetResourceSize(string p_str)
+inline ResourceSize GetResourceSizeEnum(string p_str)
 {
 	return StrToEnum<ResourceSize, NumResourceSize>(p_str, ResourceSizeStrings);
 }

@@ -10,6 +10,8 @@
 #include "../BasicLib/BasicLib.h"
 #include "SimpleMUDLogs.h"
 #include "RoomDatabase.h"
+#include "CollectingRoom.h"
+#include "SpecialRoom.h"
 
 using BasicLib::LowerCase;
 using BasicLib::tostring;
@@ -51,6 +53,13 @@ namespace SimpleMUD
 
 		
 	}
+	/*void RoomDatabase::Load()
+	{
+		ifstream file("players/players.txt");
+		string type;
+
+		
+	}*/
 
 	void RoomDatabase::LoadTemplates()
 	{
@@ -81,14 +90,47 @@ namespace SimpleMUD
 		// Load Data.
 		
 		std::ifstream file( "maps/default.data" );
-		Room temp;
 		string str;
 		RoomBaseType tempt;
 		while( file.good() )
 		{
 			// load the entry
 			file >> str >> str;
-			temp.LoadData( file );
+			RoomBaseType t = GetRoomBaseType(str);
+			if (t == COLLECTING)
+			{
+				string temp, name, description, owner;
+				int bought;
+				vector2 coords;
+				ResourceSize resourceSize;
+				ResourceType resourceType;
+
+				file >> temp >> name;
+				file >> temp >> description;
+				file >> temp >> coords.x >> temp >> coords.y;
+				file >> temp >> temp;
+				resourceType = GetResourceTypeEnum(temp);
+				file >> temp >> temp;
+				resourceSize = GetResourceSizeEnum(temp);
+				file >> temp >> owner;
+				file >> temp >> bought;
+
+				AddRoom(coords, std::unique_ptr<Room>(new CollectingRoom(name, description, t, coords, resourceType, resourceSize, owner, bought)));
+			}
+			if (t == SPECIAL)
+			{
+				string temp, name, description;
+				vector2 coords;
+				RoomType roomType;
+
+				file >> temp >> name;
+				file >> temp >> description;
+				file >> temp >> coords.x >> temp >> coords.y;
+				file >> temp >> temp;
+				roomType = GetRoomType(temp);
+
+				AddRoom(coords, std::unique_ptr<Room>(new SpecialRoom(name, description, t, coords, roomType)));
+			}
 			//AddRoom(temp.GetCoords(), temp);
 			file >> std::ws;
 		}

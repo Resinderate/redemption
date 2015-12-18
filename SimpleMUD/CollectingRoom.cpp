@@ -84,24 +84,24 @@ namespace SimpleMUD
 
 	void CollectingRoom::SaveData(ostream& p_stream)
 	{
-		p_stream << "[ROOMTYPE]     " << m_baseType << "\r\n";
+		p_stream << "[ROOMTYPE]     " << GetRoomBaseTypeString(m_baseType) << "\r\n";
 		p_stream << "[NAME]			" << m_name << "\r\n";
 		p_stream << "[DESCRIPTION]	" << m_description << "\r\n";
 		p_stream << "[COORDINATES]	" << m_coords.x << " , " << m_coords.y << "\r\n";
-		p_stream << "[RESOURCETYPE] " << m_resourceType << "\r\n";
-		p_stream << "[RESOURCESIZE]	" << m_resourceSize << "\r\n";
+		p_stream << "[RESOURCETYPE] " << GetResourceTypeString(m_resourceType) << "\r\n";
+		p_stream << "[RESOURCESIZE]	" << GetResourceSizeString(m_resourceSize) << "\r\n";
 	}
 
-	void CollectingRoom::LoadData(istream& p_stream)
+	void CollectingRoom::LoadData(istream& p_stream, RoomBaseType p_base)
 	{
 		string temp;
-		p_stream >> temp >> temp;
-		m_baseType = GetRoomBaseType(temp);
 		p_stream >> temp >> m_name;
 		p_stream >> temp >> m_description;
 		p_stream >> temp >> m_coords.x >> temp >> m_coords.y;
-		p_stream >> temp >> m_resourceType;
-		p_stream >> temp >> m_resourceSize;
+		p_stream >> temp >> temp;
+		m_resourceType = GetResourceTypeEnum(temp); 
+		p_stream >> temp >> temp;
+		m_resourceSize = GetResourceSizeEnum(temp);
 	}
 
 }   // end namespace SimpleMUD

@@ -38,7 +38,7 @@ namespace SimpleMUD
 		inline int& BoughtTimes() { return m_boughtTimes; }
 
 		void SaveData(ostream& p_stream);
-		void LoadData(istream & p_stream);
+		void LoadData(istream & p_stream, RoomBaseType p_base);
 	protected:
 		// What sort of resource it is.
 		ResourceType m_resourceType;
