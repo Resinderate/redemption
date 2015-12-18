@@ -56,14 +56,14 @@ void SimpleMUD::LeaderboardHandler::Leaderboard(int p_data)
 		}
 
 		m_player->SendString(SocketLib::white + "Wood Leaderboard:\r\n" +
-			"Position\tName\t\tWood\r\n");
+			"Position Name              Wood\r\n");
 		//C++11
 		auto &pr = ret.end();
 		while (pr != ret.begin())
 		{
 			pr--;
 			Entity temp = pr->second;
-			m_player->SendString(SocketLib::white + "" + std::to_string(pos) + "\t\t" + temp.Name() + "\t\t" + std::to_string(pr->first));
+			m_player->SendString(SocketLib::white + BufferWord(std::to_string(pos),9) + BufferWord(temp.Name(),18) + std::to_string(pr->first));
 			++pos;
 		}
 		break;
@@ -77,14 +77,14 @@ void SimpleMUD::LeaderboardHandler::Leaderboard(int p_data)
 		}
 
 		m_player->SendString(SocketLib::white + "Stone Leaderboard:\r\n" +
-			"Position\tName\t\tStone\r\n");
+			"Position Name              Stone\r\n");
 		//C++11
 		auto &pr = ret.end();
 		while (pr != ret.begin())
 		{
 			pr--;
 			Entity temp = pr->second;
-			m_player->SendString(SocketLib::white + "" + std::to_string(pos) + "\t" + temp.Name() + "\t" + std::to_string(pr->first));
+			m_player->SendString(SocketLib::white + BufferWord(std::to_string(pos), 9) + BufferWord(temp.Name(), 18) + std::to_string(pr->first)); 
 			++pos;
 		}
 		break;
@@ -98,14 +98,15 @@ void SimpleMUD::LeaderboardHandler::Leaderboard(int p_data)
 		}
 
 		m_player->SendString(SocketLib::white + "Iron Leaderboard:\r\n" +
-			"Position\tName\t\tIron\r\n");
+			"Position Name              Iron\r\n");
+
 		//C++11
 		auto &pr = ret.end();
 		while (pr != ret.begin())
 		{
 			pr--;
 			Entity temp = pr->second;
-			m_player->SendString(SocketLib::white + "" + std::to_string(pos) + "\t" + temp.Name() + "\t" + std::to_string(pr->first));
+			m_player->SendString(SocketLib::white + BufferWord(std::to_string(pos), 9) + BufferWord(temp.Name(), 18) + std::to_string(pr->first)); 
 			++pos;
 		}
 		break;
@@ -119,14 +120,14 @@ void SimpleMUD::LeaderboardHandler::Leaderboard(int p_data)
 		}
 
 		m_player->SendString(SocketLib::white + "Gold Leaderboard:\r\n" +
-			"Position\tName\t\tGold\r\n");
+			"Position Name              Gold\r\n");
 		//C++11
 		auto &pr = ret.end();
 		while (pr != ret.begin())
 		{
 			pr--;
 			Entity temp = pr->second;
-			m_player->SendString(SocketLib::white + "" + std::to_string(pos) + "\t" + temp.Name() + "\t" + std::to_string(pr->first));
+			m_player->SendString(SocketLib::white + BufferWord(std::to_string(pos), 9) + BufferWord(temp.Name(), 18) + std::to_string(pr->first));
 			++pos;
 		}
 		break;

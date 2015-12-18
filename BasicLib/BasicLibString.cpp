@@ -133,6 +133,16 @@ std::string RemoveWord( const std::string& p_string, int p_index )
     return str;
 }
 
-
+std::string BufferWord(const std::string& p_string, int p_val)
+{
+	int buf = p_val - p_string.length();
+	std::string ret = p_string;
+	for (int i = 0; i < buf; i++)
+	{
+		ret += " ";
+	}
+	
+	return ret;
+}
 
 } // end namespace BasicLib
