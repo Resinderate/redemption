@@ -79,27 +79,35 @@ namespace SimpleMUD
 	void RoomDatabase::LoadData()
 	{
 		// Load Data.
-		/*
+		
 		std::ifstream file( "maps/default.data" );
-
-		string temp;
-		entityid roomid;
-
+		Room temp;
+		string str;
+		RoomBaseType tempt;
 		while( file.good() )
 		{
-			// load in the room id
-			file >> temp >> roomid;
-
 			// load the entry
-			m_vector[roomid].LoadData( file );
+			file >> str >> str;
+			temp.LoadData( file );
+			//AddRoom(temp.GetCoords(), temp);
 			file >> std::ws;
 		}
-		*/
+		
 	}
 
 	void RoomDatabase::SaveData()
 	{
-		// Save Data.
+		std::ofstream file("maps/default.data");
+
+		auto itr = m_rooms.begin();
+
+		while (itr != m_rooms.end())
+		{
+			itr->second->SaveData(file);
+			file << "\n";
+
+			++itr;
+		}
 	}
 
 

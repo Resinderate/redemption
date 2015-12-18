@@ -82,6 +82,27 @@ namespace SimpleMUD
 		return BasicLib::resource(cost);
 	}
 
+	void CollectingRoom::SaveData(ostream& p_stream)
+	{
+		p_stream << "[ROOMTYPE]     " << m_baseType << "\r\n";
+		p_stream << "[NAME]			" << m_name << "\r\n";
+		p_stream << "[DESCRIPTION]	" << m_description << "\r\n";
+		p_stream << "[COORDINATES]	" << m_coords.x << " , " << m_coords.y << "\r\n";
+		p_stream << "[RESOURCETYPE] " << m_resourceType << "\r\n";
+		p_stream << "[RESOURCESIZE]	" << m_resourceSize << "\r\n";
+	}
+
+	void CollectingRoom::LoadData(istream& p_stream)
+	{
+		string temp;
+		p_stream >> temp >> temp;
+		m_baseType = GetRoomBaseType(temp);
+		p_stream >> temp >> m_name;
+		p_stream >> temp >> m_description;
+		p_stream >> temp >> m_coords.x >> temp >> m_coords.y;
+		p_stream >> temp >> m_resourceType;
+		p_stream >> temp >> m_resourceSize;
+	}
 
 }   // end namespace SimpleMUD
 

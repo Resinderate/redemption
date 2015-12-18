@@ -157,6 +157,25 @@ enum RoomBaseType
 	COLLECTING,
 	SPECIAL
 };
+
+const int NUMROOMBASETYPES = 3;
+
+const string NUMROOMBASETYPESTRINGS[NUMROOMBASETYPES] =
+{
+	"DEFAULT",
+	"COLLECTING",
+	"SPECIAL"
+};
+
+inline RoomBaseType GetRoomBaseType(string p_str)
+{
+	return StrToEnum<RoomBaseType, NUMROOMBASETYPES>(p_str, NUMROOMBASETYPESTRINGS);
+}
+inline string GetRoomBaseTypeString(RoomBaseType p_enum)
+{
+	return EnumToStr<RoomBaseType>(p_enum, NUMROOMBASETYPESTRINGS);
+}
+
 // --------------------------------------------------------------------
 //  An enumeration defining the various room types and accompanying
 //  functions
@@ -279,6 +298,15 @@ const string ResourceTypeStrings[NumResourceType] =
 	"GOLD"
 };
 
+inline ResourceType GetResourceType(string p_str)
+{
+	return StrToEnum<ResourceType, NumResourceType>(p_str, ResourceTypeStrings);
+}
+inline string GetResourceTypeString(ResourceType p_enum)
+{
+	return EnumToStr<ResourceType>(p_enum, ResourceTypeStrings);
+}
+
 enum ResourceSize
 {
 	SMALL,
@@ -293,6 +321,15 @@ const string ResourceSizeStrings[NumResourceSize] =
 	"MEDIUM",
 	"LARGE"
 };
+
+inline ResourceSize GetResourceSize(string p_str)
+{
+	return StrToEnum<ResourceSize, NumResourceSize>(p_str, ResourceSizeStrings);
+}
+inline string GetResourceSizeString(ResourceSize p_enum)
+{
+	return EnumToStr<ResourceSize>(p_enum, ResourceSizeStrings);
+}
 
 }   // end namespace SimpleMUD
 
@@ -325,7 +362,7 @@ const std::vector<string> BaseCommands =
 	"interact",
 	"invite",
 	"leavecorp",
-	"leaderboard",
+	"leaderboards",
 	"report",
 	"warp",
 	"kick",
@@ -335,6 +372,7 @@ const std::vector<string> BaseCommands =
 	"demote",
 	"reload",
 	"shutdown",
+	"shortcuts",
 	"buyroom"
 };
 #endif

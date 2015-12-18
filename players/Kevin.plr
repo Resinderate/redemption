@@ -23,6 +23,7 @@
 [HAS SOUL]       0
 [TITLE]          TheRedeemed
 [TITLES]         Peasant TheRedeemed -1
-[BINDS]          0
+[BINDS]          1
 [COMMANDS]       
+Alias: j Command: leaderboard
 -1
