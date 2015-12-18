@@ -26,13 +26,16 @@ namespace SimpleMUD
 	public:
 		CollectingRoom();
 		CollectingRoom(string p_name, string p_desc, RoomBaseType p_baseType, BasicLib::vector2 p_coords, 
-			ResourceType p_reType, ResourceSize p_reSize);
+			ResourceType p_reType, ResourceSize p_reSize, string p_owner, int p_boughtTimes);
 
 		BasicLib::resource Collect();
 
 		inline ResourceType GetResourceType() { return m_resourceType; }
 		inline ResourceSize GetResourceSize() { return m_resourceSize; }
 
+		BasicLib::resource CurrerntCost();
+		inline string& Owner() { return m_owner; }
+		inline int& BoughtTimes() { return m_boughtTimes; }
 
 
 	protected:
@@ -45,7 +48,8 @@ namespace SimpleMUD
 
 		// Owner of the land.
 		// Not sure how we want to store this just yet, will probably be the player..
-		player m_owner;
+		string m_owner;
+		int m_boughtTimes;
 
 	};  // end class CollectingRoom.
 

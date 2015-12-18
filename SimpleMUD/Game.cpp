@@ -266,6 +266,8 @@ void Game::Handle(string p_data)
 				p.Conn()->AddHandler(new WorkshopHandler(*p.Conn(), p.ID()));
 			else if (type == RoomType::CORP)
 				p.Conn()->AddHandler(new CorpHandler(*p.Conn(), p.ID()));
+			else if (type == RoomType::ASSASSIN)
+				p.Conn()->AddHandler(new AssassinHandler(*p.Conn(), p.ID()));
 			return;
 		}
 		else
@@ -319,7 +321,7 @@ void Game::Handle(string p_data)
 	}
 
 	//leave current corporation
-	if (firstword == "leave")
+	if (firstword == "leavecorp")
 	{
 		if (p.CorpName() == CORPNONE)
 		{
@@ -413,6 +415,38 @@ void Game::Handle(string p_data)
 		p.SendString(PrintRoom(*p.CurrentRoom()));
 	}
 	
+	if (firstword == "buyroom")
+	{
+		if (p.CurrentRoom()->GetBaseType() == RoomBaseType::COLLECTING)
+		{
+			CollectingRoom* cRoom = dynamic_cast<CollectingRoom*>(p.CurrentRoom().get());
+
+			// Check if you already own it.
+			if (cRoom->Owner() == p.Name())
+			{
+				p.SendString(red + "You already own this room!");
+				return;
+			}
+
+			resource cost = cRoom->CurrerntCost();
+
+			if (p.GetResources()[cRoom->GetResourceType()] < cost)
+			{
+				p.SendString(red + "You don't have enough resources to buy this room!");
+				return;
+			}
+
+			// Buy the room.
+			p.GetResources()[cRoom->GetResourceType()] -= cost;
+			cRoom->Owner() = p.Name();
+
+			p.SendString(green + "Successfully bought room for " + std::to_string(cost) + " " + ResourceTypeStrings[cRoom->GetResourceType()] + "!");
+			return;
+		}
+		// Can't buy this room.
+		p.SendString(red + "You can't buy a room of this type!");
+		return;
+	}
 
     // ------------------------------------------------------------------------
     //  GOD access commands
@@ -567,6 +601,17 @@ void Game::Handle(string p_data)
 	{
 		Handle(translated);
 		return;
+	}
+
+	for (auto player : PlayerDatabase::GetAllPlayers())
+	{
+		translated = player.GetDict().Translate(p_data);
+		if (translated != prev)
+		{
+			p.SendString(red + "This command is not recognised, but another player has set up a shortcut for this command.\r\n" +
+				"You can create your own shortcuts by pressing 'rebind'...");
+				return;
+		}
 	}
 
 	// Possibly check all the other players dictionaries.
@@ -807,6 +852,7 @@ string Game::PrintHelp( PlayerRank p_rank )
 		" interact, i                - Interact with a Special Room\r\n" +
 		" stats                      - Shows stats\r\n" +
 		" look, l                    - Show description of room\r\n" +
+		" buyroom                    - Buy current collecting room\r\n" +
 		" rebind                     - Create new shortcuts for a command\r\n" +
 		" titles                     - Show all available titles\r\n" +
 		" change <title>             - Change current title to <title>\r\n" +
@@ -1004,45 +1050,72 @@ void SimpleMUD::Game::Collect()
 			reward *= itemLevel;
 
 			// Add any bonuses due is the player is the owner of the room.
+			if (cRoom->Owner() != OWNERNONE)
+			{
+				if (cRoom->Owner() == p.Name())
+				{
+					// Just doubling the resources gotten from the room.
+					// Could do alternate benefits here.
+					reward = resource(reward * 2);
+				}
+				// If someone from the same corporation as the player owns the land.
+				// Get a smaller benefit.
+				else
+				{
+					auto owner = PlayerDatabase::findfull(cRoom->Owner());
+					auto guildMembers = PlayerDatabase::CorpMembers(owner->CorpName());
+					for (auto mem : guildMembers)
+					{
+						if (mem->Name() == p.Name())
+						{
+							// In the same guild. Add bonus.
+							reward = resource(reward * 1.5f);
+							break;
+						}
+					}
+					// Not in the same guild as the owner, no additional benefits.
+					// Could add reductions here.
+				}
+			}
 
 			// Add that to the players totals.
 			p.GetResources()[type] += reward;
 			
-			p.SendString(green + "Collected " + std::to_string(reward) + " " + ResourceTypeStrings[type] + "!\r\n");
+			p.SendString(green + "Collected " + std::to_string(reward) + " " + ResourceTypeStrings[type] + "!");
 			if (p.FirstOfType()[type])
 			{
 				p.FirstOfType()[type] = false;
 				if (type == WOOD)
 				{
-					p.SendString(green + "Achievement Unlocked! " + GetTitleString(GOTWOOD) + "\r\n");
+					p.SendString(green + "Achievement Unlocked! " + GetTitleString(GOTWOOD));
 					p.AddTitle(GOTWOOD);
 				}
 				else if (type == STONE)
 				{
-					p.SendString(green + "Achievement Unlocked! " + GetTitleString(STONECOLD) + "\r\n");
+					p.SendString(green + "Achievement Unlocked! " + GetTitleString(STONECOLD));
 					p.AddTitle(STONECOLD);
 				}
 				else if (type == IRON)
 				{
-					p.SendString(green + "Achievement Unlocked! " + GetTitleString(IRONMAIDEN) + "\r\n");
+					p.SendString(green + "Achievement Unlocked! " + GetTitleString(IRONMAIDEN));
 					p.AddTitle(IRONMAIDEN);
 				}
 				else if (type == GOLD)
 				{
-					p.SendString(green + "Achievement Unlocked! " + GetTitleString(GOLDDIGGER) + "\r\n");
+					p.SendString(green + "Achievement Unlocked! " + GetTitleString(GOLDDIGGER));
 					p.AddTitle(GOLDDIGGER);
 				}
 			}
 		}
 		else
 		{
-			p.SendString(red + "You need an item of at least level 1 for this resource type to collect it!\r\n");
+			p.SendString(red + "You need an item of at least level 1 for this resource type to collect it!");
 		}		
 	}
 	else
 	{
 		// Cant collect in this type of room.
-		p.SendString(red + "You can't collect in this room!\r\n");
+		p.SendString(red + "You can't collect in this room!");
 	}
 }
 

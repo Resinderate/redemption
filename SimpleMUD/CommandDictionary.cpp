@@ -19,14 +19,22 @@ std::string SimpleMUD::CommandDictionary::Translate(std::string p_command)
 		USERLOG.Log("Key Val Pair: " + kv.first + "::" + kv.second);
 		if (replace(p_command, kv.first, kv.second))
 		{
-			size_t nPos = kv.second.find(kv.first);
-			std::string val = kv.second;
-			std::string target = val.replace(nPos, kv.first.length(), "");
 
-			if (occurances(p_command, target) < tolerance)
-				return p_command;
+			// If the first word in this data thing, is a valid command, then cool.
+			// Otherwise need to kill it I guess.
+			std::string firstword = BasicLib::ParseWord(p_command, 0);
+
+			// Check to see if the conversion did anything meaningful.
+			if (std::find(BaseCommands.begin(), BaseCommands.end(), firstword) == BaseCommands.end())
+			{
+				// Not a valid command.
+				p_command = initial;
+				continue;
+			}
 			else
-				return initial;
+			{
+				return p_command;
+			}
 		}
 	}
 	return p_command;

@@ -50,7 +50,6 @@ public:
 	inline BasicLib::vector2 GetCoords() { return m_coords; }
 	inline RoomBaseType GetBaseType() { return m_baseType;  }
 
-
 protected:
     // -----------------------------------------
     //  template information
@@ -60,10 +59,7 @@ protected:
 	string m_name;
     string m_description;
 	BasicLib::vector2 m_coords;
-	RoomBaseType m_baseType;
-
-	// probably changed to a player later when it's figured out.
-	string m_owner;
+	RoomBaseType m_baseType;	
 
     // -----------------------------------------
     //  volatile data (save to disk)

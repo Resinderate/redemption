@@ -25,11 +25,6 @@ Room::Room()
 	m_coords = BasicLib::vector2();
 	// Should always set this correctly for each room.
 	m_baseType = RoomBaseType::DEFAULT;
-	m_owner = "";
-}
-
-Room::~Room()
-{
 }
 
 Room::Room(string p_name, string p_desc, RoomBaseType p_baseType, BasicLib::vector2 p_coords) :
@@ -37,6 +32,10 @@ Room::Room(string p_name, string p_desc, RoomBaseType p_baseType, BasicLib::vect
 	m_description(p_desc),
 	m_baseType(p_baseType),
 	m_coords(p_coords)
+{
+}
+
+Room::~Room()
 {
 }
 
@@ -90,8 +89,6 @@ void Room::SaveData( ostream& p_stream )
 
     p_stream << "[MONEY] " << m_money << "\n";*/
 }
-
-
 
 }   // end namespace SimpleMUD
 

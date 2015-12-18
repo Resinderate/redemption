@@ -13,22 +13,22 @@ void SimpleMUD::LeaderboardHandler::Handle(string p_data)
 	}
 	else if (p_data == "wood")
 	{
-		Leaderboard(0);
+		Leaderboard(WOOD);
 		return;
 	}
 	else if (p_data == "stone")
 	{
-		Leaderboard(1);
+		Leaderboard(STONE);
 		return;
 	}
 	else if (p_data == "iron")
 	{
-		Leaderboard(2);
+		Leaderboard(IRON);
 		return;
 	}
 	else if (p_data == "gold")
 	{
-		Leaderboard(3);
+		Leaderboard(GOLD);
 		return;
 	}
 	else if (p_data == "corpsoul")
@@ -47,11 +47,11 @@ void SimpleMUD::LeaderboardHandler::Leaderboard(int p_data)
 	int pos = 0;
 	switch (p_data)
 	{
-	case 0:
+	case WOOD:
 	{
 		for (SimpleMUD::Player p : pL)
 		{
-			resource res = p.GetResources()[0];
+			resource res = p.GetResources()[WOOD];
 			ret.insert(std::pair<resource, SimpleMUD::Player>(res, p));
 		}
 
@@ -68,11 +68,11 @@ void SimpleMUD::LeaderboardHandler::Leaderboard(int p_data)
 		}
 		break;
 	}
-	case 1: 
+	case STONE:
 	{
 		for (SimpleMUD::Player p : pL)
 		{
-			resource res = p.GetResources()[1];
+			resource res = p.GetResources()[STONE];
 			ret.insert(std::pair<resource, SimpleMUD::Player>(res, p));
 		}
 
@@ -89,11 +89,11 @@ void SimpleMUD::LeaderboardHandler::Leaderboard(int p_data)
 		}
 		break;
 	}
-	case 2:
+	case IRON:
 	{
 		for (SimpleMUD::Player p : pL)
 		{
-			resource res = p.GetResources()[2];
+			resource res = p.GetResources()[IRON];
 			ret.insert(std::pair<resource, SimpleMUD::Player>(res, p));
 		}
 
@@ -111,11 +111,11 @@ void SimpleMUD::LeaderboardHandler::Leaderboard(int p_data)
 		}
 		break;
 	}
-	case 3:
+	case GOLD:
 	{
 		for (SimpleMUD::Player p : pL)
 		{
-			resource res = p.GetResources()[3];
+			resource res = p.GetResources()[GOLD];
 			ret.insert(std::pair<resource, SimpleMUD::Player>(res, p));
 		}
 
@@ -133,7 +133,32 @@ void SimpleMUD::LeaderboardHandler::Leaderboard(int p_data)
 		break;
 	}
 	case 4:
-		m_player->SendString(SocketLib::white + "Ronans a scrub so this does not work.\r\n");
+		std::map<int, string> corpRet;
+		// Get a list of all the corps.
+		auto corpList = PlayerDatabase::AllCorpNames();
+
+		// Get a list of all the members of each corp.
+		for (auto corp : corpList)
+		{
+			// Add up all the totals.
+			int totalSouls = 0;
+			auto members = PlayerDatabase::CorpMembers(corp);
+			for (auto member : members)
+			{
+				if (member->HasSoul())
+					totalSouls += 1;
+			}
+			// Add to the map.
+			corpRet.insert(std::pair<int, string>(totalSouls, corp));
+		}
+
+		// Print out some sort of leaderboard.
+		// corpRet should have a list of:
+		// <int numberOfMembersWithSouls, string corpName>
+
+		
+
+		m_player->SendString(SocketLib::white + "Kevin needs to fix the print out =).");
 		break;
 	}
 }
