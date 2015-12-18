@@ -62,9 +62,9 @@ void SimpleMUD::AssassinHandler::Handle(string p_data)
 void SimpleMUD::AssassinHandler::Enter()
 {
 	m_player->SendString(SocketLib::white + "Hello, I am the assassin!\r\n" +
-		"Here you can tell me the name of another player you wish me to kill." +
-		"It will cost 1 wood, and they will lose 1 wood." +
-		"Enter, 'murder <player name>'." +
-		"Enter 'done' when you wish to leave." +
+		"Here you can tell me the name of another player you wish me to kill.\r\n" +
+		"It will cost 1 wood, and they will lose 1 wood.\r\n" +
+		"Enter, 'murder <player name>'.\r\n" +
+		"Enter 'done' when you wish to leave.\r\n" +
 		SocketLib::white + ">");
 }
