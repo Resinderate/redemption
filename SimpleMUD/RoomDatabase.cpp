@@ -12,6 +12,7 @@
 #include "RoomDatabase.h"
 #include "CollectingRoom.h"
 #include "SpecialRoom.h"
+#include "World.h"
 
 using BasicLib::LowerCase;
 using BasicLib::tostring;
@@ -145,9 +146,36 @@ namespace SimpleMUD
 
 		while (itr != m_rooms.end())
 		{
-			itr->second->SaveData(file);
-			file << "\n";
+			RoomBaseType t = itr->second->GetBaseType();
+			if (t == COLLECTING)
+			{
+				file << "[ROOMBASETYPE]     " << GetRoomBaseTypeString(itr->second->GetBaseType()) << "\r\n";
+				std::shared_ptr<Room>& r = itr->second;
+				CollectingRoom* cRoom = dynamic_cast<CollectingRoom*>(r.get());
+				
+				file << "[NAME]			" << itr->second->Name() << "\r\n";
+				file << "[DESCRIPTION]	" << itr->second->Description() << "\r\n";
+				file << "[COORDINATES]	" << itr->second->GetCoords().x << " , " << itr->second->GetCoords().y << "\r\n";
+				file << "[RESOURCETYPE] " << GetResourceTypeString(cRoom->GetResourceType()) << "\r\n";
+				file << "[RESOURCESIZE]	" << GetResourceSizeString(cRoom->GetResourceSize()) << "\r\n";
+				file << "[OWNER]		" << cRoom->Owner() << "\r\n";
+				file << "[TIMESBOUGHT]  " << cRoom->BoughtTimes() << "\r\n";
+			}
+			else if (t == SPECIAL)
+			{
+				file << "[ROOMBASETYPE]     " << GetRoomBaseTypeString(itr->second->GetBaseType()) << "\r\n";
+				std::shared_ptr<Room>& r = itr->second;
+				SpecialRoom* sRoom = dynamic_cast<SpecialRoom*>(r.get());
 
+				file << "[NAME]			" << itr->second->Name() << "\r\n";
+				file << "[DESCRIPTION]	" << itr->second->Description() << "\r\n";
+				file << "[COORDINATES]	" << itr->second->GetCoords().x << " , " << itr->second->GetCoords().y << "\r\n";
+				file << "[ROOMTYPE] " << GetRoomTypeString(sRoom->GetRoomType()) << "\r\n";
+			}
+			else
+			{
+			}
+			file << "\n";
 			++itr;
 		}
 	}
