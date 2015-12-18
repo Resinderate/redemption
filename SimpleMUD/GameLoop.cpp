@@ -39,6 +39,9 @@ void GameLoop::Load()
         m_savedatabases = DBSAVETIME;
     }
 
+	m_dancing = seconds(1);
+	m_flipflop = false;
+
     Game::Running() = true;
 }
 
@@ -59,6 +62,42 @@ void GameLoop::Loop()
         SaveDatabases();
         m_savedatabases += DBSAVETIME;
     }
+
+	/*
+	if (Game::GetTimer().GetMS() > m_dancing)
+	{
+		string line1, line2, line3, line4, line5, line6, line7, line8 = "";
+		// Do alt.
+		if (m_flipflop)
+		{
+			line1 = " _____          _                      _   _             \r\n";
+			line2 = "|  __ \\        | |                    | | (_)            \r\n";
+			line3 = "| |__) |___  __| | ___ _ __ ___  _ __ | |_ _  ___  _ __  \r\n";
+			line4 = "|  _  // _ \\/ _` |/ _ \\ '_ ` _ \\| '_ \\| __| |/ _ \\| '_ \\ \r\n";
+			line5 = "| | \\ \\  __/ (_| |  __/ | | | | | |_) | |_| | (_) | | | |\r\n";
+			line6 = "|_|  \\_\\___|\\__,_|\\___|_| |_| |_| .__/ \\__|_|\\___/|_| |_|\r\n";
+			line7 = "                                | |                      \r\n";
+			line8 = "                                |_|     \r\n";
+		}
+		else
+		{
+			line1 = "   _____          _                      _   _             \r\n";
+			line2 = "  |  __ \\        | |                    | | (_)            \r\n";
+			line3 = "  | |__) |___  __| | ___ _ __ ___  _ __ | |_ _  ___  _ __  \r\n";
+			line4 = "  |  _  // _ \\/ _` |/ _ \\ '_ ` _ \\| '_ \\| __| |/ _ \\| '_ \\ \r\n";
+			line5 = "  | | \\ \\  __/ (_| |  __/ | | | | | |_) | |_| | (_) | | | |\r\n";
+			line6 = "  |_|  \\_\\___|\\__,_|\\___|_| |_| |_| .__/ \\__|_|\\___/|_| |_|\r\n";
+			line7 = "                                  | |                      \r\n";
+			line8 = "                                  |_|     \r\n";
+		}
+		string out = line1 + line2 + line3 + line4 + line5 + line6 + line7 + line8;
+		Game::SendGame(clearscreen + out);
+
+		m_flipflop = !m_flipflop;
+		m_dancing += seconds(1);
+		
+	}
+	*/
 }
 
 
