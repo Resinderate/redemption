@@ -37,6 +37,7 @@ protected:
     BasicLib::sint64 m_savedatabases;
 	BasicLib::sint64 m_dancing;
 	bool m_flipflop;
+	BasicLib::sint64 m_cleanupInactive;
 
 };  // end class GameLoop
 

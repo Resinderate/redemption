@@ -22,7 +22,6 @@ namespace SimpleMUD
 // ------------------------------------------------------------------------
 void Logon::Handle( string p_data )
 {
-	
     if( m_errors == 5 )
     {
         m_connection->Protocol().SendString( *m_connection, red + bold + 
@@ -207,6 +206,9 @@ void Logon::GotoGame( bool p_newbie )
 
     // record the users new connection
     p.Conn() = m_connection;
+
+	// Latest activity
+	p.LatestActivity() = std::chrono::system_clock::now();
 
     // go to the game.
     p.Conn()->RemoveHandler();

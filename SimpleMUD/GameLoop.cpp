@@ -42,6 +42,8 @@ void GameLoop::Load()
 	m_dancing = seconds(1);
 	m_flipflop = false;
 
+	m_cleanupInactive = seconds(30);
+
     Game::Running() = true;
 }
 
@@ -62,6 +64,33 @@ void GameLoop::Loop()
         SaveDatabases();
         m_savedatabases += DBSAVETIME;
     }
+
+	// Could just do it every tick?
+	// Kinda wasteful.
+	// Go through the currently logged in players and kick anyone that is inactive.
+	if (Game::GetTimer().GetMS() >= m_cleanupInactive)
+	{
+		for (auto p : PlayerDatabase::GetAllPlayers())
+		{
+			if (p.LoggedIn())
+			{
+				int timeout = 120; // seconds, two minutes.
+				auto diff = std::chrono::system_clock::now() - p.LatestActivity();
+				int secs = std::chrono::duration_cast<std::chrono::seconds>(diff).count();
+
+				if (secs > timeout)
+				{
+					// Kick the player
+					Game::SendGame(red + p.Name() + " has been kicked for inactivity! (2 mins)");
+					p.Conn()->Close();
+				}
+			}
+		}
+
+		m_cleanupInactive += seconds(30);
+	}
+
+	
 
 	/*
 	if (Game::GetTimer().GetMS() > m_dancing)

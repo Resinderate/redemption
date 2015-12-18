@@ -35,6 +35,9 @@ void Game::Handle(string p_data)
 {
 	Player& p = *m_player;
 
+	// Reset the latest activity
+	p.LatestActivity() = std::chrono::system_clock::now();
+
 	// check if the player wants to repeat a command
 	if (p_data == "/")
 	{
@@ -447,7 +450,7 @@ void Game::Handle(string p_data)
     {
         // find a player to kick
         PlayerDatabase::iterator itr = 
-			PlayerDatabase::findloggedin(ParseWord(p_data, 1));
+		PlayerDatabase::findloggedin(ParseWord(p_data, 1));
 
 		if (itr == PlayerDatabase::end())
         {
