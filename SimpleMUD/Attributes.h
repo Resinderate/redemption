@@ -196,11 +196,11 @@ const int NUMROOMTYPES = 5;
 
 const string ROOMTYPESTRINGS[NUMROOMTYPES] =
 {
-	"TRADING",
-	"WORKSHOP",
-	"DEVIL",
-	"CORP",
-	"ASSASSIN"
+	"Trading Post",
+	"Workshop",
+	"Devil Room",
+	"Corporation House",
+	"Assassin Room"
 };
 
 

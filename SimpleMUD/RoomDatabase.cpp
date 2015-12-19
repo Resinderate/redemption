@@ -107,7 +107,6 @@ namespace SimpleMUD
 				ResourceType resourceType;
 
 				file >> temp >> name;
-				file >> temp >> description;
 				file >> temp >> coords.x >> temp >> coords.y;
 				file >> temp >> temp;
 				resourceType = GetResourceTypeEnum(temp);
@@ -116,6 +115,9 @@ namespace SimpleMUD
 				file >> temp >> owner;
 				file >> temp >> bought;
 
+				description = GetResourceTypeString(resourceType) + " :: " + GetResourceSizeString(resourceSize) +
+					"\r\nCoords: " + std::to_string(coords.x) + ", " + std::to_string(coords.y);
+				
 				AddRoom(coords, std::unique_ptr<Room>(new CollectingRoom(name, description, t, coords, resourceType, resourceSize, owner, bought)));
 			}
 			if (t == SPECIAL)
@@ -125,10 +127,13 @@ namespace SimpleMUD
 				RoomType roomType;
 
 				file >> temp >> name;
-				file >> temp >> description;
 				file >> temp >> coords.x >> temp >> coords.y;
-				file >> temp >> temp;
+				file >> temp;
+				std::getline(file, temp);
 				roomType = GetRoomType(temp);
+
+				description = GetRoomTypeString(roomType) +
+					"\r\nCoords: " + std::to_string(coords.x) + ", " + std::to_string(coords.y);
 
 				AddRoom(coords, std::unique_ptr<Room>(new SpecialRoom(name, description, t, coords, roomType)));
 			}
@@ -149,28 +154,28 @@ namespace SimpleMUD
 			RoomBaseType t = itr->second->GetBaseType();
 			if (t == COLLECTING)
 			{
-				file << "[ROOMBASETYPE]     " << GetRoomBaseTypeString(itr->second->GetBaseType()) << "\r\n";
+				USERLOG.Log("Saving Collecting Room");
+				file << "[ROOMBASETYPE] " << GetRoomBaseTypeString(itr->second->GetBaseType()) << "\n";
 				std::shared_ptr<Room>& r = itr->second;
 				CollectingRoom* cRoom = dynamic_cast<CollectingRoom*>(r.get());
 				
-				file << "[NAME]			" << itr->second->Name() << "\r\n";
-				file << "[DESCRIPTION]	" << itr->second->Description() << "\r\n";
-				file << "[COORDINATES]	" << itr->second->GetCoords().x << " , " << itr->second->GetCoords().y << "\r\n";
-				file << "[RESOURCETYPE] " << GetResourceTypeString(cRoom->GetResourceType()) << "\r\n";
-				file << "[RESOURCESIZE]	" << GetResourceSizeString(cRoom->GetResourceSize()) << "\r\n";
-				file << "[OWNER]		" << cRoom->Owner() << "\r\n";
-				file << "[TIMESBOUGHT]  " << cRoom->BoughtTimes() << "\r\n";
+				file << "[NAME] " << itr->second->Name() << "\n";
+				file << "[COORDINATES] " << itr->second->GetCoords().x << " , " << itr->second->GetCoords().y << "\n";
+				file << "[RESOURCETYPE] " << GetResourceTypeString(cRoom->GetResourceType()) << "\n";
+				file << "[RESOURCESIZE]	" << GetResourceSizeString(cRoom->GetResourceSize()) << "\n";
+				file << "[OWNER] " << cRoom->Owner() << "\n";
+				file << "[TIMESBOUGHT] " << cRoom->BoughtTimes() << "\n";
 			}
 			else if (t == SPECIAL)
 			{
-				file << "[ROOMBASETYPE]     " << GetRoomBaseTypeString(itr->second->GetBaseType()) << "\r\n";
+				USERLOG.Log("Saving Special Room");
+				file << "[ROOMBASETYPE] " << GetRoomBaseTypeString(itr->second->GetBaseType()) << "\n";
 				std::shared_ptr<Room>& r = itr->second;
 				SpecialRoom* sRoom = dynamic_cast<SpecialRoom*>(r.get());
 
-				file << "[NAME]			" << itr->second->Name() << "\r\n";
-				file << "[DESCRIPTION]	" << itr->second->Description() << "\r\n";
-				file << "[COORDINATES]	" << itr->second->GetCoords().x << " , " << itr->second->GetCoords().y << "\r\n";
-				file << "[ROOMTYPE] " << GetRoomTypeString(sRoom->GetRoomType()) << "\r\n";
+				file << "[NAME] " << itr->second->Name() << "\n";
+				file << "[COORDINATES] " << itr->second->GetCoords().x << " , " << itr->second->GetCoords().y << "\n";
+				file << "[ROOMTYPE] " << GetRoomTypeString(sRoom->GetRoomType()) << "\n";
 			}
 			else
 			{
