@@ -239,6 +239,81 @@ void Game::Handle(string p_data)
 	if (firstword == "trade")
 	{
 		//Syntax (trade <player_name> <amount> <resource_type>)
+		string secondword = ParseWord(p_data, 1);
+		if (secondword == "")
+		{
+			p.SendString(red + "Did not detect a player name!");
+			return;
+		}
+
+		auto target = PlayerDatabase::findfull(secondword);
+		if (target == PlayerDatabase::end())
+		{
+			p.SendString(red + "Could not find a player of that name!");
+			return;
+		}
+
+		string thirdword = ParseWord(p_data, 2);
+		if (thirdword == "")
+		{
+			p.SendString(red + "Did not detect an amount!");
+			return;
+		}
+		// Could be an invalid input. Can throw an exception.
+		int amount = 0;
+		try
+		{
+			amount = std::stoi(thirdword);
+		}
+		catch (...)
+		{
+			p.SendString(red + "Did not detect a valid amount!");
+			return;
+		}
+
+		string fourthword = ParseWord(p_data, 3);
+		if (fourthword == "")
+		{
+			p.SendString(red + "Did not detect a resource type!");
+			return;
+		}
+
+		// Find what which resource it is.
+		string fourthlower = LowerCase(fourthword);
+
+		int resourceIndex = -1;
+		for (int i = 0; i < NumResourceType; i++)
+		{
+			if (LowerCase(ResourceTypeStrings[i]) == fourthlower)
+			{
+				resourceIndex = i;
+				break;
+			}
+		}
+		if (resourceIndex == -1)
+		{
+			p.SendString(red + "Did not detect a valid resource type!");
+			return;
+		}
+		ResourceType type = static_cast<ResourceType>(resourceIndex);
+
+		// Check if the player has enough to give.
+		if (p.GetResources()[type] < amount)
+		{
+			p.SendString(red + "Do not have enough of that resource to trade!");
+			return;
+		}
+
+		// Do the trade.
+		p.GetResources()[type] -= amount;
+		target->GetResources()[type] += amount;
+
+		// Send messages.
+		p.SendString(green + "Successfully sent " + target->Name() + " " + std::to_string(amount) + " " + fourthlower);
+		if (target->LoggedIn())
+			target->SendString(green + p.Name() + " has sent you " + std::to_string(amount) + " " + fourthlower);
+
+		return;
 	}
 
 	//complex Special room command Prompts a dialogue for the player to engage with (Devil Room, Corp Room, Assasin Room)
