@@ -28,8 +28,6 @@ namespace SocketLib
 template<typename protocol>
 class Connection;
 
-
-
 // ============================================================================
 // Description: This connection manager class will manage connections, 
 // all identified with an ID. 
@@ -55,7 +53,7 @@ public:
     // ------------------------------------------------------------------------
     ~ConnectionManager();
 
-	static void BanIP();
+	static void BanIP(const string& p_ip);
 
     // ------------------------------------------------------------------------
     //  This notifies the manager that there is a new connection available
@@ -106,10 +104,24 @@ public:
         Send();
         CloseConnections();
     }
-	inline static std::set<std::string> &GetBlacklist() { return blacklist; }
+	inline static std::set<std::string> &GetBlacklist() {
+		// Should probably be a smarter check here.
+		if (m_blacklist.empty())
+		{
+			std::string temp;
+			ifstream infile("blacklist/blacklist.txt");
+			while (infile.good())
+			{
+				std::getline(infile, temp);
+				m_blacklist.insert(temp);
+			}
+			infile.close();
+		}
+		return m_blacklist;
+	}
 protected:
 
-	std::set<std::string> blacklist;
+	static std::set<std::string> m_blacklist;
 
     // ------------------------------------------------------------------------
     //  This closes a connection within the connection manager; it is assumed
@@ -140,9 +152,8 @@ protected:
     SocketSet m_set;
 };
 
-
-
-
+template<typename protocol, typename defaulthandler>
+std::set<std::string> ConnectionManager<protocol, defaulthandler>::m_blacklist;
 
 // ------------------------------------------------------------------------
 // This creates a connection manager using a maximum datarate, buffer size,
@@ -203,7 +214,7 @@ NewConnection( DataSocket& p_socket )
 		}
 		itr++;
 	}
-	for (std::string s : blacklist)
+	for (std::string s : GetBlacklist())
 	{
 		if (s == GetIPString(addr))
 		{
@@ -404,26 +415,16 @@ void ConnectionManager<protocol, defaulthandler>::CloseConnections()
 //  Add an IP to the ban list
 // ------------------------------------------------------------------------
 template<typename protocol, typename defaulthandler>
-static void ConnectionManager<protocol, defaulthandler>::BanIP()
+void ConnectionManager<protocol, defaulthandler>::BanIP(const string& p_ip)
 {
-	if (blacklist.empty())
-	{
-		std::string temp;
-		ifstream infile("blacklist/blacklist.txt");
-		while (infile.good())
-		{
-			std::getline(infile, temp);
-			blacklist.insert(temp);
-		}
-		infile.close();
-	}
-
-	std::string ipS = GetIPString(GetRemoteAddress());
-	blacklist.insert(ipS);
+	// Add it to the current ban list AND the file.
+	//std::string ipS = GetIPString(GetRemoteAddress());
+	m_blacklist.insert(p_ip);
 
 	ofstream file("blacklist/blacklist.txt");
-	file << ipS << "\n";
+	file << p_ip << "\n";
 	file.close();
+	
 }
 
 }   // end namespace SocketLib

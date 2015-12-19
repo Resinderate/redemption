@@ -582,7 +582,9 @@ void Game::Handle(string p_data)
 			return;
 		}
 
-		BanIP(itr->Conn());
+		// Ban the player.
+		ConnectionManager<Telnet, Game>::BanIP(GetIPString(itr->Conn()->GetRemoteAddress()));
+
 		LogoutMessage(itr->Name() + " has been banned by " +
 			titledName + "!!!");
 
