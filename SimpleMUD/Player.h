@@ -71,6 +71,7 @@ public:
     inline bool& Newbie()                   { return m_newbie; }
 	inline CommandDictionary& GetDict()		{ return m_dictionary; }
 	inline bool& HasSoul()					{ return m_hasSoul; }
+	inline std::chrono::system_clock::time_point& LatestActivity() { return m_lastActivity; }
 
     // ------------------------------------------------------------------------
     //  Communications Functions
@@ -113,6 +114,8 @@ protected:
 	CommandDictionary m_dictionary;
 
 	bool m_hasSoul;
+
+	std::chrono::system_clock::time_point m_lastActivity;
 
     // -----------------------------------------
     //  Non-savable info

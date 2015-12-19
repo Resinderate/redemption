@@ -50,6 +50,7 @@ Player::Player()
 	m_coords = vector2(0, 0);
 
 	m_hasSoul = false;
+	m_lastActivity = std::chrono::system_clock::now();
 }
 
 //	@author Kevin Duffy
@@ -255,6 +256,8 @@ istream& operator>>( istream& p_stream, Player& p )
 		p_stream >> temp2 >> temp2;
 		p.m_dictionary.AddCommandPair(temp, temp2);
 	}
+
+	
     return p_stream;
 }
 
