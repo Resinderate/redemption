@@ -157,7 +157,19 @@ void SimpleMUD::LeaderboardHandler::Leaderboard(int p_data)
 		// <int numberOfMembersWithSouls, string corpName>
 
 		
-
+		m_player->SendString(SocketLib::white + "Corporations Leaderboard:\r\n" +
+			"Position Corporation              Souls Redeeemed\r\n");
+		int pos = 0;
+		//C++11
+		auto &pr = corpRet.end();
+		while (pr != corpRet.begin())
+		{
+			pr--;
+			string temp = pr->second;
+			m_player->SendString(SocketLib::white + BufferWord(std::to_string(pos), 9) + BufferWord(temp, 25) + std::to_string(pr->first));
+			++pos;
+		}
+		break;
 		m_player->SendString(SocketLib::white + "Kevin needs to fix the print out =).");
 		break;
 	}

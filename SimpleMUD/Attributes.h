@@ -291,6 +291,7 @@ enum ResourceType
 };
 const int NumResourceType = 4;
 const int WorldSize = 500;
+const int maxCorpLength = 20;
 
 const string ResourceTypeStrings[NumResourceType] =
 {

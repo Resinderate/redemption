@@ -20,8 +20,7 @@ void SimpleMUD::CorpHandler::Handle(string p_data)
 			// One word etc.
 		
 		// Just checking the length for now.
-		int maxLength = 20;
-		if (p_data.length() > maxLength)
+		if (p_data.length() > maxCorpLength)
 		{
 			m_connection->Protocol().SendString(*m_connection, SocketLib::red + "Corporation name too long!\r\n" + SocketLib::reset + ">");
 			return;
