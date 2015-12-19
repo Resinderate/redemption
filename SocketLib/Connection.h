@@ -16,7 +16,12 @@
 #include "SocketLibTypes.h"
 #include "ConnectionManager.h"
 #include "SocketLibSocket.h"
+#include <fstream>
+#include <string>
+#include <set>
 
+using std::ofstream;
+using std::ifstream;
 namespace SocketLib
 {
 
@@ -42,6 +47,7 @@ protected:
 
 public:
 
+	//inline std::set<std::string> &GetBlacklist() { return blacklist; }
     // ------------------------------------------------------------------------
     // This gets the amount of time that has passed, in seconds, since the
     // last time data was successfully sent, if there is data still queued,
@@ -57,7 +63,6 @@ public:
     {
         return m_lastReceiveTime;
     }
-
 
     // ------------------------------------------------------------------------
     // This "closes" the connection. This just sets a boolean telling the
@@ -93,7 +98,6 @@ public:
     // translated.
     // ------------------------------------------------------------------------
     void Receive();
-
 
     // ------------------------------------------------------------------------
     // This gets the receiving datarate for the socket, in bytes per
@@ -182,7 +186,7 @@ public:
         }
     }
 
-
+	
 
 protected:
 
@@ -225,6 +229,7 @@ protected:
 
     // determines whether or not the connection has been closed.
     bool m_closed;
+
 };
 
 
@@ -277,7 +282,6 @@ BasicLib::sint64 Connection<protocol>::GetLastSendTime() const
 
     return 0;
 }
-
 
 // ------------------------------------------------------------------------
 // This puts data into the sending queue.

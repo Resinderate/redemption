@@ -7,14 +7,20 @@
 #define CONNECTIONMANAGER_H
 
 #include <list>
+
 #include <iostream>
 #include "SocketLibTypes.h"
 #include "SocketLibErrors.h"
 #include "SocketSet.h"
-#include "Connection.h"
 #include "../BasicLib/BasicLibLogger.h"
 
+#include <fstream>
+#include <string>
+#include <set>
 
+using std::ofstream;
+using std::ifstream;
+using std::string;
 namespace SocketLib
 {
 
@@ -49,6 +55,7 @@ public:
     // ------------------------------------------------------------------------
     ~ConnectionManager();
 
+	static void BanIP();
 
     // ------------------------------------------------------------------------
     //  This notifies the manager that there is a new connection available
@@ -99,14 +106,17 @@ public:
         Send();
         CloseConnections();
     }
+	inline static std::set<std::string> &GetBlacklist() { return blacklist; }
 protected:
+
+	std::set<std::string> blacklist;
+
     // ------------------------------------------------------------------------
     //  This closes a connection within the connection manager; it is assumed
     //  that this is an external call- nothing needs to be notified about 
     //  the connection being closed.
     // ------------------------------------------------------------------------
-    void Close( clistitr p_itr );
-
+    void Close(clistitr p_itr);
 
 
 protected:
@@ -162,8 +172,6 @@ ConnectionManager<protocol, defaulthandler>::~ConnectionManager()
         itr->CloseSocket();
 }
 
-
-
 // ------------------------------------------------------------------------
 //  This notifies the manager that there is a new connection available
 // ------------------------------------------------------------------------
@@ -181,12 +189,11 @@ NewConnection( DataSocket& p_socket )
 	while (itr != m_connections.end())
 	{
 
-		USERLOG.Log("The existing connection: " + GetIPString(itr->GetRemoteAddress()));
-		USERLOG.Log("The new connection: " + GetIPString(addr));
+		//USERLOG.Log("The existing connection: " + GetIPString(itr->GetRemoteAddress()));
+		//USERLOG.Log("The new connection: " + GetIPString(addr));
 		if (GetIPString(itr->GetRemoteAddress()) == GetIPString(addr))
 		{
-			// tell the default protocol handler that there is no more room
-			// for the connection within this manager.
+			// tell the default protocol handler that there is already a connection at this address
 			defaulthandler::IpConflict(conn);
 
 			// It is assumed that the protocol handler has told the connection the
@@ -196,6 +203,20 @@ NewConnection( DataSocket& p_socket )
 		}
 		itr++;
 	}
+	for (std::string s : blacklist)
+	{
+		if (s == GetIPString(addr))
+		{
+			// tell the default protocol handler that the ip Address is banned
+			defaulthandler::IpBanned(conn);
+
+			// It is assumed that the protocol handler has told the connection the
+			// appropriate message, so close the connection.
+			//conn.CloseSocket();
+			return;
+		}
+	}
+
     if( AvailableConnections() == 0 )
     {
         // tell the default protocol handler that there is no more room
@@ -225,7 +246,6 @@ NewConnection( DataSocket& p_socket )
     }
 }
 
-
 // ------------------------------------------------------------------------
 //  This physically closes a connection within the connection manager
 // ------------------------------------------------------------------------
@@ -241,10 +261,6 @@ void ConnectionManager<protocol, defaulthandler>::Close( clistitr p_itr )
     // erase the connection from the list
     m_connections.erase( p_itr );
 }
-
-
-
-
 
 // ------------------------------------------------------------------------
 // This determines if any sockets need to be listened on.
@@ -308,14 +324,13 @@ void ConnectionManager<protocol, defaulthandler>::Listen()
                     c->Handler()->Hungup();
                     Close( c );
                 }
-
+				
             }   // end activity check
 
         }   // end socket loop
 
     }   // end check for number of sockets returned by select()
 }
-
 
 // ------------------------------------------------------------------------
 // Description: This goes through all the connections and sends all
@@ -328,7 +343,7 @@ void ConnectionManager<protocol, defaulthandler>::Send()
     // due to being able to remove items
     clistitr itr = m_connections.begin();
     clistitr c;
-
+	
     // loop through every connection
     while( itr != m_connections.end() )
     {
@@ -384,6 +399,32 @@ void ConnectionManager<protocol, defaulthandler>::CloseConnections()
 	}
 }
 
+
+// ------------------------------------------------------------------------
+//  Add an IP to the ban list
+// ------------------------------------------------------------------------
+template<typename protocol, typename defaulthandler>
+static void ConnectionManager<protocol, defaulthandler>::BanIP()
+{
+	if (blacklist.empty())
+	{
+		std::string temp;
+		ifstream infile("blacklist/blacklist.txt");
+		while (infile.good())
+		{
+			std::getline(infile, temp);
+			blacklist.insert(temp);
+		}
+		infile.close();
+	}
+
+	std::string ipS = GetIPString(GetRemoteAddress());
+	blacklist.insert(ipS);
+
+	ofstream file("blacklist/blacklist.txt");
+	file << ipS << "\n";
+	file.close();
+}
 
 }   // end namespace SocketLib
 

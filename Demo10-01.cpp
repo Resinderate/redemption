@@ -22,7 +22,6 @@
 using namespace SocketLib;
 using namespace SimpleMUD;
 
-
 int main()
 {
     try

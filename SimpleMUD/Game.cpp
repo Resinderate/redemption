@@ -9,6 +9,7 @@
 #include "Game.h"
 #include "PlayerDatabase.h"
 #include "LeaderboardHandler.h"
+#include "../SocketLib/ConnectionManager.h"
 #include "../BasicLib/BasicLib.h"
 #include "../BasicLib/BasicLibString.h"
 
@@ -95,8 +96,7 @@ void Game::Handle(string p_data)
 		{
 			member->SendString(yellow + bold + titledName + " -> Corporation: " + white + text);
 		}
-		return;
-		
+		return;		
 	}
 
 	// message sent to whole server
@@ -487,10 +487,30 @@ void Game::Handle(string p_data)
     // ------------------------------------------------------------------------
 	//Make a System wide Broadcast
 	if (firstword == "announce" && p.Rank() >= ADMIN)
-    {
+	{
 		Announce(RemoveWord(p_data, 0));
-        return;
-    }
+		return;
+	}
+
+	// Ban a player
+	if (firstword == "ban" && p.Rank() >= ADMIN)
+	{
+		PlayerDatabase::iterator itr =
+			PlayerDatabase::findloggedin(ParseWord(p_data, 1));
+
+		if (itr == PlayerDatabase::end())
+		{
+			p.SendString(red + bold + "Player could not be found.");
+			return;
+		}
+
+		BanIP(itr->Conn());
+		LogoutMessage(itr->Name() + " has been banned by " +
+			titledName + "!!!");
+
+		//Close(m_connection);
+		return;
+	}
 
 	//promote up one level
 	//needs to be changed to change syntax to
