@@ -573,22 +573,29 @@ void Game::Handle(string p_data)
 	// Ban a player
 	if (firstword == "ban" && p.Rank() >= ADMIN)
 	{
-		PlayerDatabase::iterator itr =
-			PlayerDatabase::findloggedin(ParseWord(p_data, 1));
-
-		if (itr == PlayerDatabase::end())
+		string secondword = ParseWord(p_data, 1);
+		if (secondword == "")
 		{
-			p.SendString(red + bold + "Player could not be found.");
+			p.SendString(red + "Did not detect a player's name!");
+			return;
+		}
+		PlayerDatabase::iterator target =
+			PlayerDatabase::findloggedin(secondword);
+
+		if (target == PlayerDatabase::end())
+		{
+			p.SendString(red + bold + "Could not find a player of that name online!");
 			return;
 		}
 
 		// Ban the player.
-		ConnectionManager<Telnet, Game>::BanIP(GetIPString(itr->Conn()->GetRemoteAddress()));
+		ConnectionManager<Telnet, Game>::BanIP(GetIPString(target->Conn()->GetRemoteAddress()));
 
-		LogoutMessage(itr->Name() + " has been banned by " +
+		LogoutMessage(target->Name() + " has been banned by " +
 			titledName + "!!!");
 
-		//Close(m_connection);
+		target->Conn()->Close();
+		
 		return;
 	}
 
