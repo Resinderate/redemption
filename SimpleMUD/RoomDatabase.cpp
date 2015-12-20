@@ -10,6 +10,9 @@
 #include "../BasicLib/BasicLib.h"
 #include "SimpleMUDLogs.h"
 #include "RoomDatabase.h"
+#include "CollectingRoom.h"
+#include "SpecialRoom.h"
+#include "World.h"
 
 using BasicLib::LowerCase;
 using BasicLib::tostring;
@@ -51,6 +54,13 @@ namespace SimpleMUD
 
 		
 	}
+	/*void RoomDatabase::Load()
+	{
+		ifstream file("players/players.txt");
+		string type;
+
+		
+	}*/
 
 	void RoomDatabase::LoadTemplates()
 	{
@@ -79,27 +89,100 @@ namespace SimpleMUD
 	void RoomDatabase::LoadData()
 	{
 		// Load Data.
-		/*
+		
 		std::ifstream file( "maps/default.data" );
-
-		string temp;
-		entityid roomid;
-
+		string str;
+		RoomBaseType tempt;
 		while( file.good() )
 		{
-			// load in the room id
-			file >> temp >> roomid;
-
 			// load the entry
-			m_vector[roomid].LoadData( file );
+			file >> str >> str;
+			RoomBaseType t = GetRoomBaseType(str);
+			if (t == COLLECTING)
+			{
+				string temp, name, description, owner;
+				int bought;
+				vector2 coords;
+				ResourceSize resourceSize;
+				ResourceType resourceType;
+
+				file >> temp >> name;
+				file >> temp >> coords.x >> temp >> coords.y;
+				file >> temp >> temp;
+				resourceType = GetResourceTypeEnum(temp);
+				file >> temp >> temp;
+				resourceSize = GetResourceSizeEnum(temp);
+				file >> temp >> owner;
+				file >> temp >> bought;
+
+				description = GetResourceTypeString(resourceType) + " :: " + GetResourceSizeString(resourceSize) +
+					"\r\nCoords: " + std::to_string(coords.x) + ", " + std::to_string(coords.y);
+				
+				AddRoom(coords, std::unique_ptr<Room>(new CollectingRoom(name, description, t, coords, resourceType, resourceSize, owner, bought)));
+			}
+			if (t == SPECIAL)
+			{
+				string temp, name, description;
+				vector2 coords;
+				RoomType roomType;
+
+				file >> temp >> name;
+				file >> temp >> coords.x >> temp >> coords.y;
+				file >> temp;
+				std::getline(file, temp);
+				roomType = GetRoomType(temp);
+
+				description = GetRoomTypeString(roomType) +
+					"\r\nCoords: " + std::to_string(coords.x) + ", " + std::to_string(coords.y);
+
+				AddRoom(coords, std::unique_ptr<Room>(new SpecialRoom(name, description, t, coords, roomType)));
+			}
+			//AddRoom(temp.GetCoords(), temp);
 			file >> std::ws;
 		}
-		*/
+		
 	}
 
 	void RoomDatabase::SaveData()
 	{
-		// Save Data.
+		std::ofstream file("maps/default.data");
+
+		auto itr = m_rooms.begin();
+
+		while (itr != m_rooms.end())
+		{
+			RoomBaseType t = itr->second->GetBaseType();
+			if (t == COLLECTING)
+			{
+				USERLOG.Log("Saving Collecting Room");
+				file << "[ROOMBASETYPE] " << GetRoomBaseTypeString(itr->second->GetBaseType()) << "\n";
+				std::shared_ptr<Room>& r = itr->second;
+				CollectingRoom* cRoom = dynamic_cast<CollectingRoom*>(r.get());
+				
+				file << "[NAME] " << itr->second->Name() << "\n";
+				file << "[COORDINATES] " << itr->second->GetCoords().x << " , " << itr->second->GetCoords().y << "\n";
+				file << "[RESOURCETYPE] " << GetResourceTypeString(cRoom->GetResourceType()) << "\n";
+				file << "[RESOURCESIZE]	" << GetResourceSizeString(cRoom->GetResourceSize()) << "\n";
+				file << "[OWNER] " << cRoom->Owner() << "\n";
+				file << "[TIMESBOUGHT] " << cRoom->BoughtTimes() << "\n";
+			}
+			else if (t == SPECIAL)
+			{
+				USERLOG.Log("Saving Special Room");
+				file << "[ROOMBASETYPE] " << GetRoomBaseTypeString(itr->second->GetBaseType()) << "\n";
+				std::shared_ptr<Room>& r = itr->second;
+				SpecialRoom* sRoom = dynamic_cast<SpecialRoom*>(r.get());
+
+				file << "[NAME] " << itr->second->Name() << "\n";
+				file << "[COORDINATES] " << itr->second->GetCoords().x << " , " << itr->second->GetCoords().y << "\n";
+				file << "[ROOMTYPE] " << GetRoomTypeString(sRoom->GetRoomType()) << "\n";
+			}
+			else
+			{
+			}
+			file << "\n";
+			++itr;
+		}
 	}
 
 

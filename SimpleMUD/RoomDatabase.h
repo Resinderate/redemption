@@ -34,7 +34,9 @@ public:
 	// They need to know the particular way of saving and loading data for these.
 	// Should be similar to other room model, but just doing a bit of it manually
 
-    static void LoadTemplates();
+	void Load();
+
+	static void LoadTemplates();
     static void LoadData();
     static void SaveData();
 

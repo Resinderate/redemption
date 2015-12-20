@@ -16,7 +16,7 @@ using namespace SocketLib;
 namespace SimpleMUD
 {
 
-sint64 DBSAVETIME = minutes( 15 );
+sint64 DBSAVETIME = minutes( 1 );
 
 
 void GameLoop::Load()
@@ -135,7 +135,7 @@ void GameLoop::LoadDatabases()
     Load();
     PlayerDatabase::Load();
     //RoomDatabase::LoadTemplates();
-    //RoomDatabase::LoadData();
+    RoomDatabase::LoadData();
 }
 
 
@@ -143,7 +143,7 @@ void GameLoop::SaveDatabases()
 {
     Save();
     PlayerDatabase::Save();
-    //RoomDatabase::SaveData();
+    RoomDatabase::SaveData();
 }
 }   // end namespace SimpleMUD
 

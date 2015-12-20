@@ -73,9 +73,14 @@ void Room::LoadData( istream& p_stream )
     //    m_items.push_back( last );
 
 }
-
+//Kevin
 void Room::SaveData( ostream& p_stream )
 {
+	//p_stream << "[NAME]" << m_name << "\r\n";
+	//p_stream << "[DESCRIPTION]" << m_description << "\r\n";
+	//p_stream << "[COORDINATES]" << m_coords.x << " , " << m_coords.y << "\r\n";
+	//p_stream << "[ROOMTYPE]" << m_baseType << "\r\n";
+
  /*   p_stream << "[ITEMS] ";
     
     std::list<item>::iterator itr = m_items.begin();

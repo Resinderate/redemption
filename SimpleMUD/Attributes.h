@@ -157,6 +157,25 @@ enum RoomBaseType
 	COLLECTING,
 	SPECIAL
 };
+
+const int NUMROOMBASETYPES = 3;
+
+const string NUMROOMBASETYPESTRINGS[NUMROOMBASETYPES] =
+{
+	"DEFAULT",
+	"COLLECTING",
+	"SPECIAL"
+};
+
+inline RoomBaseType GetRoomBaseType(string p_str)
+{
+	return StrToEnum<RoomBaseType, NUMROOMBASETYPES>(p_str, NUMROOMBASETYPESTRINGS);
+}
+inline string GetRoomBaseTypeString(RoomBaseType p_enum)
+{
+	return EnumToStr<RoomBaseType>(p_enum, NUMROOMBASETYPESTRINGS);
+}
+
 // --------------------------------------------------------------------
 //  An enumeration defining the various room types and accompanying
 //  functions
@@ -172,14 +191,16 @@ enum RoomType
 };
 
 // Might need this stuff.
-/*
-const int NUMROOMTYPES = 3;
+
+const int NUMROOMTYPES = 5;
 
 const string ROOMTYPESTRINGS[NUMROOMTYPES] =
 {
-    "PLAINROOM",
-    "TRAININGROOM",
-    "STORE"
+	"Trading Post",
+	"Workshop",
+	"Devil Room",
+	"Corporation House",
+	"Assassin Room"
 };
 
 
@@ -191,7 +212,7 @@ inline string GetRoomTypeString( RoomType p_enum )
 {
     return EnumToStr<RoomType>( p_enum, ROOMTYPESTRINGS );
 }
-*/
+
 
 // Room Type and Size Weights
 // Ronan
@@ -270,6 +291,7 @@ enum ResourceType
 };
 const int NumResourceType = 4;
 const int WorldSize = 500;
+const int maxCorpLength = 20;
 
 const string ResourceTypeStrings[NumResourceType] =
 {
@@ -278,6 +300,15 @@ const string ResourceTypeStrings[NumResourceType] =
 	"IRON",
 	"GOLD"
 };
+
+inline ResourceType GetResourceTypeEnum(string p_str)
+{
+	return StrToEnum<ResourceType, NumResourceType>(p_str, ResourceTypeStrings);
+}
+inline string GetResourceTypeString(ResourceType p_enum)
+{
+	return EnumToStr<ResourceType>(p_enum, ResourceTypeStrings);
+}
 
 enum ResourceSize
 {
@@ -293,6 +324,15 @@ const string ResourceSizeStrings[NumResourceSize] =
 	"MEDIUM",
 	"LARGE"
 };
+
+inline ResourceSize GetResourceSizeEnum(string p_str)
+{
+	return StrToEnum<ResourceSize, NumResourceSize>(p_str, ResourceSizeStrings);
+}
+inline string GetResourceSizeString(ResourceSize p_enum)
+{
+	return EnumToStr<ResourceSize>(p_enum, ResourceSizeStrings);
+}
 
 }   // end namespace SimpleMUD
 
@@ -325,7 +365,7 @@ const std::vector<string> BaseCommands =
 	"interact",
 	"invite",
 	"leavecorp",
-	"leaderboard",
+	"leaderboards",
 	"report",
 	"warp",
 	"kick",
@@ -335,6 +375,7 @@ const std::vector<string> BaseCommands =
 	"demote",
 	"reload",
 	"shutdown",
+	"shortcuts",
 	"buyroom"
 };
 #endif

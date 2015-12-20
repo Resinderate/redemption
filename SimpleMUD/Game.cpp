@@ -9,7 +9,9 @@
 #include "Game.h"
 #include "PlayerDatabase.h"
 #include "LeaderboardHandler.h"
+#include "../SocketLib/ConnectionManager.h"
 #include "../BasicLib/BasicLib.h"
+#include "../BasicLib/BasicLibString.h"
 
 using namespace SocketLib;
 using namespace BasicLib;
@@ -97,8 +99,7 @@ void Game::Handle(string p_data)
 		{
 			member->SendString(yellow + bold + titledName + " -> Corporation: " + white + text);
 		}
-		return;
-		
+		return;		
 	}
 
 	// message sent to whole server
@@ -124,6 +125,13 @@ void Game::Handle(string p_data)
 	if (firstword == "help")
 	{
 		p.SendString(PrintHelp(p.Rank()));
+		return;
+	}
+
+	//display all the players shortcuts
+	if (firstword == "shortcuts")
+	{
+		p.SendString(PrintShortcuts());
 		return;
 	}
 
@@ -424,8 +432,8 @@ void Game::Handle(string p_data)
 		}
 	}
 
-	//check position certain leaderboard (Player's Corporation/World Rank, Resources Gathered, Corporation Souls Redeemed, Corporation's Resource Rank)
-	if (firstword == "leaderboard")
+	//check certain leaderboard (Player's Corporation/World Rank, Resources Gathered, Corporation Souls Redeemed)
+	if (firstword == "leaderboards")
 	{
 		p.Conn()->AddHandler(new LeaderboardHandler(*p.Conn(), p.ID()));
 		return;
@@ -558,10 +566,39 @@ void Game::Handle(string p_data)
     // ------------------------------------------------------------------------
 	//Make a System wide Broadcast
 	if (firstword == "announce" && p.Rank() >= ADMIN)
-    {
+	{
 		Announce(RemoveWord(p_data, 0));
-        return;
-    }
+		return;
+	}
+
+	// Ban a player
+	if (firstword == "ban" && p.Rank() >= ADMIN)
+	{
+		string secondword = ParseWord(p_data, 1);
+		if (secondword == "")
+		{
+			p.SendString(red + "Did not detect a player's name!");
+			return;
+		}
+		PlayerDatabase::iterator target =
+			PlayerDatabase::findloggedin(secondword);
+
+		if (target == PlayerDatabase::end())
+		{
+			p.SendString(red + bold + "Could not find a player of that name online!");
+			return;
+		}
+
+		// Ban the player.
+		ConnectionManager<Telnet, Game>::BanIP(GetIPString(target->Conn()->GetRemoteAddress()));
+
+		LogoutMessage(target->Name() + " has been banned by " +
+			titledName + "!!!");
+
+		target->Conn()->Close();
+		
+		return;
+	}
 
 	//promote up one level
 	//needs to be changed to change syntax to
@@ -938,7 +975,7 @@ string Game::PrintHelp( PlayerRank p_rank )
 //		" trade <player><amount><res>- Send an amount of a resource to another player\r\n" +
 //		" invite                     - Invite a player to a corporation you are a leader of\r\n" +
 //		" leave                      - Leave your current corporations\r\n" +
-//		" leaderboard <type>         - Display a certain leaderboard\r\n" +
+		" leaderboards		         - Display a certain leaderboard\r\n" +
 		" help                       - Shows this menu\r\n" +
 		" exit, quit                 - Leave the game.\r\n";
 
@@ -970,6 +1007,32 @@ string Game::PrintHelp( PlayerRank p_rank )
 
 }
 
+//	-----------------------------------------------------------------------
+//	Display the players rebound shortcuts
+//	-----------------------------------------------------------------------
+string Game::PrintShortcuts()
+{
+	string shortcuts = white + bold +
+		"-------------------------------- Your Shortcuts --------------------------------\r\n" +
+		"-Command-                    -Shortcut-\r\n";
+	std::map<string, string> temp = m_player->GetDict().GetDictionary();
+	std::map<string, string>::iterator mitr = temp.begin();
+	for (mitr; mitr != temp.end(); ++mitr)
+	{
+		shortcuts += white + BufferWord(mitr->second, 29) + mitr->first + "\r\n";
+	}
+	temp = m_dictionary.GetDictionary();
+	mitr = temp.begin();
+	for (mitr; mitr != temp.end(); ++mitr)
+	{
+		shortcuts += white + BufferWord(mitr->second, 29) + mitr->first + "\r\n";
+	}
+
+	shortcuts += 
+		"--------------------------------------------------------------------------------\r\n";
+	return shortcuts;
+}
+
 // ------------------------------------------------------------------------
 //  This prints up the stats of the player
 // ------------------------------------------------------------------------
@@ -982,7 +1045,7 @@ string Game::PrintStats()
         "---------------------------------- Your Stats ----------------------------------\r\n" + 
         " Name:\t" + p.Name() + "\r\n" +
         " Rank:\t" + GetRankString( p.Rank() ) + "\r\n" +
-		" Corp:\t" + p.CorpName() + "\r\n" +
+		" Corp:\t" + p.CorpName() + "\tLeader:\t" + ((p.CorpLeader()) ? "Yes" : "No") + "\r\n" +
 		" Soul:\t" + ((p.HasSoul()) ? "Yes" : "No") + "\r\n" +
 		"\tAmount\tItemLvl" + "\r\n" +
 		" Wood:\t" + std::to_string(p.GetResources()[WOOD]) + "\t" + std::to_string(p.GetItemLevels()[WOOD]) + "\r\n" +
