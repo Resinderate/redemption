@@ -117,6 +117,18 @@ void Game::Handle(string p_data)
 		string name = ParseWord(p_data, 1);
 		string message = RemoveWord(RemoveWord(p_data, 0), 0);
 
+		if (LowerCase(name) == LowerCase(p.Name()))
+		{
+			p.SendString(red + "Whispering to yourself may result in being sent to an institution...");
+			return;
+		}
+
+		if (message == "")
+		{
+			p.SendString(red + "Did not detect a message!");
+			return;
+		}
+
 		Whisper(message, name);
 		return;
 	}
@@ -716,8 +728,8 @@ void Game::Handle(string p_data)
 		translated = player.GetDict().Translate(p_data);
 		if (translated != prev)
 		{
-			p.SendString(red + "This command is not recognised, but another player has set up a shortcut for this command.\r\n" +
-				"You can create your own shortcuts by pressing 'rebind'...");
+			p.SendString(red + "This command is not recognised, but another player, '" + player.Name() + "', has set up a shortcut for this command.\r\n" +
+				"You can create your own shortcuts by entering 'rebind'...");
 				return;
 		}
 	}
