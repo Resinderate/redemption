@@ -1,7 +1,7 @@
-[ID]             1
-[NAME]           ronan
-[PASS]           ronan
-[RANK]           ADMIN
+[ID]             3435973836
+[NAME]           UNDEFINED
+[PASS]           UNDEFINED
+[RANK]           REGULAR
 [LOCATION]       0 , 0
 ###[RESOURCES]###
 [WOOD]           0
@@ -20,9 +20,9 @@
 [GOLD]           1
 [CORPORATION]    None
 [LEADER]		  0
-[HASSOUL]       0
-[TITLE]          [0m
-[TITLES]         Peasant [0m -1
+[HASSOUL]        0
+[NO.TITLES]      1
+[TITLE]          Peasant
+[TITLES]         0 
 [BINDS]          0
 [COMMANDS]       
--1
