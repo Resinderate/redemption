@@ -166,6 +166,7 @@ void SimpleMUD::LeaderboardHandler::Leaderboard(int p_data)
 		{
 			pr--;
 			string temp = pr->second;
+			if (temp != "None")
 			m_player->SendString(SocketLib::white + BufferWord(std::to_string(pos), 9) + BufferWord(temp, 25) + std::to_string(pr->first));
 			++pos;
 		}

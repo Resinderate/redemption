@@ -67,13 +67,13 @@ const std::string OWNERNONE = "None";
 // --------------------------------------------------------------------
 enum PlayerTitle
 {
-	THEREDEEMED,
+	PEASANT,
 	GOLDLEADER,
 	IRONLEADER,
 	STONELEADER,
 	WOODLEADER,
+	THEREDEEMED,
 	CEO,
-	PEASANT,
 	GOTWOOD,
 	STONECOLD,
 	IRONMAIDEN,
@@ -84,23 +84,42 @@ const int NUMPLAYERTITLETYPES = 11;
 
 const string PLAYERTITLESTRINGS[NUMPLAYERTITLETYPES] =
 {
-	"TheRedeemed",
+	"Peasant",
 	"GoldLeader",
 	"IronLeader",
 	"StoneLeader",
 	"WoodLeader",
+	"TheRedeemed",
 	"CEO",
-	"Peasant",
 	"GotWood",
 	"StoneCold",
 	"IronMaiden",
 	"GoldDigger"
 };
 
+const string PLAYERTITLESAVE[NUMPLAYERTITLETYPES] =
+{
+	"0",
+	"1",
+	"2",
+	"3",
+	"4",
+	"5",
+	"6",
+	"7",
+	"8",
+	"9",
+	"10"
+};
+
 
 inline PlayerTitle GetTitle(string p_str)
 {
 	return StrToEnum<PlayerTitle, NUMPLAYERTITLETYPES>(p_str, PLAYERTITLESTRINGS);
+}
+inline PlayerTitle GetSavedTitle(string p_str)
+{
+	return StrToEnum<PlayerTitle, NUMPLAYERTITLETYPES>(p_str, PLAYERTITLESAVE);
 }
 inline string GetTitleString(PlayerTitle p_enum)
 {

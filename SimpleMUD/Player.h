@@ -52,6 +52,7 @@ public:
 	inline bool& CorpLeader() { return m_corpLeader; }
 
 	inline PlayerTitle& GetPlayerTitle() { return m_title; }
+	inline int& GetNoOfTitles() { return m_noOfTitles; }
 	inline std::list<PlayerTitle>& Titles() { return m_availableTitles; }
 	bool SetTitle(string p_str);
 	void AddTitle(PlayerTitle p_val);
