@@ -21,28 +21,13 @@ sint64 DBSAVETIME = minutes( 1 );
 
 void GameLoop::Load()
 {
-    std::ifstream file( "game.data" );
-    file >> std::ws;
-
-    if( file.good() )
-    {
-        std::string temp;
-        sint64 time;
-        file >> temp;   extract( file, time );
-        Game::GetTimer().Reset();
-
-        file >> temp;   extract( file, m_savedatabases );
-    }
-    else
-    {
-        Game::GetTimer().Reset();
-        m_savedatabases = DBSAVETIME;
-    }
-
-	m_dancing = seconds(1);
+    Game::GetTimer().Reset();
+    m_savedatabases = GetTime();
+    
+	m_dancing = GetTime();
 	m_flipflop = false;
 
-	m_cleanupInactive = seconds(30);
+	m_cleanupInactive = GetTime();
 
     Game::Running() = true;
 }
@@ -53,22 +38,24 @@ void GameLoop::Save()
     std::ofstream file( "game.data" );
 
     // save the game time
-    file << "[GAMETIME]      "; insert( file, Game::GetTimer().GetMS() ); file << "\n";
-    file << "[SAVEDATABASES] "; insert( file, m_savedatabases );          file << "\n";
+    //file << "[GAMETIME]      "; insert( file, Game::GetTimer().GetMS() ); file << "\n";
+    //file << "[SAVEDATABASES] "; insert( file, m_savedatabases );          file << "\n";
 }
 
 void GameLoop::Loop()
 {
-    if( Game::GetTimer().GetMS() >= m_savedatabases )
+	// Save the databases every 10s.
+    if( Game::GetTimer().GetS() >= 10)
     {
         SaveDatabases();
-        m_savedatabases += DBSAVETIME;
+		// Reset the last saved time.
+        m_savedatabases = GetTime();
     }
 
 	// Could just do it every tick?
 	// Kinda wasteful.
 	// Go through the currently logged in players and kick anyone that is inactive.
-	if (Game::GetTimer().GetMS() >= m_cleanupInactive)
+	if (Game::GetTimer().GetS() >= 10)
 	{
 		for (auto p : PlayerDatabase::GetAllPlayers())
 		{
@@ -87,13 +74,13 @@ void GameLoop::Loop()
 			}
 		}
 
-		m_cleanupInactive += seconds(30);
+		m_cleanupInactive = GetTime();
 	}
 
 	
 
 	/*
-	if (Game::GetTimer().GetMS() > m_dancing)
+	if (Game::GetTimer().GetS() > 1)
 	{
 		string line1, line2, line3, line4, line5, line6, line7, line8 = "";
 		// Do alt.
@@ -123,7 +110,7 @@ void GameLoop::Loop()
 		Game::SendGame(clearscreen + out);
 
 		m_flipflop = !m_flipflop;
-		m_dancing += seconds(1);
+		m_dancing = GetTime();
 		
 	}
 	*/
@@ -141,7 +128,7 @@ void GameLoop::LoadDatabases()
 
 void GameLoop::SaveDatabases()
 {
-    Save();
+    //Save();
     PlayerDatabase::Save();
     RoomDatabase::SaveData();
 }
