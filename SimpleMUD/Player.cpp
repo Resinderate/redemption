@@ -26,9 +26,10 @@ Player::Player()
     m_active = false;
     m_newbie = true;
 
-	m_title = PEASANT;
+	m_noOfTitles = 0;
+	//m_availableTitles.push_back(PEASANT);
 	AddTitle(PEASANT);
-	
+	SetTitle("Peasant");
 
 	for (int i = 0; i < NumResourceType; i++)
 	{
@@ -97,8 +98,11 @@ void Player::AddTitle(PlayerTitle p_val)
 			exists = true;
 		}
 	}
-	if(!exists)
-	m_availableTitles.push_back(p_val);
+	if (!exists)
+	{
+		m_availableTitles.push_back(p_val);
+		m_noOfTitles++;
+	}
 }
 
 // ------------------------------------------------------------------------
@@ -172,31 +176,34 @@ ostream& operator<<( ostream& p_stream, const Player& p )
 	p_stream << "[GOLD]           " << p.m_firstOfType[3] << "\n";
 	p_stream << "[CORPORATION]    " << p.m_corp << "\n";
 	p_stream << "[LEADER]		  " << p.m_corpLeader << "\n";
-	p_stream << "[HAS SOUL]       " << p.m_hasSoul << "\n";
+	p_stream << "[HASSOUL]        " << p.m_hasSoul << "\n";
+	p_stream << "[NO.TITLES]      " << p.m_noOfTitles << "\n";
 	p_stream << "[TITLE]          " << GetTitleString(p.m_title) << "\n";
 	p_stream << "[TITLES]         ";
 
-	Player q = p;
+	/*Player q = p;
 	std::list<PlayerTitle>::iterator itr = q.m_availableTitles.begin();
 	for (itr; itr != q.m_availableTitles.end(); ++itr)
 	{
 		p_stream << GetTitleString(*itr) << " ";
+	}*/
+	//C++11 Kevin RangeLoop vs Itr
+	for (PlayerTitle t : p.m_availableTitles)
+	{
+		p_stream << t << " ";
 	}
 
-	p_stream << "-1";
 	p_stream << "\n";
 
+	Player q = p;
 	std::map<string, string> temp = q.m_dictionary.GetDictionary();
 	p_stream << "[BINDS]          " << temp.size() << "\n";	
-	std::map<string, string>::iterator mitr = temp.begin();
 	p_stream << "[COMMANDS]       \n";
-	for (mitr; mitr != temp.end(); ++mitr)
+	//c++11 auto is awesome
+	for (auto &c : temp)
 	{
-		p_stream << "Alias: " << mitr->first << " Command: " << mitr->second << "\n";
+		p_stream << "Alias: " << c.first << " Command: " << c.second << "\n";
 	}
-
-	p_stream << "-1";
-	p_stream << "\n";
     return p_stream;
 }
 
@@ -233,19 +240,19 @@ istream& operator>>( istream& p_stream, Player& p )
 	p_stream >> temp >> p.m_corp;
 	p_stream >> temp >> p.m_corpLeader;
 	p_stream >> temp >> p.m_hasSoul;
+	p_stream >> temp >> p.m_noOfTitles;
 	
 	p_stream >> temp >> temp;
 	p.m_title = GetTitle(temp);
     p_stream >> temp;
-	for (int i = 0; i < 8; i++)
+	for (int i = 0; i < p.m_noOfTitles; i++)
 	{
 		p_stream >> temp;
-		if (temp == "-1")
+		/*if (temp == "-1")
 		{
 			break;
-		}
-
-		p.AddTitle(GetTitle(temp));
+		}*/
+		p.AddTitle(GetSavedTitle(temp));
 	}
 	int binds;
 	p_stream >> temp >> binds;

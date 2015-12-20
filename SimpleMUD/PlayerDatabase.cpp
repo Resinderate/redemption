@@ -104,6 +104,7 @@ bool PlayerDatabase::AddPlayer( Player& p_player )
     std::ofstream file( "players/players.txt", std::ios::app );
     file << p_player.Name() << "\n";
 
+
     // write the initial player out to disk
     SavePlayer( p_player.ID() );
 

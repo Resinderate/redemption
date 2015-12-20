@@ -2,9 +2,9 @@
 [NAME]           Kevin
 [PASS]           k
 [RANK]           ADMIN
-[LOCATION]       0 , 0
+[LOCATION]       0 , -4
 ###[RESOURCES]###
-[WOOD]           0
+[WOOD]           150
 [STONE]          0
 [IRON]           0
 [GOLD]           0
@@ -14,15 +14,15 @@
 [IRON]           0
 [GOLD]           0
 #####[TITLE]#####
-[WOOD]           1
+[WOOD]           0
 [STONE]          1
 [IRON]           1
 [GOLD]           1
 [CORPORATION]    None
 [LEADER]		  0
-[HAS SOUL]       0
-[TITLE]          TheRedeemed
-[TITLES]         Peasant TheRedeemed -1
+[HASSOUL]        0
+[NO.TITLES]      3
+[TITLE]          GotWood
+[TITLES]         0 7 
 [BINDS]          0
 [COMMANDS]       
--1
