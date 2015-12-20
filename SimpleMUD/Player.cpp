@@ -181,21 +181,21 @@ ostream& operator<<( ostream& p_stream, const Player& p )
 	p_stream << "[TITLE]          " << GetTitleString(p.m_title) << "\n";
 	p_stream << "[TITLES]         ";
 
-	/*Player q = p;
+	Player q = p;
 	std::list<PlayerTitle>::iterator itr = q.m_availableTitles.begin();
 	for (itr; itr != q.m_availableTitles.end(); ++itr)
 	{
 		p_stream << GetTitleString(*itr) << " ";
-	}*/
+	}
+	/*
 	//C++11 Kevin RangeLoop vs Itr
-	for (PlayerTitle t : p.m_availableTitles)
+	for (auto t : p.m_availableTitles)
 	{
 		p_stream << t << " ";
 	}
-
+	*/
 	p_stream << "\n";
 
-	Player q = p;
 	std::map<string, string> temp = q.m_dictionary.GetDictionary();
 	p_stream << "[BINDS]          " << temp.size() << "\n";	
 	p_stream << "[COMMANDS]       \n";
@@ -241,13 +241,16 @@ istream& operator>>( istream& p_stream, Player& p )
 	p_stream >> temp >> p.m_corpLeader;
 	p_stream >> temp >> p.m_hasSoul;
 	p_stream >> temp >> p.m_noOfTitles;
+	USERLOG.Log("No. Titles: " + temp);
 	
 	p_stream >> temp >> temp;
+	USERLOG.Log("Current Title: " + temp);
 	p.m_title = GetTitle(temp);
     p_stream >> temp;
 	for (int i = 0; i < p.m_noOfTitles; i++)
 	{
 		p_stream >> temp;
+		USERLOG.Log("Read Avail Title: " + temp);
 		/*if (temp == "-1")
 		{
 			break;
