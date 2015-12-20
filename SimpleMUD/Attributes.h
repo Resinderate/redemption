@@ -123,7 +123,7 @@ inline PlayerTitle GetSavedTitle(string p_str)
 }
 inline string GetTitleString(PlayerTitle p_enum)
 {
-	return EnumToStr<PlayerTitle>(p_enum, PLAYERTITLESTRINGS);
+	return PLAYERTITLESTRINGS[p_enum];
 }
 
 
