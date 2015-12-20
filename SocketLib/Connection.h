@@ -207,13 +207,13 @@ protected:
 
     // This represents the last time data was successfully received on the
     // connection, in seconds.
-    BasicLib::sint64 m_lastReceiveTime;
+	std::chrono::system_clock::time_point m_lastReceiveTime;
 
     // The last time data was successfully sent.
-    BasicLib::sint64 m_lastSendTime;
+	std::chrono::system_clock::time_point m_lastSendTime;
 
     // the time at which the connection was created; in seconds
-    BasicLib::sint64 m_creationtime;
+	std::chrono::system_clock::time_point m_creationtime;
 
     // This boolean is used to determine if the send time should be checked 
     // when the GetLastSendTime function is invoked. When false, it is safe to 
@@ -254,10 +254,10 @@ void Connection<protocol>::Initialize()
 {
     m_datarate = 0;
     m_lastdatarate = 0;
-    m_lastReceiveTime = 0;
-    m_lastSendTime = 0;
+    m_lastReceiveTime = BasicLib::GetTime();
+    m_lastSendTime = BasicLib::GetTime();
     m_checksendtime = false;
-    m_creationtime = BasicLib::GetTimeMS();
+    m_creationtime = BasicLib::GetTime();
     m_closed = false;
 }
 
@@ -272,7 +272,7 @@ BasicLib::sint64 Connection<protocol>::GetLastSendTime() const
 {
     if( m_checksendtime )
     {
-        return BasicLib::GetTimeS() - m_lastSendTime;
+        return std::chrono::duration_cast<std::chrono::seconds>(BasicLib::GetTime() - m_lastSendTime).count();
     }
 
     return 0;
@@ -303,7 +303,7 @@ void Connection<protocol>::SendBuffer()
         if( sent > 0 )
         {
             // since data was sent successfully, reset the send time.
-            m_lastSendTime = BasicLib::GetTimeS();
+            m_lastSendTime = BasicLib::GetTime();
             m_checksendtime = false;
         }
         else
@@ -320,7 +320,7 @@ void Connection<protocol>::SendBuffer()
                 // start sending data earlier, there really is no way to know
                 // for sure when it started.
                 m_checksendtime = true;
-                m_lastSendTime = BasicLib::GetTimeS();
+                m_lastSendTime = BasicLib::GetTime();
 
             }
         }   // end no-data-sent check
@@ -338,17 +338,17 @@ void Connection<protocol>::Receive()
     // receive the data
     int bytes = DataSocket::Receive( m_buffer, BUFFERSIZE );
 
-    // get the current time
-    BasicLib::sint64 t = BasicLib::GetTimeS();
+	// get the current time
+	std::chrono::system_clock::time_point t = BasicLib::GetTime();
 
-    // check to see if we've reached the next X seconds of time (see Chapter 5)
-    // and if so, clear the datarate.
-    if( (m_lastReceiveTime / TIMECHUNK) != (t / TIMECHUNK) )
-    {
-        m_lastdatarate = m_datarate / TIMECHUNK;
-        m_datarate = 0;
-        m_lastReceiveTime = t;
-    }
+	// check to see if we've reached the next X seconds of time (see Chapter 5)
+	// and if so, clear the datarate.
+	if (std::chrono::duration_cast<std::chrono::seconds>(t - m_lastReceiveTime).count() > TIMECHUNK)
+	{
+		m_lastdatarate = m_datarate / TIMECHUNK;
+		m_datarate = 0;
+		m_lastReceiveTime = t;
+	}
 
     m_datarate += bytes;
 

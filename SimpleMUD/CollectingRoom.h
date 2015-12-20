@@ -33,7 +33,7 @@ namespace SimpleMUD
 		inline ResourceType GetResourceType() { return m_resourceType; }
 		inline ResourceSize GetResourceSize() { return m_resourceSize; }
 
-		BasicLib::resource CurrerntCost();
+		BasicLib::resource CurrentCost();
 		inline string& Owner() { return m_owner; }
 		inline int& BoughtTimes() { return m_boughtTimes; }
 

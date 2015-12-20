@@ -149,7 +149,7 @@ void Game::Handle(string p_data)
 			"The current system time is: " + BasicLib::TimeStamp() +
 			" on " + BasicLib::DateStamp() +
 			"\r\nThe system has been up for: "
-			+ s_timer.GetString() + ".");
+			+ GetTimer().GetString() + ".");
 		return;
 	}
 
@@ -163,7 +163,7 @@ void Game::Handle(string p_data)
 	//Description of the current tile
 	if (firstword == "look")
 	{
-		p.SendString(PrintRoom(*p.CurrentRoom()));
+		p.SendString(PrintRoom(p.CurrentRoom()));
 		return;
 	}
 
@@ -482,7 +482,7 @@ void Game::Handle(string p_data)
 			*prev);
 
 		p.SendString(yellow + "You warp to a new location!");
-		p.SendString(PrintRoom(*p.CurrentRoom()));
+		p.SendString(PrintRoom(p.CurrentRoom()));
 	}
 	
 	if (firstword == "buyroom")
@@ -498,7 +498,7 @@ void Game::Handle(string p_data)
 				return;
 			}
 
-			resource cost = cRoom->CurrerntCost();
+			resource cost = cRoom->CurrentCost();
 
 			if (p.GetResources()[cRoom->GetResourceType()] < cost)
 			{
@@ -509,6 +509,7 @@ void Game::Handle(string p_data)
 			// Buy the room.
 			p.GetResources()[cRoom->GetResourceType()] -= cost;
 			cRoom->Owner() = p.Name();
+			cRoom->BoughtTimes() += 1;
 
 			p.SendString(green + "Successfully bought room for " + std::to_string(cost) + " " + ResourceTypeStrings[cRoom->GetResourceType()] + "!");
 			return;
@@ -723,7 +724,7 @@ void Game::Enter()
 
 	p.CurrentRoom()->AddPlayer(p.ID());
 
-    p.SendString( PrintRoom( *p.CurrentRoom() ) );
+    p.SendString( PrintRoom( p.CurrentRoom() ) );
 }
 
 void Game::Leave()
@@ -991,22 +992,34 @@ string Game::PrintStats()
         "--------------------------------------------------------------------------------";
 }
 
-string Game::PrintRoom( Room p_room )
+string Game::PrintRoom( std::shared_ptr<Room> p_room )
 {
 
-    string desc = "\r\n" + bold + yellow + p_room.Name() + "\r\n";
+    string desc = "\r\n" + bold + yellow + p_room->Name() + "\r\n";
     string temp;
     int count;
 
-    desc += bold + yellow + p_room.Description() + "\r\n";
+    desc += bold + yellow + p_room->Description() + "\r\n";
+
+	// If the room is a collecting room, also want to include the owner and current cost of the room.
+	if (p_room->GetBaseType() == RoomBaseType::COLLECTING)
+	{
+		// Need access to the collecting room specific data.
+		CollectingRoom* cRoom = dynamic_cast<CollectingRoom*>(p_room.get());
+
+		desc += yellow + "Owner: " + cRoom->Owner() + 
+			" -- Current Cost: " + std::to_string(cRoom->CurrentCost()) +
+			" " + ResourceTypeStrings[cRoom->GetResourceType()] + newline;
+		
+	}
 
     // ---------------------------------
     // PEOPLE
     // ---------------------------------
     temp = bold + cyan + "People: " + white;
     count = 0;
-    std::list<player>::iterator playeritr = p_room.Players().begin();
-    while( playeritr != p_room.Players().end() )
+    std::list<player>::iterator playeritr = p_room->Players().begin();
+    while( playeritr != p_room->Players().end() )
     {
 		temp += "[" + GetTitleString((*playeritr)->GetPlayerTitle()) + "] " + (*playeritr)->Name() + ", ";
         count++;
@@ -1063,7 +1076,7 @@ void Game::Move( int p_direction )
 			*prev);
 
 		p.SendString(yellow + "You walk " + DIRECTIONSTRINGS[p_direction] + ".");
-		p.SendString(PrintRoom(*p.CurrentRoom()));
+		p.SendString(PrintRoom(p.CurrentRoom()));
 	}
 	else
 	{

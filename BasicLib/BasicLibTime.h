@@ -9,6 +9,7 @@
 
 #include "BasicLibTypes.h"
 #include <string>
+#include <chrono>
 
 namespace BasicLib
 {
@@ -18,12 +19,8 @@ namespace BasicLib
     // These functions get a time value. The Actual meaning of this 
     // time is undefined; it is only meant to be relative.
     // ============================================================
-    sint64 GetTimeMS();
-    sint64 GetTimeS();
-    sint64 GetTimeM();
-    sint64 GetTimeH();
-
-
+	std::chrono::system_clock::time_point GetTime();
+    
     // ============================================================
     // This prints a timestamp in 24 hours hh:mm:ss format
     // ============================================================
@@ -45,7 +42,7 @@ namespace BasicLib
         
         Timer();
         
-        void Reset( sint64 p_timepassed = 0 );
+        void Reset();
         
         sint64 GetMS();
         sint64 GetS();
@@ -59,12 +56,8 @@ namespace BasicLib
 
 
     protected:
+		std::chrono::system_clock::time_point m_starttime;
 
-        // this is the system time at which the timer was initialized
-        sint64 m_inittime;
-
-        // this is the official "starting time" of the timer.
-        sint64 m_starttime;
     };
 
 

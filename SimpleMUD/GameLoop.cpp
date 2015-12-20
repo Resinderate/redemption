@@ -29,7 +29,7 @@ void GameLoop::Load()
         std::string temp;
         sint64 time;
         file >> temp;   extract( file, time );
-        Game::GetTimer().Reset( time );
+        Game::GetTimer().Reset();
 
         file >> temp;   extract( file, m_savedatabases );
     }
