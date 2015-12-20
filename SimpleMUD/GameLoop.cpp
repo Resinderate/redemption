@@ -45,7 +45,7 @@ void GameLoop::Save()
 void GameLoop::Loop()
 {
 	// Save the databases every 10s.
-    if( Game::GetTimer().GetS() >= 10)
+    if( std::chrono::duration_cast<std::chrono::seconds>(GetTime() - m_savedatabases).count() >= 5)
     {
         SaveDatabases();
 		// Reset the last saved time.
@@ -55,7 +55,7 @@ void GameLoop::Loop()
 	// Could just do it every tick?
 	// Kinda wasteful.
 	// Go through the currently logged in players and kick anyone that is inactive.
-	if (Game::GetTimer().GetS() >= 10)
+	if (std::chrono::duration_cast<std::chrono::seconds>(GetTime() - m_cleanupInactive).count() >= 5)
 	{
 		for (auto p : PlayerDatabase::GetAllPlayers())
 		{
@@ -80,7 +80,7 @@ void GameLoop::Loop()
 	
 
 	/*
-	if (Game::GetTimer().GetS() > 1)
+	if (std::chrono::duration_cast<std::chrono::seconds>(GetTime() - m_dancing).count() >= 5)
 	{
 		string line1, line2, line3, line4, line5, line6, line7, line8 = "";
 		// Do alt.
