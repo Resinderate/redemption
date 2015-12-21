@@ -247,14 +247,15 @@ istream& operator>>( istream& p_stream, Player& p )
 	p_stream >> temp >> temp;
 	p.m_title = GetSavedTitle(temp);
     p_stream >> temp;
+	int j;
 	for (int i = 0; i < p.m_noOfTitles; i++)
 	{
-		p_stream >> temp;
+		p_stream >> j;
 		/*if (temp == "-1")
 		{
 			break;
 		}*/
-		p.AddTitle(GetSavedTitle(temp));
+		p.AddTitle((PlayerTitle)j);
 	}
 	int binds;
 	p_stream >> temp >> binds >> temp;

@@ -135,7 +135,7 @@ namespace SimpleMUD
 
 				description = GetRoomTypeString(roomType) +
 					"\r\nCoords: " + std::to_string(coords.x) + ", " + std::to_string(coords.y);
-
+				//C++11
 				AddRoom(coords, std::unique_ptr<Room>(new SpecialRoom(name, description, t, coords, roomType)));
 			}
 			//AddRoom(temp.GetCoords(), temp);
