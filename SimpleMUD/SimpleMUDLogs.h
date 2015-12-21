@@ -19,6 +19,7 @@ namespace SimpleMUD
     extern TextLog ERRORLOG;
     extern TextLog USERLOG;
 	extern TextLog REPORTLOG;
+	extern TextLog BADLANGLOG;
 
 
 }   // end namespace SimpleMUD

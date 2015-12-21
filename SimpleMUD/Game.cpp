@@ -64,7 +64,10 @@ void Game::Handle(string p_data)
 	if (firstword == "say")
 	{
 		string text = RemoveWord(p_data, 0);
-		LanguageFilter::Filter(text);
+		string unfiltered = text;
+		if (LanguageFilter::Filter(text))
+			BADLANGLOG.Log(p.Name() + " message filtered: " + unfiltered);
+
 		SendRoom(magenta + bold + titledName + " -> Room: " + dim + text, *p.CurrentRoom());
 		return;
 	}
@@ -73,6 +76,10 @@ void Game::Handle(string p_data)
 	if (firstword == "shout")
 	{
 		string text = RemoveWord(p_data, 0);
+		string unfiltered = text;
+		if (LanguageFilter::Filter(text))
+			BADLANGLOG.Log(p.Name() + " message filtered: " + unfiltered);
+
 		list<vector2>& rlist = p.AdjacentRooms();
 		list<vector2>::iterator ritr = rlist.begin();
 		while (ritr != rlist.end())
@@ -94,6 +101,9 @@ void Game::Handle(string p_data)
 			return;
 		}
 		string text = RemoveWord(p_data, 0);
+		string unfiltered = text;
+		if (LanguageFilter::Filter(text))
+			BADLANGLOG.Log(p.Name() + " message filtered: " + unfiltered);
 		auto members = PlayerDatabase::CorpMembers(p.CorpName());
 		for (auto member : members)
 		{
@@ -106,6 +116,9 @@ void Game::Handle(string p_data)
 	if (firstword == "global")
 	{
 		string text = RemoveWord(p_data, 0);
+		string unfiltered = text;
+		if (LanguageFilter::Filter(text))
+			BADLANGLOG.Log(p.Name() + " message filtered: " + unfiltered);
 		SendGame(blue + bold + titledName + " -> Global: " + white + text);
 		return;
 	}
@@ -116,6 +129,9 @@ void Game::Handle(string p_data)
 		// get the players name
 		string name = ParseWord(p_data, 1);
 		string message = RemoveWord(RemoveWord(p_data, 0), 0);
+		string unfiltered = message;
+		if (LanguageFilter::Filter(message))
+			BADLANGLOG.Log(p.Name() + " message filtered: " + unfiltered);
 
 		if (LowerCase(name) == LowerCase(p.Name()))
 		{
