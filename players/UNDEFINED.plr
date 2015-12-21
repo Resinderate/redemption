@@ -1,8 +1,8 @@
-[ID]             2
-[NAME]           ronan
-[PASS]           ronan
+[ID]             3435973836
+[NAME]           UNDEFINED
+[PASS]           UNDEFINED
 [RANK]           REGULAR
-[LOCATION]       0 , 2
+[LOCATION]       0 , 0
 ###[RESOURCES]###
 [WOOD]           0
 [STONE]          0
@@ -20,9 +20,9 @@
 [GOLD]           1
 [CORPORATION]    None
 [LEADER]		  0
-[HAS SOUL]       0
-[TITLE]          TheRedeemed
-[TITLES]         Peasant TheRedeemed -1
-[BINDS]          0
+[HASSOUL]        0
+[NO.TITLES]      1
+[TITLE]          0
+[TITLES]         0 
 [COMMANDS]       
 -1

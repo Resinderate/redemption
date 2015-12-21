@@ -200,7 +200,7 @@ void Game::Handle(string p_data)
 	if (firstword == "titles")
     {
 		string temp = "Available Titles: ";
-		std::list<PlayerTitle>::iterator itr = p.Titles().begin();
+		auto itr = p.Titles().begin();
 		for (itr; itr != p.Titles().end(); ++itr)
 		{
 			PlayerTitle t = *itr;

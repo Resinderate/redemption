@@ -16,43 +16,43 @@
 namespace SimpleMUD
 {
 
-Player::Player()
-{
-    m_pass = "UNDEFINED";
-    m_rank = REGULAR;
-
-    m_connection = 0;
-    m_loggedin = false;
-    m_active = false;
-    m_newbie = true;
-
-	m_noOfTitles = 0;
-	//m_availableTitles.push_back(PEASANT);
-	AddTitle(PEASANT);
-	SetTitle("Peasant");
-
-	for (int i = 0; i < NumResourceType; i++)
+	Player::Player()
 	{
-		m_resourceAmounts[i] = 0;
+		m_pass = "UNDEFINED";
+		m_rank = REGULAR;
+
+		m_connection = 0;
+		m_loggedin = false;
+		m_active = false;
+		m_newbie = true;
+
+		m_noOfTitles = 0;
+		//m_availableTitles.push_back(PEASANT);
+		AddTitle(PEASANT);
+		SetTitle("Peasant");
+
+		for (int i = 0; i < NumResourceType; i++)
+		{
+			m_resourceAmounts[i] = 0;
+		}
+		m_itemLevels[WOOD] = 1;
+		m_itemLevels[STONE] = 0;
+		m_itemLevels[IRON] = 0;
+		m_itemLevels[GOLD] = 0;
+
+		m_firstOfType[WOOD] = true;
+		m_firstOfType[STONE] = true;
+		m_firstOfType[IRON] = true;
+		m_firstOfType[GOLD] = true;
+
+		m_corp = CORPNONE;
+		m_corpLeader = false;
+
+		m_coords = vector2(0, 0);
+
+		m_hasSoul = false;
+		m_lastActivity = std::chrono::system_clock::now();
 	}
-	m_itemLevels[WOOD] = 1;
-	m_itemLevels[STONE] = 0;
-	m_itemLevels[IRON] = 0;
-	m_itemLevels[GOLD] = 0;
-
-	m_firstOfType[WOOD] = true;
-	m_firstOfType[STONE] = true;
-	m_firstOfType[IRON] = true;
-	m_firstOfType[GOLD] = true;
-
-	m_corp = CORPNONE;
-	m_corpLeader = false;
-
-	m_coords = vector2(0, 0);
-
-	m_hasSoul = false;
-	m_lastActivity = std::chrono::system_clock::now();
-}
 
 //	@author Kevin Duffy
 //  Return a list of rooms adjacent to the player to 
@@ -100,8 +100,8 @@ void Player::AddTitle(PlayerTitle p_val)
 	}
 	if (!exists)
 	{
-		m_availableTitles.push_back(p_val);
-		m_noOfTitles++;
+		m_availableTitles.insert(p_val);
+		m_noOfTitles = m_availableTitles.size();
 	}
 }
 
@@ -178,7 +178,7 @@ ostream& operator<<( ostream& p_stream, const Player& p )
 	p_stream << "[LEADER]		  " << p.m_corpLeader << "\n";
 	p_stream << "[HASSOUL]        " << p.m_hasSoul << "\n";
 	p_stream << "[NO.TITLES]      " << p.m_noOfTitles << "\n";
-	p_stream << "[TITLE]          " << GetTitleString(p.m_title) << "\n";
+	p_stream << "[TITLE]          " << p.m_title << "\n";
 	p_stream << "[TITLES]         ";
 
 	/*Player q = p;
@@ -197,13 +197,13 @@ ostream& operator<<( ostream& p_stream, const Player& p )
 
 	Player q = p;
 	std::map<string, string> temp = q.m_dictionary.GetDictionary();
-	p_stream << "[BINDS]          " << temp.size() << "\n";	
 	p_stream << "[COMMANDS]       \n";
 	//c++11 auto is awesome
 	for (auto &c : temp)
 	{
 		p_stream << "Alias: " << c.first << " Command: " << c.second << "\n";
 	}
+	p_stream << "-1";
     return p_stream;
 }
 
@@ -243,7 +243,7 @@ istream& operator>>( istream& p_stream, Player& p )
 	p_stream >> temp >> p.m_noOfTitles;
 	
 	p_stream >> temp >> temp;
-	p.m_title = GetTitle(temp);
+	p.m_title = GetSavedTitle(temp);
     p_stream >> temp;
 	for (int i = 0; i < p.m_noOfTitles; i++)
 	{
@@ -254,13 +254,19 @@ istream& operator>>( istream& p_stream, Player& p )
 		}*/
 		p.AddTitle(GetSavedTitle(temp));
 	}
-	int binds;
-	p_stream >> temp >> binds;
+	
 	p_stream >> temp;
-	for (int i = 0; i <= binds; ++i)
+	for (int i = 0; i <= 10; ++i)
 	{
-		p_stream >> temp >> temp;
+		p_stream >> temp;
+		
+		p_stream >> temp;
+		if (temp != "-1")
+		{
+			break;
+		}
 		p_stream >> temp2 >> temp2;
+		
 		p.m_dictionary.AddCommandPair(temp, temp2);
 	}
 

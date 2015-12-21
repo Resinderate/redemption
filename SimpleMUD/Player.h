@@ -12,6 +12,7 @@
 #include <math.h>
 #include <string>
 #include <array>
+#include <set>
 #include "../SocketLib/SocketLib.h"
 #include "../BasicLib/BasicLib.h"
 
@@ -36,7 +37,7 @@ class Player : public Entity
 {
 public:
 
-    Player();
+	Player();
 
     // ------------------------------------------------------------------------
     //  Level Functions
@@ -53,7 +54,7 @@ public:
 
 	inline PlayerTitle& GetPlayerTitle() { return m_title; }
 	inline int& GetNoOfTitles() { return m_noOfTitles; }
-	inline std::list<PlayerTitle>& Titles() { return m_availableTitles; }
+	inline std::set<PlayerTitle>& Titles() { return m_availableTitles; }
 	bool SetTitle(string p_str);
 	void AddTitle(PlayerTitle p_val);
 
@@ -107,7 +108,7 @@ protected:
 
 	PlayerTitle m_title;
 	int m_noOfTitles;
-	std::list<PlayerTitle> m_availableTitles;
+	std::set<PlayerTitle> m_availableTitles;
 
 	string m_corp;
 	bool m_corpLeader;
