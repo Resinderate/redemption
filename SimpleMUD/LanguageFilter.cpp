@@ -4,7 +4,6 @@ std::set<std::string> SimpleMUD::LanguageFilter::m_blacklist;
 
 bool SimpleMUD::LanguageFilter::Filter(std::string& p_message)
 {
-	USERLOG.Log("Start Filter: " + p_message);
 	bool filtered = false;
 
 	int i = 0;
@@ -26,7 +25,7 @@ bool SimpleMUD::LanguageFilter::Filter(std::string& p_message)
 			std::ptr_fun<int, int>(&std::ispunct)
 			);
 
-		
+
 		if (m_blacklist.find(noPuncWord) != m_blacklist.end())
 		{
 			// Find the position of the original word.
@@ -37,10 +36,9 @@ bool SimpleMUD::LanguageFilter::Filter(std::string& p_message)
 			p_message.replace(position, len, censor.substr(0, len));
 			filtered = true;
 		}
-		
+
 		i++;
 	}
-	USERLOG.Log("End Filter: " + p_message);
 	return filtered;
 }
 

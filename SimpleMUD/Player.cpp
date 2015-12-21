@@ -241,16 +241,13 @@ istream& operator>>( istream& p_stream, Player& p )
 	p_stream >> temp >> p.m_corpLeader;
 	p_stream >> temp >> p.m_hasSoul;
 	p_stream >> temp >> p.m_noOfTitles;
-	USERLOG.Log("No. Titles: " + temp);
 	
 	p_stream >> temp >> temp;
-	USERLOG.Log("Current Title: " + temp);
 	p.m_title = GetTitle(temp);
     p_stream >> temp;
 	for (int i = 0; i < p.m_noOfTitles; i++)
 	{
 		p_stream >> temp;
-		USERLOG.Log("Read Avail Title: " + temp);
 		/*if (temp == "-1")
 		{
 			break;
