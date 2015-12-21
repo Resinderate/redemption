@@ -197,6 +197,7 @@ ostream& operator<<( ostream& p_stream, const Player& p )
 
 	Player q = p;
 	std::map<string, string> temp = q.m_dictionary.GetDictionary();
+	p_stream << "[Binds]          " << temp.size() << "\n";
 	p_stream << "[COMMANDS]       \n";
 	//c++11 auto is awesome
 	for (auto &c : temp)
@@ -254,17 +255,13 @@ istream& operator>>( istream& p_stream, Player& p )
 		}*/
 		p.AddTitle(GetSavedTitle(temp));
 	}
-	
-	p_stream >> temp;
-	for (int i = 0; i <= 10; ++i)
+	int binds;
+	p_stream >> temp >> binds >> temp;
+	for (int i = 0; i < binds; ++i)
 	{
 		p_stream >> temp;
 		
 		p_stream >> temp;
-		if (temp != "-1")
-		{
-			break;
-		}
 		p_stream >> temp2 >> temp2;
 		
 		p.m_dictionary.AddCommandPair(temp, temp2);

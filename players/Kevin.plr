@@ -1,10 +1,10 @@
-[ID]             3435973837
+[ID]             1
 [NAME]           Kevin
 [PASS]           k
-[RANK]           REGULAR
+[RANK]           ADMIN
 [LOCATION]       0 , -4
 ###[RESOURCES]###
-[WOOD]           100
+[WOOD]           50
 [STONE]          0
 [IRON]           0
 [GOLD]           0
@@ -24,6 +24,7 @@
 [NO.TITLES]      2
 [TITLE]          0
 [TITLES]         0 7 
+[Binds]          1
 [COMMANDS]       
-Alias:  Command: -1
+Alias: job Command: leaderboards
 -1
