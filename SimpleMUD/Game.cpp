@@ -129,7 +129,6 @@ namespace SimpleMUD
 				p.SendString(red + bold + "You have been muted");
 			return;
 		}
-
 		//Private message
 		if (firstword == "whisper")
 		{
