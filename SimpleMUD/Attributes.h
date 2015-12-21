@@ -98,29 +98,10 @@ const string PLAYERTITLESTRINGS[NUMPLAYERTITLETYPES] =
 	"GoldDigger"
 };
 
-const string PLAYERTITLESAVE[NUMPLAYERTITLETYPES] =
-{
-	"0",
-	"1",
-	"2",
-	"3",
-	"4",
-	"5",
-	"6",
-	"7",
-	"8",
-	"9",
-	"10"
-};
-
 
 inline PlayerTitle GetTitle(string p_str)
 {
 	return StrToEnum<PlayerTitle, NUMPLAYERTITLETYPES>(p_str, PLAYERTITLESTRINGS);
-}
-inline PlayerTitle GetSavedTitle(string p_str)
-{
-	return StrToEnum<PlayerTitle, NUMPLAYERTITLETYPES>(p_str, PLAYERTITLESAVE);
 }
 inline string GetTitleString(PlayerTitle p_enum)
 {
