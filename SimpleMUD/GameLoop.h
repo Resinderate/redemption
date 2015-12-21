@@ -14,6 +14,7 @@
 #include "RoomDatabase.h"
 #include "Game.h"
 #include "SimpleMUDLogs.h"
+#include "LanguageFilter.h"
 
 using std::string;
 

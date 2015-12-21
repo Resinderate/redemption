@@ -64,8 +64,8 @@ void Game::Handle(string p_data)
 	if (firstword == "say")
 	{
 		string text = RemoveWord(p_data, 0);
+		LanguageFilter::Filter(text);
 		SendRoom(magenta + bold + titledName + " -> Room: " + dim + text, *p.CurrentRoom());
-		//SendGame(magenta + bold + titledName + " -> Room: " + white + text);
 		return;
 	}
 

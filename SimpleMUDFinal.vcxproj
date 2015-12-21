@@ -103,6 +103,7 @@
     <ClCompile Include="SimpleMUD\Game.cpp" />
     <ClCompile Include="SimpleMUD\GameLoop.cpp" />
     <ClCompile Include="SimpleMUD\HandlerFactory.cpp" />
+    <ClCompile Include="SimpleMUD\LanguageFilter.cpp" />
     <ClCompile Include="SimpleMUD\LeaderboardHandler.cpp" />
     <ClCompile Include="SimpleMUD\Logon.cpp" />
     <ClCompile Include="SimpleMUD\PlaceNameGenerator.cpp" />
@@ -143,6 +144,7 @@
     <ClInclude Include="SimpleMUD\Game.h" />
     <ClInclude Include="SimpleMUD\GameLoop.h" />
     <ClInclude Include="SimpleMUD\HandlerFactory.h" />
+    <ClInclude Include="SimpleMUD\LanguageFilter.h" />
     <ClInclude Include="SimpleMUD\LeaderboardHandler.h" />
     <ClInclude Include="SimpleMUD\Logon.h" />
     <ClInclude Include="SimpleMUD\PlaceNameGenerator.h" />

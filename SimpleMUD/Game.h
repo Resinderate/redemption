@@ -21,6 +21,7 @@
 #include "WorkshopHandler.h"
 #include "CorpHandler.h"
 #include "AssassinHandler.h"
+#include "LanguageFilter.h"
 
 #include <string>
 
