@@ -71,7 +71,7 @@ namespace SimpleMUD
 			RoomType roomType = RoomType::DEVIL;
 			m_rooms.AddRoom(p_coords, std::unique_ptr<Room>(new SpecialRoom(name, desc, roomBaseType, p_coords, roomType)));
 		}
-		else if (p_coords.x == 0 && p_coords.y == 1)
+		else if (p_coords.x == 1 && p_coords.y == 0)
 		{
 			string name = randomName;
 			string desc = string("Workshop") +

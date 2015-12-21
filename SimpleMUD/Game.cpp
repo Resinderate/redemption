@@ -444,7 +444,6 @@ void Game::Handle(string p_data)
 		}
 		else
 		{
-			p.CorpName() = CORPNONE;
 			// If they were the leader then give it to someone else.
 			
 			if (p.CorpLeader())
@@ -458,10 +457,9 @@ void Game::Handle(string p_data)
 						break;
 					}
 				}
-				
 				p.CorpLeader() = false;
 			}
-			
+			p.CorpName() = CORPNONE;
 			
 			p.SendString(green + "Left corporation!");
 			return;
