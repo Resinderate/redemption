@@ -101,6 +101,33 @@ std::string ParseWord( const std::string& p_string, int p_index )
     return p_string.substr( wss, wse - wss );
 }
 
+void ParseWordInfo(const std::string & p_string, int p_index, int & p_pos)
+{
+	int wss = p_string.find_first_not_of(WHITESPACE);
+
+	while (p_index > 0)
+	{
+		p_index--;
+
+		// find the beginning of the next word, by finding whitespace
+		// to end the current word, and then non-whitespace at the start
+		// of the next word
+		wss = p_string.find_first_of(WHITESPACE, wss);
+		wss = p_string.find_first_not_of(WHITESPACE, wss);
+	}
+
+	// find the end of the word
+	int wse = p_string.find_first_of(WHITESPACE, wss);
+
+	if (wss == std::string::npos)
+	{
+		wss = 0;
+		wse = 0;
+	}
+
+	p_pos = wss;
+}
+
 std::string RemoveWord( const std::string& p_string, int p_index )
 {
     int wss = p_string.find_first_not_of( WHITESPACE );

@@ -16,7 +16,6 @@ std::string SimpleMUD::CommandDictionary::Translate(std::string p_command)
 	// Possible solution would include some forward checking to see if the out command makes any sense.
 	for (auto const &kv : m_map)
 	{
-		USERLOG.Log("Key Val Pair: " + kv.first + "::" + kv.second);
 		if (replace(p_command, kv.first, kv.second))
 		{
 

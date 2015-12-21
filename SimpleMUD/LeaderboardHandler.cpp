@@ -2,8 +2,6 @@
 
 void SimpleMUD::LeaderboardHandler::Handle(string p_data)
 {
-	USERLOG.Log("GOT TO THE LEADERBOARD HANDLE().");
-
 	// Called for each message received.
 	if (p_data == "done")
 	{
