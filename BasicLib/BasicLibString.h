@@ -38,6 +38,7 @@ const std::string WHITESPACE = " \t\n\r";
 
 std::string TrimWhitespace( const std::string& p_string );
 std::string ParseWord( const std::string& p_string, int p_index );
+void ParseWordInfo(const std::string& p_string, int p_index, int& p_pos);
 std::string RemoveWord(const std::string& p_string, int p_index);
 std::string BufferWord(const std::string& p_string, int p_val);
 

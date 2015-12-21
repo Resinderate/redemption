@@ -16,43 +16,43 @@
 namespace SimpleMUD
 {
 
-	Player::Player()
+Player::Player()
+{
+    m_pass = "UNDEFINED";
+    m_rank = REGULAR;
+
+    m_connection = 0;
+    m_loggedin = false;
+    m_active = false;
+    m_newbie = true;
+
+	m_noOfTitles = 0;
+	//m_availableTitles.push_back(PEASANT);
+	AddTitle(PEASANT);
+	SetTitle("Peasant");
+
+	for (int i = 0; i < NumResourceType; i++)
 	{
-		m_pass = "UNDEFINED";
-		m_rank = REGULAR;
-
-		m_connection = 0;
-		m_loggedin = false;
-		m_active = false;
-		m_newbie = true;
-
-		m_noOfTitles = 0;
-		//m_availableTitles.push_back(PEASANT);
-		AddTitle(PEASANT);
-		SetTitle("Peasant");
-
-		for (int i = 0; i < NumResourceType; i++)
-		{
-			m_resourceAmounts[i] = 0;
-		}
-		m_itemLevels[WOOD] = 1;
-		m_itemLevels[STONE] = 0;
-		m_itemLevels[IRON] = 0;
-		m_itemLevels[GOLD] = 0;
-
-		m_firstOfType[WOOD] = true;
-		m_firstOfType[STONE] = true;
-		m_firstOfType[IRON] = true;
-		m_firstOfType[GOLD] = true;
-
-		m_corp = CORPNONE;
-		m_corpLeader = false;
-
-		m_coords = vector2(0, 0);
-
-		m_hasSoul = false;
-		m_lastActivity = std::chrono::system_clock::now();
+		m_resourceAmounts[i] = 0;
 	}
+	m_itemLevels[WOOD] = 1;
+	m_itemLevels[STONE] = 0;
+	m_itemLevels[IRON] = 0;
+	m_itemLevels[GOLD] = 0;
+
+	m_firstOfType[WOOD] = true;
+	m_firstOfType[STONE] = true;
+	m_firstOfType[IRON] = true;
+	m_firstOfType[GOLD] = true;
+
+	m_corp = CORPNONE;
+	m_corpLeader = false;
+
+	m_coords = vector2(0, 0);
+
+	m_hasSoul = false;
+	m_lastActivity = std::chrono::system_clock::now();
+}
 
 //	@author Kevin Duffy
 //  Return a list of rooms adjacent to the player to 

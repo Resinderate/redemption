@@ -16,6 +16,7 @@ namespace SimpleMUD
     TextLog ERRORLOG( "logs/errors.log", "Error Log", true, true );
     TextLog USERLOG( "logs/users.log", "User Log", true, true );
 	TextLog REPORTLOG("logs/report.log", "Report Log", true, true);
+	TextLog BADLANGLOG("logs/badlang.log", "Bad Language Log", true, true);
 
 
 }   // end namespace SimpleMUD

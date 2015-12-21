@@ -2,8 +2,6 @@
 
 void SimpleMUD::ExampleHandler::Handle(string p_data)
 {
-	USERLOG.Log("GOT TO THE SPECIAL ROOM HANDLE().");
-
 	// Called for each message received.
 	if (p_data == "quit")
 	{

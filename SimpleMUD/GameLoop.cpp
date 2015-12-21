@@ -133,6 +133,7 @@ void GameLoop::LoadDatabases()
     PlayerDatabase::Load();
     //RoomDatabase::LoadTemplates();
     RoomDatabase::LoadData();
+	LanguageFilter::Load();
 }
 
 
