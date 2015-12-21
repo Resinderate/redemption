@@ -17,13 +17,13 @@ namespace SimpleMUD
 {
 
 sint64 DBSAVETIME = minutes( 1 );
-
+sint64 ANNOUNCE = minutes(1);
 
 void GameLoop::Load()
 {
     Game::GetTimer().Reset();
     m_savedatabases = GetTime();
-    
+	m_announce = GetTime();
 	m_dancing = GetTime();
 	m_flipflop = false;
 
@@ -51,6 +51,15 @@ void GameLoop::Loop()
 		// Reset the last saved time.
         m_savedatabases = GetTime();
     }
+
+	if (std::chrono::duration_cast<std::chrono::seconds>(GetTime() - m_announce).count() >= 30)
+	{
+		++sponsor;
+		sponsor = sponsor % 8;
+		Game::Sponsor(SPONSORSTRINGS[sponsor]);
+		// Reset the last saved time.
+		m_announce = GetTime();
+	}
 
 	// Could just do it every tick?
 	// Kinda wasteful.

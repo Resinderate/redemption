@@ -355,7 +355,19 @@ inline string GetResourceSizeString(ResourceSize p_enum)
 }
 
 }   // end namespace SimpleMUD
+const int NUMSPONSORS = 8;
 
+const string SPONSORSTRINGS[NUMSPONSORS] =
+{
+	"Netflix - Spend more time searching than you do watching.",
+	"McDonalds - Cause you only have $4.",
+	"Ikea - We throw in the extra parts to mess with you.",
+	"Wikipedia - You're welcome, college students.",
+	"Lego - The bane of your foot's existence",
+	"LinkedIn - Connect with people for no reason at all.",
+	"Apple - $1500 facebook machines.",
+	"FedEx - It's probably Broken."
+};
 
 // Stuff needed for a better rebind system.
 

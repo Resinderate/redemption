@@ -866,10 +866,19 @@ void Game::LogoutMessage( const string& p_reason )
 // ------------------------------------------------------------------------
 //  Sends a system announcement
 // ------------------------------------------------------------------------
-void Game::Announce( const string& p_announcement )
+void Game::Announce(const string& p_announcement)
 {
-    SendGlobal( SocketLib::cyan + SocketLib::bold + 
-                "System Announcement: " + p_announcement );
+	SendGlobal(SocketLib::cyan + SocketLib::bold +
+		"System Announcement: " + p_announcement);
+}
+
+// ------------------------------------------------------------------------
+//  Sends a system announcement
+// ------------------------------------------------------------------------
+void Game::Sponsor(const string& p_announcement)
+{
+	SendGlobal(SocketLib::blue +SocketLib::bold +
+		"Sponsored By: " + p_announcement);
 }
 
 // ------------------------------------------------------------------------

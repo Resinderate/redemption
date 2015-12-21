@@ -34,7 +34,9 @@ public:
     void Save();                // save gameloop data
 
 protected:
-    std::chrono::system_clock::time_point m_savedatabases;
+	std::chrono::system_clock::time_point m_savedatabases;
+	std::chrono::system_clock::time_point m_announce;
+	int sponsor = 0;
 
 	std::chrono::system_clock::time_point m_dancing;
 	std::chrono::system_clock::time_point m_cleanupInactive;

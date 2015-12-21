@@ -69,6 +69,7 @@ public:
     static void SendGame( const string& p_str );
     static void LogoutMessage( const string& p_reason );
     static void Announce( const string& p_announcement );
+	static void Sponsor(const string & p_announcement);
     void Whisper( string p_str, string p_player );
 
     // ------------------------------------------------------------------------
