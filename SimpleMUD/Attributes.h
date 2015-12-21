@@ -67,10 +67,10 @@ const std::string OWNERNONE = "None";
 enum PlayerTitle
 {
 	PEASANT,
-	GOLDLEADER,
-	IRONLEADER,
-	STONELEADER,
-	WOODLEADER,
+	GOLDMINER,
+	BLACKSMITH,
+	STONEMASON,
+	LUMBERJACK,
 	THEREDEEMED,
 	CEO,
 	TRAVELLER,
@@ -85,10 +85,10 @@ const int NUMPLAYERTITLETYPES = 12;
 const string PLAYERTITLESTRINGS[NUMPLAYERTITLETYPES] =
 {
 	"Peasant",
-	"GoldLeader",
-	"IronLeader",
-	"StoneLeader",
-	"WoodLeader",
+	"GoldMiner",
+	"Blacksmith",
+	"StoneMason",
+	"LumberJack",
 	"TheRedeemed",
 	"CEO",
 	"Traveller",
@@ -230,7 +230,7 @@ inline RoomType GetRoomType( string p_str )
 }
 inline string GetRoomTypeString( RoomType p_enum )
 {
-    return EnumToStr<RoomType>( p_enum, ROOMTYPESTRINGS );
+    return EnumToStr<RoomType>( p_enum, ROOMTYPESTRINGS);
 }
 
 

@@ -128,9 +128,10 @@ namespace SimpleMUD
 
 				file >> temp >> name;
 				file >> temp >> coords.x >> temp >> coords.y;
-				file >> temp;
-				std::getline(file, temp);
-				roomType = GetRoomType(temp);
+				int i;
+				file >> temp >> i;
+				
+				roomType = (RoomType)i;
 
 				description = GetRoomTypeString(roomType) +
 					"\r\nCoords: " + std::to_string(coords.x) + ", " + std::to_string(coords.y);
@@ -173,7 +174,7 @@ namespace SimpleMUD
 
 				file << "[NAME] " << itr->second->Name() << "\n";
 				file << "[COORDINATES] " << itr->second->GetCoords().x << " , " << itr->second->GetCoords().y << "\n";
-				file << "[ROOMTYPE] " << GetRoomTypeString(sRoom->GetRoomType()) << "\n";
+				file << "[ROOMTYPE] " << sRoom->GetRoomType() << "\n";
 			}
 			else
 			{

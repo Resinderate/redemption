@@ -32,6 +32,9 @@ void SimpleMUD::CorpHandler::Handle(string p_data)
 
 		// Make them the leader.
 		m_connection->Protocol().SendString(*m_connection, SocketLib::green + "Corporation created!" + SocketLib::reset);
+		m_player->AddTitle(CEO);
+
+		m_connection->Protocol().SendString(*m_connection, SocketLib::green + "Achievement Unlocked! " + GetTitleString(CEO) + SocketLib::reset);
 
 		// Return to game.
 		m_connection->RemoveHandler();

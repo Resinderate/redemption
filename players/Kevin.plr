@@ -2,7 +2,7 @@
 [NAME]           Kevin
 [PASS]           k
 [RANK]           ADMIN
-[LOCATION]       0 , -26
+[LOCATION]       0 , -1
 ###[RESOURCES]###
 [WOOD]           58
 [STONE]          0
@@ -18,12 +18,12 @@
 [STONE]          1
 [IRON]           1
 [GOLD]           1
-[CORPORATION]    None
-[LEADER]		  0
+[CORPORATION]    Revolutionaryistism
+[LEADER]		  1
 [HASSOUL]        0
 [NO.TITLES]      2
 [TITLE]          0
-[TITLES]         0 7 
+[TITLES]         0 6 
 [Binds]          0
 [COMMANDS]       
 -1

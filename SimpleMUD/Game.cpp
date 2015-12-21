@@ -9,6 +9,7 @@
 #include "Game.h"
 #include "PlayerDatabase.h"
 #include "LeaderboardHandler.h"
+#include "LanguageFilter.h"
 #include "../SocketLib/ConnectionManager.h"
 #include "../BasicLib/BasicLib.h"
 #include "../BasicLib/BasicLibString.h"
@@ -1350,6 +1351,30 @@ void SimpleMUD::Game::Collect()
 			// Add that to the players totals.
 			p.GetResources()[type] += reward;
 			
+			if (p.GetResources()[type] >= 1000)
+			{
+				if (type == WOOD)
+				{
+					p.SendString(green + "Achievement Unlocked! " + GetTitleString(LUMBERJACK));
+					p.AddTitle(LUMBERJACK);
+				}
+				if (type == STONE)
+				{
+					p.SendString(green + "Achievement Unlocked! " + GetTitleString(STONEMASON));
+					p.AddTitle(STONEMASON);
+				}
+				if (type == IRON)
+				{
+					p.SendString(green + "Achievement Unlocked! " + GetTitleString(BLACKSMITH));
+					p.AddTitle(BLACKSMITH);
+				}
+				if (type == GOLD)
+				{
+					p.SendString(green + "Achievement Unlocked! " + GetTitleString(GOLDMINER));
+					p.AddTitle(GOLDMINER);
+				}
+			}
+
 			p.SendString(green + "Collected " + std::to_string(reward) + " " + ResourceTypeStrings[type] + "!");
 			if (p.FirstOfType()[type])
 			{
