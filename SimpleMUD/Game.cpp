@@ -563,6 +563,22 @@ void Game::Handle(string p_data)
 		return;
 	}
 
+	if (firstword == "worldtest")
+	{
+		vector2 v(0, 0);
+		std::shared_ptr<Room> test;
+
+		for (int i = -500; i <= 500; i++)
+		{
+			v.x = i;
+			for (int j = -500l; j <= 500; j++)
+			{
+				v.y = j;
+				test = World::GetRoom(v);
+			}
+		}
+	}
+
     // ------------------------------------------------------------------------
     //  GOD access commands
     // ------------------------------------------------------------------------
