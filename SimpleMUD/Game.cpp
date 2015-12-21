@@ -463,7 +463,6 @@ void Game::Handle(string p_data)
 		}
 		else
 		{
-			p.CorpName() = CORPNONE;
 			// If they were the leader then give it to someone else.
 			
 			if (p.CorpLeader())
@@ -477,10 +476,9 @@ void Game::Handle(string p_data)
 						break;
 					}
 				}
-				
 				p.CorpLeader() = false;
 			}
-			
+			p.CorpName() = CORPNONE;
 			
 			p.SendString(green + "Left corporation!");
 			return;
@@ -580,6 +578,22 @@ void Game::Handle(string p_data)
 		// Can't buy this room.
 		p.SendString(red + "You can't buy a room of this type!");
 		return;
+	}
+
+	if (firstword == "worldtest")
+	{
+		vector2 v(0, 0);
+		std::shared_ptr<Room> test;
+
+		for (int i = -500; i <= 500; i++)
+		{
+			v.x = i;
+			for (int j = -500l; j <= 500; j++)
+			{
+				v.y = j;
+				test = World::GetRoom(v);
+			}
+		}
 	}
 
     // ------------------------------------------------------------------------

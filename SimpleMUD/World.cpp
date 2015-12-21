@@ -53,7 +53,7 @@ namespace SimpleMUD
 		string randomName = PlaceNameGenerator::GetRandomPlaceName();
 
 		// Clean up dupped code if hard coding.
-		if (p_coords.x == 1 && p_coords.y == 0)
+		if (p_coords.x == -1 && p_coords.y == 0)
 		{
 			string name = randomName;
 			string desc = string("Trading Post") + 
@@ -62,7 +62,7 @@ namespace SimpleMUD
 			RoomType roomType = RoomType::TRADING;
 			m_rooms.AddRoom(p_coords, std::unique_ptr<Room>(new SpecialRoom(name, desc, roomBaseType, p_coords, roomType)));
 		}
-		else if (p_coords.x == -1 && p_coords.y == 0)
+		else if (p_coords.x == -5 && p_coords.y == -5)
 		{
 			string name = randomName;
 			string desc = string("Devil Room") +
@@ -71,7 +71,7 @@ namespace SimpleMUD
 			RoomType roomType = RoomType::DEVIL;
 			m_rooms.AddRoom(p_coords, std::unique_ptr<Room>(new SpecialRoom(name, desc, roomBaseType, p_coords, roomType)));
 		}
-		else if (p_coords.x == 0 && p_coords.y == 1)
+		else if (p_coords.x == 1 && p_coords.y == 0)
 		{
 			string name = randomName;
 			string desc = string("Workshop") +
@@ -80,7 +80,7 @@ namespace SimpleMUD
 			RoomType roomType = RoomType::WORKSHOP;
 			m_rooms.AddRoom(p_coords, std::unique_ptr<Room>(new SpecialRoom(name, desc, roomBaseType, p_coords, roomType)));
 		}
-		else if (p_coords.x == 0 && p_coords.y == -1)
+		else if (p_coords.x == 0 && p_coords.y == 1)
 		{
 			string name = randomName;
 			string desc = string("Corporation House") +
@@ -89,7 +89,7 @@ namespace SimpleMUD
 			RoomType roomType = RoomType::CORP;
 			m_rooms.AddRoom(p_coords, std::unique_ptr<Room>(new SpecialRoom(name, desc, roomBaseType, p_coords, roomType)));
 		}
-		else if (p_coords.x == 1 && p_coords.y == 1)
+		else if (p_coords.x == 5 && p_coords.y == 5)
 		{
 			string name = randomName;
 			string desc = string("Assassin Room") +
@@ -100,16 +100,7 @@ namespace SimpleMUD
 		}
 		else
 		{
-			// Based on the distance away from the middle, create a room.
-			// Add it to the database.
 			RoomBaseType roomType = RoomBaseType::COLLECTING;
-
-			// Is it collecting or special.
-			// Proabably a list of the existing rooms.
-			// Might only be able to get a certain amount of them.
-
-			// Need weights for the generation of the collecting rooms.
-
 
 			// Random Room Type.
 			int typeIndex = -1;
