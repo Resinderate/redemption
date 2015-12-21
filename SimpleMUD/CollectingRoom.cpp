@@ -53,8 +53,8 @@ namespace SimpleMUD
 		auto diff = std::chrono::system_clock::now() - m_lastCollection;
 		int secs = std::chrono::duration_cast<std::chrono::seconds>(diff).count();
 
-		if (secs < 10)
-			secs = 10;
+		if (secs < 1)
+			secs = 1;
 		else if (secs > 100)
 			secs = 100;
 
