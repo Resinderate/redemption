@@ -190,21 +190,29 @@ void Game::Handle(string p_data)
 	if (firstword == "north")
 	{
 		Move(NORTH);
+		if (m_player->Coords().length() <= 100)
+			m_player->AddTitle(TRAVELLER);
 		return;
 	}
 	if (firstword == "east")
 	{
 		Move(EAST);
+		if (m_player->Coords().length() <= 100)
+			m_player->AddTitle(TRAVELLER);
 		return;
 	}
 	if (firstword == "south")
 	{
 		Move(SOUTH);
+		if (m_player->Coords().length() <= 100)
+			m_player->AddTitle(TRAVELLER);
 		return;
 	}
 	if (firstword == "west")
 	{
 		Move(WEST);
+		if (m_player->Coords().length() <= 100)
+			m_player->AddTitle(TRAVELLER);
 		return;
 	}
 
@@ -968,28 +976,30 @@ string Game::PrintHelp( PlayerRank p_rank )
 		"--------------------------------- Command List ------------------------------------\r\n" +
 		" /                          - Repeat last command\r\n" +
 		" <direction>                - Move in a direction (north, n, south, e, west etc.)\r\n" +
-		" collect, c                 - Collect resources from room.\r\n" +
-		" interact, i                - Interact with a Special Room\r\n" +
-		" stats                      - Shows stats\r\n" +
-		" look, l                    - Show description of room\r\n" +
 		" buyroom                    - Buy current collecting room\r\n" +
-		" rebind                     - Create new shortcuts for a command\r\n" +
-		" titles                     - Show all available titles\r\n" +
 		" change <title>             - Change current title to <title>\r\n" +
-		" say <mesg>                 - Send message to current room\r\n" +
-		" shout <mesg>               - Send message to adjacent rooms\r\n" +
-//		" corp <mesg>                - Send message to corporation\r\n" +
+		" collect, c                 - Collect resources from room.\r\n" +
+		" corp <mesg>                - Send message to corporation\r\n" +
+		" exit, quit                 - Leave the game.\r\n" +
 		" global <mesg>              - Send message to everyone\r\n" +
-		" whisper <who> <msg>        - Send private message\r\n" +
-		" time                       - Show current system time\r\n" +
-		" who                        - Show list of everyone online\r\n" +
-		" who all                    - Show list of everyone\r\n" +
-//		" trade <player><amount><res>- Send an amount of a resource to another player\r\n" +
-//		" invite                     - Invite a player to a corporation you are a leader of\r\n" +
-//		" leave                      - Leave your current corporations\r\n" +
-		" leaderboards		         - Display a certain leaderboard\r\n" +
 		" help                       - Shows this menu\r\n" +
-		" exit, quit                 - Leave the game.\r\n";
+		" interact, i                - Interact with a Special Room\r\n" +
+		" look, l                    - Show description of room\r\n" +
+		" invite                     - Invite a player to a corporation you are a leader of\r\n" +
+		" leavecorp                  - Leave your current corporations\r\n" +
+		" leaderboards		         - Display a certain leaderboard\r\n" +
+		" rebind                     - Create new shortcuts for a command\r\n" +
+		" say <mesg>                 - Send message to current room\r\n" +
+		" shortcuts                  - Display all available shortcuts\r\n" +
+		" shout <mesg>               - Send message to adjacent rooms\r\n" +
+		" stats                      - Shows stats\r\n" +
+		" time                       - Show current system time\r\n" +
+		" titles                     - Show all available titles\r\n" +
+		" trade <player><amount><res>- Send an amount of a resource to another player\r\n" +
+		" warp <x> <y>               - Warp to the coordinates of a discovered room\r\n" +
+		" whisper <who> <msg>        - Send private message\r\n" +
+		" who                        - Show list of everyone online\r\n" +
+		" who all                    - Show list of everyone\r\n";
 
 
 	static string god = cyan + bold +
@@ -1000,8 +1010,9 @@ string Game::PrintHelp( PlayerRank p_rank )
     static string admin = blue + bold +
         "-------------------------------- Admin Commands -----------------------------------\r\n" + 
         " announce <msg>             - Makes a global system announcement\r\n" +
-		" promote <who> <rank>       - Changes a player to GOD rank\r\n" +
+		" ban <who>                  - Ban a players Ip from the server\r\n" +
 		" demote <who>			     - Changes a player to REGULAR rank\r\n" +
+		" promote <who> <rank>       - Changes a player to GOD rank\r\n" +
 		" reload <db>                - Reloads the requested database\r\n" +
         " shutdown                   - Shuts the server down\r\n";
 

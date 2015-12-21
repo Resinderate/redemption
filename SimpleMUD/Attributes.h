@@ -55,7 +55,6 @@ inline string EnumToStr( enumeration p_enum, const string* strs )
 
 const std::string CORPNONE = "None";
 const std::string OWNERNONE = "None";
-
 // ======================================
 //  PLAYER TITLES
 // ======================================
@@ -74,13 +73,14 @@ enum PlayerTitle
 	WOODLEADER,
 	THEREDEEMED,
 	CEO,
+	TRAVELLER,
 	GOTWOOD,
 	STONECOLD,
 	IRONMAIDEN,
 	GOLDDIGGER
 };
 
-const int NUMPLAYERTITLETYPES = 11;
+const int NUMPLAYERTITLETYPES = 12;
 
 const string PLAYERTITLESTRINGS[NUMPLAYERTITLETYPES] =
 {
@@ -91,6 +91,7 @@ const string PLAYERTITLESTRINGS[NUMPLAYERTITLETYPES] =
 	"WoodLeader",
 	"TheRedeemed",
 	"CEO",
+	"Traveller",
 	"GotWood",
 	"StoneCold",
 	"IronMaiden",
@@ -123,7 +124,7 @@ inline PlayerTitle GetSavedTitle(string p_str)
 }
 inline string GetTitleString(PlayerTitle p_enum)
 {
-	return PLAYERTITLESTRINGS[p_enum];
+	return EnumToStr<PlayerTitle>(p_enum, PLAYERTITLESTRINGS);
 }
 
 

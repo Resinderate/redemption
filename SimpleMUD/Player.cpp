@@ -259,9 +259,7 @@ istream& operator>>( istream& p_stream, Player& p )
 	p_stream >> temp >> binds >> temp;
 	for (int i = 0; i < binds; ++i)
 	{
-		p_stream >> temp;
-		
-		p_stream >> temp;
+		p_stream >> temp >> temp;
 		p_stream >> temp2 >> temp2;
 		
 		p.m_dictionary.AddCommandPair(temp, temp2);
