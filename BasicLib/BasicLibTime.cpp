@@ -23,78 +23,14 @@
 
 namespace BasicLib
 {
-    // ============================================================
-    // This is a hidden class, designed to initialize the _WIN32
-    // performance counter frequency value.
-    // ============================================================
-    #ifdef _WIN32
-        class _WIN32PerformanceCounter
-        {
-        public:
-            _WIN32PerformanceCounter()
-            {
-                // get the "ticks per second" value
-                QueryPerformanceFrequency( (LARGE_INTEGER*)(&m_frequency) );
-
-                // convert it into a "ticks per millisecond" value
-                m_frequency = m_frequency / 1000;
-            }
-
-            // this is the frequency of the performance counter, in 
-            // "ticks per millisecond"
-            sint64 m_frequency;
-        };
-
-        _WIN32PerformanceCounter g__WIN32counter;
-    #endif
-
-
-
-    // ============================================================
+        // ============================================================
     // These functions get a time value. The Actual meaning of this 
     // time is undefined; it is only meant to be relative.
     // ============================================================
-    sint64 GetTimeMS()
+	std::chrono::system_clock::time_point GetTime()
     {
-        #ifdef _WIN32
-            sint64 t;
-            QueryPerformanceCounter( (LARGE_INTEGER*)(&t) );
-            return t / g__WIN32counter.m_frequency;
-        #else
-            struct timeval t;
-            sint64 s;
-            
-            // get the time of day
-            gettimeofday( &t, 0 );
-
-            // calculate the number of milliseconds represented by the seconds
-            s = t.tv_sec;
-            s *= 1000;
-
-            // calculate the milliseconds now
-            s += (t.tv_usec / 1000);
-
-            // return the value
-            return s;
-        #endif
+		return std::chrono::system_clock::now();
     }
-
-
-    sint64 GetTimeS()
-    {
-        return GetTimeMS() / 1000;
-    }
-
-    sint64 GetTimeM()
-    {
-        return GetTimeMS() / 60000;
-    }
-
-    sint64 GetTimeH()
-    {
-        return GetTimeMS() / 3600000;
-    }
-    
 
     // ============================================================
     // This prints a timestamp in 24 hours hh:mm:ss format
@@ -136,22 +72,21 @@ namespace BasicLib
 
     Timer::Timer()
     {
-        m_starttime = 0;
-        m_inittime = 0;
+        m_starttime = std::chrono::system_clock::now();
     }
 
 
-    void Timer::Reset( sint64 p_timepassed )
+    void Timer::Reset()
     {
-        m_starttime = p_timepassed;
-        m_inittime = GetTimeMS();
+        m_starttime = std::chrono::system_clock::now();
     }
 
     sint64 Timer::GetMS()
     {
         // return the amount of time that has elapsed since the timer
         // was initialized, plus whatever starting time the timer was given.
-        return (GetTimeMS() - m_inittime) + m_starttime;
+		return std::chrono::duration_cast<std::chrono::milliseconds>(GetTime() - m_starttime).count();
+		
     }
 
     sint64 Timer::GetS()
@@ -161,17 +96,17 @@ namespace BasicLib
 
     sint64 Timer::GetM()
     {
-        return GetMS() / 60000;
+        return GetS() / 60;
     }
 
     sint64 Timer::GetH()
     {
-        return GetMS() / 3600000;
+        return GetM() / 60;
     }
 
     sint64 Timer::GetD()
     {
-        return GetMS() / 86400000;
+        return GetH() / 24;
     }
     
     sint64 Timer::GetY()

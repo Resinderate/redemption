@@ -11,14 +11,14 @@ void SimpleMUD::AssassinHandler::Handle(string p_data)
 		// Check if they have enough money or whatever? (cost 1 wood).
 		if (m_player->GetResources()[WOOD] < 1)
 		{
-			m_player->SendString(SocketLib::red + "You don't have enough resources to cover my fee! (1 wood)" + SocketLib::reset);
+			m_connection->Protocol().SendString(*m_connection, SocketLib::red + "You don't have enough resources to cover my fee! (1 wood)" + SocketLib::reset);
 			return;
 		}
 
 		string secondword = BasicLib::ParseWord(p_data, 1);
 		if (secondword == "")
 		{
-			m_player->SendString(SocketLib::red + "Did not detect a players name!" + SocketLib::reset);
+			m_connection->Protocol().SendString(*m_connection, SocketLib::red + "Did not detect a players name!" + SocketLib::reset);
 			return;
 		}
 
@@ -39,12 +39,14 @@ void SimpleMUD::AssassinHandler::Handle(string p_data)
 				if (target.GetResources()[WOOD] < 0)
 					target.GetResources()[WOOD] = 0;
 
-				m_player->SendString(SocketLib::green + "Killed " + secondword + "!" + SocketLib::reset);
+				m_connection->Protocol().SendString(*m_connection, SocketLib::green + "Killed " + secondword + "!" + 
+					SocketLib::reset + ">");
 				return;
 			}
 		}
 
-		m_player->SendString(SocketLib::red + "Could not find a player of that name!" + SocketLib::reset);
+		m_connection->Protocol().SendString(*m_connection, SocketLib::red + "Could not find a player of that name!" + 
+			SocketLib::reset + ">");
 		return;
 	}
 	else if (BasicLib::LowerCase(p_data) == "done")
@@ -54,17 +56,18 @@ void SimpleMUD::AssassinHandler::Handle(string p_data)
 	}
 	else
 	{
-		m_player->SendString(SocketLib::red + "Invalid Command!" + SocketLib::reset);
+		m_player->SendString(SocketLib::red + "Invalid Command!" + 
+			SocketLib::reset + ">");
 		return;
 	}
 }
 
 void SimpleMUD::AssassinHandler::Enter()
 {
-	m_player->SendString(SocketLib::white + "Hello, I am the assassin!\r\n" +
+	m_connection->Protocol().SendString(*m_connection, SocketLib::white + "Hello, I am the assassin!\r\n" +
 		"Here you can tell me the name of another player you wish me to kill.\r\n" +
 		"It will cost 1 wood, and they will lose 1 wood.\r\n" +
 		"Enter, 'murder <player name>'.\r\n" +
 		"Enter 'done' when you wish to leave.\r\n" +
-		SocketLib::white + ">");
+		SocketLib::reset + ">");
 }

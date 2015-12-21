@@ -154,7 +154,6 @@ namespace SimpleMUD
 			RoomBaseType t = itr->second->GetBaseType();
 			if (t == COLLECTING)
 			{
-				USERLOG.Log("Saving Collecting Room");
 				file << "[ROOMBASETYPE] " << GetRoomBaseTypeString(itr->second->GetBaseType()) << "\n";
 				std::shared_ptr<Room>& r = itr->second;
 				CollectingRoom* cRoom = dynamic_cast<CollectingRoom*>(r.get());
@@ -168,7 +167,6 @@ namespace SimpleMUD
 			}
 			else if (t == SPECIAL)
 			{
-				USERLOG.Log("Saving Special Room");
 				file << "[ROOMBASETYPE] " << GetRoomBaseTypeString(itr->second->GetBaseType()) << "\n";
 				std::shared_ptr<Room>& r = itr->second;
 				SpecialRoom* sRoom = dynamic_cast<SpecialRoom*>(r.get());

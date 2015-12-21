@@ -68,7 +68,8 @@ bool PlayerDatabase::Load()
     while( file.good() )           // while there are players
     {
         file >> name >> std::ws;   // load in the player name
-        LoadPlayer( name );        // call the LoadPlayer helper function
+		if (name != "")
+			LoadPlayer( name );        // call the LoadPlayer helper function
     }
     return true;
 }

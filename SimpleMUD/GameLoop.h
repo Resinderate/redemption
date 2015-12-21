@@ -34,10 +34,12 @@ public:
     void Save();                // save gameloop data
 
 protected:
-    BasicLib::sint64 m_savedatabases;
-	BasicLib::sint64 m_dancing;
+    std::chrono::system_clock::time_point m_savedatabases;
+
+	std::chrono::system_clock::time_point m_dancing;
+	std::chrono::system_clock::time_point m_cleanupInactive;
 	bool m_flipflop;
-	BasicLib::sint64 m_cleanupInactive;
+	
 
 };  // end class GameLoop
 

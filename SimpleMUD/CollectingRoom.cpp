@@ -69,7 +69,7 @@ namespace SimpleMUD
 		return reward;
 	}
 
-	BasicLib::resource CollectingRoom::CurrerntCost()
+	BasicLib::resource CollectingRoom::CurrentCost()
 	{
 		BasicLib::resource baseCost = 100;
 		BasicLib::resource cost = baseCost;

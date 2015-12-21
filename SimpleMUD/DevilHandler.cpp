@@ -11,13 +11,15 @@ void SimpleMUD::DevilHandler::Handle(string p_data)
 			// Give them their soul back.
 			m_player->HasSoul() = true;
 			m_player->AddTitle(THEREDEEMED);
-			m_player->SendString(SocketLib::yellow + "You have been given back your soul!");
-			m_player->SendString(SocketLib::yellow + "Title Unlocked! " + GetTitleString(THEREDEEMED) + "\r\n");
+			m_connection->Protocol().SendString(*m_connection, SocketLib::yellow + "You have been given back your soul!");
+			m_connection->Protocol().SendString(*m_connection, SocketLib::yellow + "Title Unlocked! " + GetTitleString(THEREDEEMED) + "\r\n" +
+				SocketLib::reset + ">");
 			m_connection->RemoveHandler();
 		}
 		else
 		{
-			m_player->SendString(SocketLib::yellow + "You do not have enough gold to trade me right now!");
+			m_connection->Protocol().SendString(*m_connection, SocketLib::yellow + "You do not have enough gold to trade me right now!\r\n" +
+				SocketLib::reset + ">");
 		}
 	}
 	else if (BasicLib::LowerCase(p_data) == "run away")
@@ -27,16 +29,17 @@ void SimpleMUD::DevilHandler::Handle(string p_data)
 	}
 	else
 	{
-		m_player->SendString(SocketLib::red + "Invalid Command!" + SocketLib::reset);
+		m_connection->Protocol().SendString(*m_connection, SocketLib::red + "Invalid Command!" + 
+			SocketLib::reset + ">");
 		return;
 	}
 }
 
 void SimpleMUD::DevilHandler::Enter()
 {
-	m_player->SendString(SocketLib::white + "Hello from the devil!\r\n" +
+	m_connection->Protocol().SendString(*m_connection, SocketLib::white + "Hello from the devil!\r\n" +
 		"You have " + std::to_string(m_player->GetResources()[GOLD]) + " gold. You can trade me back for your soul for " + std::to_string(m_soulPrice) + " gold.\r\n" +
 		"Enter '" + SocketLib::yellow + "exchange soul" + SocketLib::white + "' to trade me!\r\n" +
 		"Enter '" + SocketLib::yellow + "run away" + SocketLib::white + "' to stop talking to me!\r\n" 
-		+ SocketLib::white + ">");
+		+ SocketLib::reset + ">");
 }
