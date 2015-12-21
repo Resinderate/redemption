@@ -51,6 +51,7 @@ public:
 	inline vector2& Coords() { return m_coords; }
 	inline std::string& CorpName() { return m_corp; }
 	inline bool& CorpLeader() { return m_corpLeader; }
+	inline bool& Mute() { return m_mute; }
 
 	inline PlayerTitle& GetPlayerTitle() { return m_title; }
 	inline int& GetNoOfTitles() { return m_noOfTitles; }
@@ -112,6 +113,7 @@ protected:
 
 	string m_corp;
 	bool m_corpLeader;
+	bool m_mute;
 
 	CommandDictionary m_dictionary;
 

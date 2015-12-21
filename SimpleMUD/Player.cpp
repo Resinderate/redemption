@@ -25,6 +25,7 @@ namespace SimpleMUD
 		m_loggedin = false;
 		m_active = false;
 		m_newbie = true;
+		m_mute = false;
 
 		m_noOfTitles = 0;
 		//m_availableTitles.push_back(PEASANT);
