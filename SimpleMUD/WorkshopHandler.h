@@ -36,7 +36,7 @@ namespace SimpleMUD
 			: thandler(p_conn)
 		{
 			m_player = p_player;
-			m_baseCost = 100;
+			m_baseCost = 10;
 			m_multiplier = 1.5f;
 		}
 
