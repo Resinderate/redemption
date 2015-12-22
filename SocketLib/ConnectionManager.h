@@ -195,8 +195,8 @@ NewConnection( DataSocket& p_socket )
 	ipaddress addr = conn.GetRemoteAddress();
 
 	clistitr itr = m_connections.begin();
-	//while (itr != m_connections.end())
-	//{
+	while (itr != m_connections.end())
+	{
 
 		//USERLOG.Log("The existing connection: " + GetIPString(itr->GetRemoteAddress()));
 		//USERLOG.Log("The new connection: " + GetIPString(addr));

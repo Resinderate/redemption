@@ -141,9 +141,7 @@ void ListeningManager<protocol, defaulthandler>::AddPort( port p_port )
     lsock.SetBlocking( false );
 
     // add the socket to the socket vector
-    m_sockets.
-		
-		( lsock );
+    m_sockets.push_back( lsock );
 
     // add the socket descriptor to the set
     m_set.AddSocket( lsock );
