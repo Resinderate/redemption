@@ -60,7 +60,7 @@ namespace SimpleMUD
 				"\r\nCoords: " + std::to_string(p_coords.x) + ", " + std::to_string(p_coords.y);
 			RoomBaseType roomBaseType = RoomBaseType::SPECIAL;
 			RoomType roomType = RoomType::TRADING;
-			m_rooms.AddRoom(p_coords, std::unique_ptr<Room>(new SpecialRoom(name, desc, roomBaseType, p_coords, roomType)));
+			m_rooms.AddRoom(p_coords, std::shared_ptr<Room>(new SpecialRoom(name, desc, roomBaseType, p_coords, roomType)));
 		}
 		else if (p_coords.x == -5 && p_coords.y == -5)
 		{
@@ -69,7 +69,7 @@ namespace SimpleMUD
 				"\r\nCoords: " + std::to_string(p_coords.x) + ", " + std::to_string(p_coords.y);
 			RoomBaseType roomBaseType = RoomBaseType::SPECIAL;
 			RoomType roomType = RoomType::DEVIL;
-			m_rooms.AddRoom(p_coords, std::unique_ptr<Room>(new SpecialRoom(name, desc, roomBaseType, p_coords, roomType)));
+			m_rooms.AddRoom(p_coords, std::shared_ptr<Room>(new SpecialRoom(name, desc, roomBaseType, p_coords, roomType)));
 		}
 		else if (p_coords.x == 1 && p_coords.y == 0)
 		{
@@ -78,7 +78,7 @@ namespace SimpleMUD
 				"\r\nCoords: " + std::to_string(p_coords.x) + ", " + std::to_string(p_coords.y);
 			RoomBaseType roomBaseType = RoomBaseType::SPECIAL;
 			RoomType roomType = RoomType::WORKSHOP;
-			m_rooms.AddRoom(p_coords, std::unique_ptr<Room>(new SpecialRoom(name, desc, roomBaseType, p_coords, roomType)));
+			m_rooms.AddRoom(p_coords, std::shared_ptr<Room>(new SpecialRoom(name, desc, roomBaseType, p_coords, roomType)));
 		}
 		else if (p_coords.x == 0 && p_coords.y == 1)
 		{
@@ -87,7 +87,7 @@ namespace SimpleMUD
 				"\r\nCoords: " + std::to_string(p_coords.x) + ", " + std::to_string(p_coords.y);
 			RoomBaseType roomBaseType = RoomBaseType::SPECIAL;
 			RoomType roomType = RoomType::CORP;
-			m_rooms.AddRoom(p_coords, std::unique_ptr<Room>(new SpecialRoom(name, desc, roomBaseType, p_coords, roomType)));
+			m_rooms.AddRoom(p_coords, std::shared_ptr<Room>(new SpecialRoom(name, desc, roomBaseType, p_coords, roomType)));
 		}
 		else if (p_coords.x == 5 && p_coords.y == 5)
 		{
@@ -96,7 +96,7 @@ namespace SimpleMUD
 				"\r\nCoords: " + std::to_string(p_coords.x) + ", " + std::to_string(p_coords.y);
 			RoomBaseType roomBaseType = RoomBaseType::SPECIAL;
 			RoomType roomType = RoomType::ASSASSIN;
-			m_rooms.AddRoom(p_coords, std::unique_ptr<Room>(new SpecialRoom(name, desc, roomBaseType, p_coords, roomType)));
+			m_rooms.AddRoom(p_coords, std::shared_ptr<Room>(new SpecialRoom(name, desc, roomBaseType, p_coords, roomType)));
 		}
 		else
 		{
@@ -145,7 +145,7 @@ namespace SimpleMUD
 			string desc = ResourceTypeStrings[typeIndex] + " :: " + ResourceSizeStrings[sizeIndex] +
 				"\r\nCoords: " + std::to_string(p_coords.x) + ", " + std::to_string(p_coords.y);
 
-			m_rooms.AddRoom(p_coords, std::unique_ptr<Room>(new CollectingRoom(name, desc, roomType, p_coords, resourceType, resourceSize, OWNERNONE, 0)));
+			m_rooms.AddRoom(p_coords, std::shared_ptr<Room>(new CollectingRoom(name, desc, roomType, p_coords, resourceType, resourceSize, OWNERNONE, 0)));
 		}
 	}
 
