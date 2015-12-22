@@ -106,8 +106,6 @@ public:
     }
 	inline static std::set<std::string> &GetBlacklist() {
 		// Should probably be a smarter check here.
-		if (m_blacklist.empty())
-		{
 			std::string temp;
 			ifstream infile("blacklist/blacklist.txt");
 			while (infile.good())
@@ -116,7 +114,7 @@ public:
 				m_blacklist.insert(temp);
 			}
 			infile.close();
-		}
+		
 		return m_blacklist;
 	}
 protected:
@@ -197,23 +195,23 @@ NewConnection( DataSocket& p_socket )
 	ipaddress addr = conn.GetRemoteAddress();
 
 	clistitr itr = m_connections.begin();
-	//while (itr != m_connections.end())
-	//{
+	while (itr != m_connections.end())
+	{
 
-	//	//USERLOG.Log("The existing connection: " + GetIPString(itr->GetRemoteAddress()));
-	//	//USERLOG.Log("The new connection: " + GetIPString(addr));
-	//	if (GetIPString(itr->GetRemoteAddress()) == GetIPString(addr))
-	//	{
-	//		// tell the default protocol handler that there is already a connection at this address
-	//		defaulthandler::IpConflict(conn);
+		//USERLOG.Log("The existing connection: " + GetIPString(itr->GetRemoteAddress()));
+		//USERLOG.Log("The new connection: " + GetIPString(addr));
+		if (GetIPString(itr->GetRemoteAddress()) == GetIPString(addr))
+		{
+			// tell the default protocol handler that there is already a connection at this address
+			defaulthandler::IpConflict(conn);
 
-	//		// It is assumed that the protocol handler has told the connection the
-	//		// appropriate message, so close the connection.
-	//		//conn.CloseSocket();
-	//		return;
-	//	}
-	//	itr++;
-	//}
+			// It is assumed that the protocol handler has told the connection the
+			// appropriate message, so close the connection.
+			//conn.CloseSocket();
+			return;
+		}
+		itr++;
+	}
 	for (std::string s : GetBlacklist())
 	{
 		if (s == GetIPString(addr))
@@ -223,7 +221,7 @@ NewConnection( DataSocket& p_socket )
 
 			// It is assumed that the protocol handler has told the connection the
 			// appropriate message, so close the connection.
-			//conn.CloseSocket();
+			conn.CloseSocket();
 			return;
 		}
 	}

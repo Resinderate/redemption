@@ -164,11 +164,11 @@ void SimpleMUD::LeaderboardHandler::Leaderboard(int p_data)
 		{
 			pr--;
 			string temp = pr->second;
-		if (temp != "None")
-			{
+		//if (temp != "None")
+			//{
 				m_player->SendString(SocketLib::white + BufferWord(std::to_string(pos), 9) + BufferWord(temp, 25) + std::to_string(pr->first));
 				++pos;
-			}
+			//}
 		}
 		break;
 	}
@@ -181,6 +181,7 @@ void SimpleMUD::LeaderboardHandler::Enter()
 		"Enter '" + SocketLib::yellow + "stone" + SocketLib::white + "' for Stone Resource Leaderboard\r\n" +
 		"Enter '" + SocketLib::yellow + "iron" + SocketLib::white + "' for Iron Resource Leaderboard\r\n" +
 		"Enter '" + SocketLib::yellow + "gold" + SocketLib::white + "' for Gold Resource Leaderboard\r\n" +
-		"Enter '" + SocketLib::yellow + "corpsoul" + SocketLib::white + "' for Corporation Souls Redeemed Leaderboard\r\n" 
+		"Enter '" + SocketLib::yellow + "corpsoul" + SocketLib::white + "' for Corporation Souls Redeemed Leaderboard\r\n"
+		"Enter '" + SocketLib::yellow + "done" + SocketLib::white + "' to return to the game\r\n"
 		+ SocketLib::white + ">");
 }

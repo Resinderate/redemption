@@ -1,29 +1,7 @@
-[ID]             3435973837
-[NAME]           Kevin
-[PASS]           k
-[RANK]           ADMIN
-[LOCATION]       0 , 1
-###[RESOURCES]###
-[WOOD]           56
-[STONE]          10
-[IRON]           0
-[GOLD]           0
-#####[TOOLS]#####
-[WOOD]           1
-[STONE]          0
-[IRON]           0
-[GOLD]           0
-#####[TITLE]#####
-[WOOD]           0
-[STONE]          1
-[IRON]           1
-[GOLD]           1
-[CORPORATION]    Jewbags
-[LEADER]		  1
-[HASSOUL]        1
-[NO.TITLES]      2
-[TITLE]          0
-[TITLES]         0 6 
-[Binds]          0
-[COMMANDS]       
--1
+Printouts (Shortcuts/help/leaderboards)
+Bug Fixes (PlayerSaving)
+Saving/Loading
+String Buffer
+Leaderboards
+World Size Cap
+Mute Players

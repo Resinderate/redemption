@@ -9,7 +9,7 @@ void SimpleMUD::AssassinHandler::Handle(string p_data)
 	if (firstword == "murder")
 	{
 		// Check if they have enough money or whatever? (cost 1 wood).
-		if (m_player->GetResources()[WOOD] < 1)
+		if (m_player->GetResources()[WOOD] < 1000)
 		{
 			m_connection->Protocol().SendString(*m_connection, SocketLib::red + "You don't have enough resources to cover my fee! (1 wood)" + SocketLib::reset);
 			return;
@@ -34,8 +34,8 @@ void SimpleMUD::AssassinHandler::Handle(string p_data)
 				// Found the correct player. Get the reference rather than the copy.
 				Player target = PlayerDatabase::get(player.ID());
 
-				// Kill the target. (take 1 woord off them)
-				target.GetResources()[WOOD] -= 1;
+				// Kill the target. (take 1 wood off them)
+				target.GetResources()[WOOD] -= 1500;
 				if (target.GetResources()[WOOD] < 0)
 					target.GetResources()[WOOD] = 0;
 
