@@ -11,12 +11,11 @@ void SimpleMUD::PlaceNameGenerator::Load()
 
 	std::string input;
 
-	while (prenames.good())           
+	while (prenames.good())
 	{
 		prenames >> input >> std::ws;
 		m_prenames.push_back(input);
 	}
-
 	while (postnames.good())
 	{
 		postnames >> input >> std::ws;
