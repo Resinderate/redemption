@@ -1,0 +1,29 @@
+[ID]             2
+[NAME]           reallylongname
+[PASS]           ronan
+[RANK]           REGULAR
+[LOCATION]       5 , 5
+###[RESOURCES]###
+[WOOD]           1500
+[STONE]          0
+[IRON]           0
+[GOLD]           0
+#####[TOOLS]#####
+[WOOD]           1
+[STONE]          0
+[IRON]           0
+[GOLD]           0
+#####[TITLE]#####
+[WOOD]           0
+[STONE]          1
+[IRON]           1
+[GOLD]           1
+[CORPORATION]    None
+[LEADER]		  0
+[HASSOUL]        0
+[NO.TITLES]      3
+[TITLE]          0
+[TITLES]         0 7 8 
+[Binds]          0
+[COMMANDS]       
+-1

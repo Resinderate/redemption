@@ -22,29 +22,29 @@ void SimpleMUD::AssassinHandler::Handle(string p_data)
 			return;
 		}
 
-		string secondlower = BasicLib::LowerCase(secondword);
-
 		// Check if the name given is valid.
-		auto players = PlayerDatabase::GetAllPlayers();
-		for (auto player : players)
+		auto target = PlayerDatabase::find(secondword);
+		if (target != PlayerDatabase::end())
 		{
-			string lowername = BasicLib::LowerCase(player.Name());
-			if (lowername == secondlower)
-			{
-				// Found the correct player. Get the reference rather than the copy.
-				Player target = PlayerDatabase::get(player.ID());
+			// Kill the target. (take 1 wood off them)
+			resource cost = 1500;
 
-				// Kill the target. (take 1 wood off them)
-				target.GetResources()[WOOD] -= 1500;
-				if (target.GetResources()[WOOD] < 0)
-					target.GetResources()[WOOD] = 0;
+			if (target->GetResources()[WOOD] < 1500)
+				cost = target->GetResources()[WOOD];
 
-				m_connection->Protocol().SendString(*m_connection, SocketLib::green + "Killed " + secondword + "!" + 
-					SocketLib::reset + ">");
-				return;
-			}
+			target->GetResources()[WOOD] -= cost;
+
+			resource playerCost = 1000;
+			if (m_player->GetResources()[WOOD] < playerCost)
+				playerCost = m_player->GetResources()[WOOD];
+
+			m_player->GetResources()[WOOD] -= playerCost;
+
+			m_connection->Protocol().SendString(*m_connection, SocketLib::green + "Killed " + secondword + "!" +
+				SocketLib::reset + ">");
+			return;
 		}
-
+		
 		m_connection->Protocol().SendString(*m_connection, SocketLib::red + "Could not find a player of that name!" + 
 			SocketLib::reset + ">");
 		return;
