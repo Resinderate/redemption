@@ -45,7 +45,7 @@ void GameLoop::Save()
 void GameLoop::Loop()
 {
 	// Save the databases every 10s.
-    if( std::chrono::duration_cast<std::chrono::seconds>(GetTime() - m_savedatabases).count() >= 60)
+    if( std::chrono::duration_cast<std::chrono::seconds>(GetTime() - m_savedatabases).count() >= 360)
     {
         SaveDatabases();
 		// Reset the last saved time.
@@ -53,7 +53,7 @@ void GameLoop::Loop()
         m_savedatabases = GetTime();
     }
 
-	if (std::chrono::duration_cast<std::chrono::seconds>(GetTime() - m_announce).count() >= 30)
+	if (std::chrono::duration_cast<std::chrono::seconds>(GetTime() - m_announce).count() >= 90)
 	{
 		++sponsor;
 		sponsor = sponsor % 8;

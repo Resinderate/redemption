@@ -243,18 +243,13 @@ istream& operator>>( istream& p_stream, Player& p )
 	p_stream >> temp >> p.m_corpLeader;
 	p_stream >> temp >> p.m_hasSoul;
 	p_stream >> temp >> p.m_noOfTitles;
-	
-	p_stream >> temp >> temp;
-	p.m_title = GetSavedTitle(temp);
-    p_stream >> temp;
 	int j;
+	p_stream >> temp >> j;
+	p.m_title = (PlayerTitle)j;
+    p_stream >> temp;
 	for (int i = 0; i < p.m_noOfTitles; i++)
 	{
 		p_stream >> j;
-		/*if (temp == "-1")
-		{
-			break;
-		}*/
 		p.AddTitle((PlayerTitle)j);
 	}
 	int binds;

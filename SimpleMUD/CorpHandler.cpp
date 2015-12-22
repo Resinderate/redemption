@@ -48,7 +48,7 @@ void SimpleMUD::CorpHandler::Enter()
 	m_connection->Protocol().SendString(*m_connection,
 		SocketLib::yellow + SocketLib::bold + "Here you are able to create a new corporation that you will be the leader of..\r\n" +
 		"Enter a name for your new corporation:\r\n" +
-		"A corporation name must be: ... fill me in ...\r\n" +
+		"A corporation name must be no longer than 20 characters\r\n" +
 		"(Enter 'quit' to stop making a corp)\r\n" + ">" +
 		SocketLib::reset);
 }

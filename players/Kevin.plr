@@ -2,10 +2,10 @@
 [NAME]           Kevin
 [PASS]           k
 [RANK]           ADMIN
-[LOCATION]       0 , -1
+[LOCATION]       0 , 1
 ###[RESOURCES]###
-[WOOD]           58
-[STONE]          0
+[WOOD]           56
+[STONE]          10
 [IRON]           0
 [GOLD]           0
 #####[TOOLS]#####
@@ -18,9 +18,9 @@
 [STONE]          1
 [IRON]           1
 [GOLD]           1
-[CORPORATION]    Revolutionaryistism
+[CORPORATION]    Jewbags
 [LEADER]		  1
-[HASSOUL]        0
+[HASSOUL]        1
 [NO.TITLES]      2
 [TITLE]          0
 [TITLES]         0 6 

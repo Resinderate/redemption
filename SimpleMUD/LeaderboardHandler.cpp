@@ -42,7 +42,7 @@ void SimpleMUD::LeaderboardHandler::Leaderboard(int p_data)
 {
 	std::list<SimpleMUD::Player> pL = SimpleMUD::PlayerDatabase::GetAllPlayers();
 	std::map<resource, SimpleMUD::Player> ret;
-	int pos = 0;
+	int pos = 1;
 	switch (p_data)
 	{
 	case WOOD:
@@ -157,19 +157,19 @@ void SimpleMUD::LeaderboardHandler::Leaderboard(int p_data)
 		
 		m_player->SendString(SocketLib::white + "Corporations Leaderboard:\r\n" +
 			"Position Corporation              Souls Redeeemed\r\n");
-		int pos = 0;
+		int pos = 1;
 		//C++11
 		auto &pr = corpRet.end();
 		while (pr != corpRet.begin())
 		{
 			pr--;
 			string temp = pr->second;
-			if (temp != "None")
-			m_player->SendString(SocketLib::white + BufferWord(std::to_string(pos), 9) + BufferWord(temp, 25) + std::to_string(pr->first));
-			++pos;
+		if (temp != "None")
+			{
+				m_player->SendString(SocketLib::white + BufferWord(std::to_string(pos), 9) + BufferWord(temp, 25) + std::to_string(pr->first));
+				++pos;
+			}
 		}
-		break;
-		m_player->SendString(SocketLib::white + "Kevin needs to fix the print out =).");
 		break;
 	}
 }
