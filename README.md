@@ -1,4 +1,4 @@
-# redemption
+# Redemption
 A text based multiplayer game written in C++ by Ronan Murphy and Kevin Duffy, of DkIT.
 
 Involves a central server that each player connects to concurrently, which manages all of the game data on the server side. This involves socket programming to managing incoming and existing connections.
